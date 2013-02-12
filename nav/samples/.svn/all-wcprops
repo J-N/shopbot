@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 29
+/svn/!svn/ver/8/trunk/samples
+END
+square.c
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/8/trunk/samples/square.c
+END
+tracker.h
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/1/trunk/samples/tracker.h
+END
+wander.c
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/8/trunk/samples/wander.c
+END
+drive.c
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/8/trunk/samples/drive.c
+END
+tracker.c
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/8/trunk/samples/tracker.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/8/trunk/samples/Makefile
+END
