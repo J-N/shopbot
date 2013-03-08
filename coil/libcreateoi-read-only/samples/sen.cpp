@@ -12,6 +12,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <signal.h>
 #define MAX(a,b)	(a > b? a : b)
 #define MIN(a,b)	(a < b? a : b)
 #define SONG_LENGTH 8
@@ -39,6 +40,14 @@ short lThresh;
   playSong (0);
 }
 */
+
+void myHandler(int var=0)
+{
+	cout<<"Caught quit signal"<<endl;
+	drive(0,0); // stop the robot
+	stopOI_MT (); // stop the connection
+	exit(1);
+}
 void printSensors()
 {
         int* sensors = getAllSensors();
@@ -123,17 +132,69 @@ void recordPos(string qr)
 	
 }
 
+void intersection(int path)
+{
+	driveDistance(50,0,90,1); //drive 30 mm forward
+	//reset sensor
+	getAngle();
+	cout<<"got angle"<<endl;
+	drive(50,-1);
+	int count=0, current=0, rc=0, lc=0, lines=0;
+	while(1)
+	{
+		usleep(10000);
+		current = getAngle();
+		count += current;
+		cout<<"Turning.."<<endl;
+		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
+		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
+		if(r <= rThresh)
+			rc=1;
+		if((l <= lThresh) && (rc==1))
+		{
+			cout<<"line found"<<endl;
+			drive(0,0);
+			//cin>>lc;
+			drive(50,-1);
+			rc=0;
+			lines++;
+		}
+		if (count <= -180)
+			break;
+
+	}
+	drive(0,0);
+	cout<<"done turning"<<endl;
+	cout<<"lines: "<<lines<<endl;
+	//cin>>lc;
+	if(path) // we want to make a turn
+	{
+		if(lines==2)
+			turn(50,1,120,0);
+		else
+			turn(50,-1,-180,0);
+			
+	}
+	else//we want the straight
+	{
+		if(lines==2)
+			turn(50,-1,-140,0);
+		else
+			turn(50,-1,-90,0);
+	}		
+}
+
 void followLine()
 {
 	cout<<"Following line"<<endl;
-	speed = 50;
+	int speed = 50;
 	drive(3*speed,0);
 	int stop=0;
 	int counter=0;
 	while(!stop)
 	{
 		counter++;
-		usleep(100000);
+		usleep(10000);
 		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
 		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
 		if ((r <= rThresh) && (l <= lThresh)) //we are at an intersection
@@ -153,10 +214,16 @@ void followLine()
 
 void setup()
 {
-	mkfifo("/dev/QRComms");
-	mkfifo("/dev/pathComms");
+	signal(SIGINT, myHandler);
+	signal(SIGQUIT, myHandler);
+	signal(SIGABRT, myHandler);
+	signal(SIGTERM, myHandler);
 	
+	mkfifo("/dev/QRComms",777);
+	mkfifo("/dev/pathComms",777);
+	cout<<"Waiting for QR communication"<<endl;	
 	qrFD = fopen("/dev/QRComms","r");
+	cout<<"QR communication enabled"<<endl;
 }
 void calibrateFloor()
 {
@@ -185,9 +252,11 @@ void calibrateFloor()
 	rightFloor = (short)calcMode(right);
 	
 	printf("Left: %hu Right: %hu\n",leftFloor,rightFloor);
-	usleep(1000000);
+	//usleep(1000000);
 	cout<<"Now put ontop of tape"<<endl;
-	usleep(5000000);
+	int tmp;
+	cin>>tmp;
+	//usleep(5000000);
 	right.clear();
 	left.clear();
 	cout<<"Starting tape calibration"<<endl;
@@ -209,7 +278,7 @@ void calibrateFloor()
 	
 	ofstream myfile;
  	myfile.open ("calibration.txt");
-  	myfile << rThresh<<endl<<lThresh<<endl
+  	myfile << rThresh<<endl<<lThresh<<endl;
   	myfile.close();	
 }
 int main(int argv, char* argc[])
@@ -218,9 +287,9 @@ int main(int argv, char* argc[])
 	  fprintf(stderr, "Usage: drive DEVICE (e.g. /dev/ttyUSB0)\n");
 	  exit(1);
 	}
+	setup();
 	startOI_MT (argc[1]);
 	drive(0, 0);
-	setup();
 	while(1)
 	{
 		cout<<"Would you like to callibrate the floor? (y/n)"<<endl;
@@ -228,7 +297,7 @@ int main(int argv, char* argc[])
 		cin >> res;
 		if(res == "y")
 		{
-			callibrateFloor();
+			calibrateFloor();
 			break;
 		}
 		else if(res == "n")
@@ -242,8 +311,9 @@ int main(int argv, char* argc[])
 			break;
 		}
 	}
-	cout << "r: "<<rThresh<<" l: "<<lThresh<<endl;
-	//followLine();
+	followLine();
+	intersection(1);
+	followLine();
 		/*string qr = readQR();
 		if (qr.size() != 0)
 		{

@@ -7,7 +7,7 @@ INCLUDE = /usr/local/include
 LIBS = -pthread -lm -lncurses -lcreateoi
 CVFLAGS = $(shell pkg-config --libs opencv)  $(shell pkg-config --cflags opencv)
 
-default: all
+default: sen
 
 
 all: square drive tracker wander
@@ -17,7 +17,7 @@ square: square.c
 
 drive: drive.c
 	$(CC) drive.c $(LIBS) -o drive
-sen: sen.c
+sen: sen.cpp
 	g++ sen.cpp $(LIBS) -o sen
 
 wander: wander.c
