@@ -7,13 +7,26 @@
 #include <algorithm>
 #include <set>
 #include <iostream>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <string>
+#include <iostream>
+#include <fstream>
 #define MAX(a,b)	(a > b? a : b)
 #define MIN(a,b)	(a < b? a : b)
 #define SONG_LENGTH 8
 
 
+
+
 using namespace std;
 
+FILE* qrFD;
+int x;
+int y;
+int heading;
+short rThresh;
+short lThresh;
 /* Plays some random notes on the create's speakers. */
 /*void horn() {
   char song[SONG_LENGTH * 2];
@@ -93,44 +106,79 @@ int calcMode(vector<int> vUserInput)
 	return *occurSet.begin();
 }
 
+string  readQR()
+{
+	char tmp[100];
+	string result;
+	if(fgets(tmp, 100, qrFD) != NULL)
+	{
+		result = tmp;
+	}
+	return result;
+}
+
+void recordPos(string qr)
+{
+	short pos = readSensor(SENSOR_DISTANCE);
+	
+}
+
+void followLine()
+{
+	cout<<"Following line"<<endl;
+	speed = 50;
+	drive(3*speed,0);
+	int stop=0;
+	int counter=0;
+	while(!stop)
+	{
+		counter++;
+		usleep(100000);
+		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
+		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
+		if ((r <= rThresh) && (l <= lThresh)) //we are at an intersection
+		{
+			drive(0,0);
+			stop=1;
+		}
+		else if(r <= rThresh) //we have crossed the line
+			directDrive(speed,-speed);
+		else if(l <= lThresh) //we have crossed the line
+			directDrive(-speed,speed);
+		else //drive straight
+			drive(3*speed,0);
+	}
+}
 
 
-int main(int argv, char* argc[])
+void setup()
+{
+	mkfifo("/dev/QRComms");
+	mkfifo("/dev/pathComms");
+	
+	qrFD = fopen("/dev/QRComms","r");
+}
+void calibrateFloor()
 {
 	int key;
 	int not_done = 1;
-
-
 	int speed = 0;//store user input.
 	//int turn = 0;
-	
 	int velocity = 0; //values sent to the create
 	int radius = 0;
-
 	int charge;
 
-	if (argv < 2) {
-	  fprintf(stderr, "Usage: drive DEVICE (e.g. /dev/ttyUSB0)\n");
-	  exit(1);
-	}
-	
-	 startOI_MT (argc[1]);
-	drive(0, 0);
         int  scans, ii;
 	short leftFloor, leftTape, rightFloor, rightTape;
 	scans = 20;
-	printf("Begining Initilization\n");
+	printf("Begining Floor Calibration\n");
 	vector<int> left;
 	vector<int> right;
 	for (ii=0; ii<scans; ii++)
 	{
-	//int* sensors = getAllSensors();
-	right.push_back(readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL));
-	left.push_back(readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL));
-//	printf("front left cliff sensor %hu\n",(short)readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL));
-//	printf("front right cliff sensor %hu\n",(short)readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL));
-	
-	usleep(100000);
+		right.push_back(readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL));
+		left.push_back(readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL));	
+		usleep(100000);
 	}
 	
 	leftFloor = (short)calcMode(left);
@@ -156,35 +204,58 @@ int main(int argv, char* argc[])
 	cout<<"Remove tape calibration"<<endl;
 	
 	usleep(5000000);
-	cout<<"Moving forward"<<endl;
-	speed = 50;
-	drive(3*speed,0);
-	int stop=0;
-	short rThresh = (rightFloor + rightTape) / 2;
-	short lThresh = (leftFloor + leftTape) / 2;
-	int counter=0;
-	while(!stop)
+	rThresh = (rightFloor + rightTape) / 2;
+	lThresh = (leftFloor + leftTape) / 2;
+	
+	ofstream myfile;
+ 	myfile.open ("calibration.txt");
+  	myfile << rThresh<<endl<<lThresh<<endl
+  	myfile.close();	
+}
+int main(int argv, char* argc[])
+{
+	if (argv < 2) {
+	  fprintf(stderr, "Usage: drive DEVICE (e.g. /dev/ttyUSB0)\n");
+	  exit(1);
+	}
+	startOI_MT (argc[1]);
+	drive(0, 0);
+	setup();
+	while(1)
 	{
-		counter++;
-		usleep(100000);
-		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
-		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
-		//if((r <= rThresh) || (l <= lThresh)) //we have crossed the line
-		//	stop=1;
-		if(r <= rThresh) //we have crossed the line
-			//directDrive(110,5);
-			directDrive(speed,-speed);
-		else if(l <= lThresh) //we have crossed the line
-			directDrive(-speed,speed);
-			//directDrive(5,110);
-		else
-			drive(3*speed,0);
-		if (counter > 340)
+		cout<<"Would you like to callibrate the floor? (y/n)"<<endl;
+		string res;
+		cin >> res;
+		if(res == "y")
 		{
-			turn (speed,-1,-180,0);
-			//stop=1;
-			counter=0;
+			callibrateFloor();
+			break;
+		}
+		else if(res == "n")
+		{
+			ifstream myfile ("calibration.txt");
+			string line;
+			getline (myfile,line);
+			rThresh = atoi(line.c_str());
+			getline (myfile,line);
+			lThresh = atoi(line.c_str());
+			break;
 		}
 	}
+	cout << "r: "<<rThresh<<" l: "<<lThresh<<endl;
+	//followLine();
+		/*string qr = readQR();
+		if (qr.size() != 0)
+		{
+			if (qr == "D") // we have detected a QR code
+			{
+				drive(0,0); // stop so we can analyze it
+				
+			}
+			else // we have determined what number it is
+			{
+				recordPos(qr);
+			}
+		}*/
 	drive(0,0);
 }
