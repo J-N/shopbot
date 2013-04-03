@@ -28,6 +28,22 @@ int y;
 int heading;
 short rThresh;
 short lThresh;
+
+class POI
+{
+	public:
+	int id;
+	int x;
+	int y;
+	int heading;
+
+	POI(int id, int x, int y, int heading)
+	{
+		this.id=id; this.x=x; this.y=y; this.heading=heading;
+	}
+}
+
+vector<POI*> POIs;
 /* Plays some random notes on the create's speakers. */
 /*void horn() {
   char song[SONG_LENGTH * 2];
@@ -126,10 +142,11 @@ string  readQR()
 	return result;
 }
 
-void recordPos(string qr)
+void recordPos(int id)
 {
 	short pos = readSensor(SENSOR_DISTANCE);
-	
+	POI* newPOI = new POI(id,x,y,heading);
+	POIs.push_back(newPOI);
 }
 
 void intersection(int path)
@@ -211,6 +228,51 @@ void followLine()
 	}
 }
 
+
+void initalizeStore()
+{
+	//first we need to drive forward until we reach the the edge of the store
+	followLine();
+	//we are now at the edge of the store
+	//we need to record our current posistion
+	savePos(homeEdge);
+	//now we want to make a right turn
+	intersection(1);
+	//begin scanning items
+	scanning=true;
+	followLine();
+	//we are at the top intersection
+	//save our current position
+	savePos(topIntersection);
+	//now we want to drive straight
+	intersection(0);
+	followLine();
+	//we are at the bottom intersection
+	//save our current position
+	savePos(botIntersection);
+	//now we want to turn left
+	intersection(1);
+	followLine();
+	//we are back at the top intersection
+	//we wont to spin 180 and go back down to scan other side of aisle
+	turn(50,-1,-180,0);
+	followLine();
+	//we are back at the bottom intersection
+	//we want to make a left turn
+	intersection(1);
+	followLine();
+	//we are back at the homeEdge
+	//we want to disable scanning
+	scanning=false;
+	//we want to drive straight
+	intersection(0);
+	followLine();
+	//we are now in the home posistion
+	//we want to spin 180
+	turn(50,-1,-180,0);
+	//we are done!
+
+}
 
 void setup()
 {
