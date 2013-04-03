@@ -228,6 +228,14 @@ void followLine()
 	}
 }
 
+myTurn(int a, int b, int c, int d)
+{
+	//save current stuff
+	//distance and angle
+	
+	//now call the real turn
+	turn(a,b,c,d);
+}
 
 void initalizeStore()
 {
