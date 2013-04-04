@@ -375,10 +375,11 @@ int main(int argv, char* argc[])
 	setup();
 	startOI_MT (argc[1]);
 	drive(0, 0);
+	string res;
 	while(1)
 	{
 		cout<<"Would you like to callibrate the floor? (y/n)"<<endl;
-		string res;
+		
 		cin >> res;
 		if(res == "y")
 		{
