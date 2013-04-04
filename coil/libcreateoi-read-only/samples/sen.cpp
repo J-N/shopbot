@@ -16,7 +16,7 @@
 #define MAX(a,b)	(a > b? a : b)
 #define MIN(a,b)	(a < b? a : b)
 #define SONG_LENGTH 8
-
+#define PI 3.14159265
 
 
 
@@ -64,6 +64,7 @@ void myHandler(int var=0)
 	stopOI_MT (); // stop the connection
 	exit(1);
 }
+
 void printSensors()
 {
         int* sensors = getAllSensors();
@@ -75,8 +76,6 @@ void printSensors()
         }
         free (sensors);
 }
-
-
 
 double calcMedian(vector<int> scores)
 {
@@ -228,10 +227,19 @@ void followLine()
 	}
 }
 
-myTurn(int a, int b, int c, int d)
+void updatePosition()
 {
-	//save current stuff
-	//distance and angle
+	int da=getAngle();
+	heading+=da;
+	int dr=getDistance();
+	x+=dr*cos(da*PI/180);
+	y+=dr*sin(da*PI/180);
+}
+
+void myTurn(int a, int b, int c, int d)
+{
+	//save current position
+	updatePosition();
 	
 	//now call the real turn
 	turn(a,b,c,d);
@@ -243,27 +251,29 @@ void initalizeStore()
 	followLine();
 	//we are now at the edge of the store
 	//we need to record our current posistion
-	savePos(homeEdge);
+	recordPos(homeEdge);
 	//now we want to make a right turn
-	intersection(1);
+	//intersection(1);
+	myTurn(50,-1,-90,0);
 	//begin scanning items
 	scanning=true;
 	followLine();
 	//we are at the top intersection
 	//save our current position
-	savePos(topIntersection);
+	recordPos(topIntersection);
 	//now we want to drive straight
-	intersection(0);
+	//intersection(0);
+	myTurn(50,-1,-90,0);
 	followLine();
 	//we are at the bottom intersection
 	//save our current position
-	savePos(botIntersection);
+	recordPos(botIntersection);
 	//now we want to turn left
 	intersection(1);
 	followLine();
 	//we are back at the top intersection
-	//we wont to spin 180 and go back down to scan other side of aisle
-	turn(50,-1,-180,0);
+	//we want to spin 180 and go back down to scan other side of aisle
+	myTurn(50,-1,-180,0);
 	followLine();
 	//we are back at the bottom intersection
 	//we want to make a left turn
@@ -277,7 +287,7 @@ void initalizeStore()
 	followLine();
 	//we are now in the home posistion
 	//we want to spin 180
-	turn(50,-1,-180,0);
+	myTurn(50,-1,-180,0);
 	//we are done!
 
 }
