@@ -252,7 +252,7 @@ void myTurn(int a, int b, int c, int d)
 
 void dPause(string message)
 {
-	cout <<string<<endl;
+	cout <<message<<endl;
 	string tmp;
 	cin >> tmp;
 }
