@@ -18,7 +18,9 @@
 #define SONG_LENGTH 8
 #define PI 3.14159265
 
-
+#define homeEdge -1
+#define botIntersection -2
+#define topIntersection -3
 
 using namespace std;
 
@@ -28,6 +30,7 @@ int y;
 int heading;
 short rThresh;
 short lThresh;
+bool scanning;
 
 class POI
 {
