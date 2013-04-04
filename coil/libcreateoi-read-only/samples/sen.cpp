@@ -25,12 +25,14 @@
 using namespace std;
 
 FILE* qrFD;
-int x;
-int y;
-int heading;
+int x=0;
+int y=0;
+int heading=0;
 short rThresh;
 short lThresh;
 bool scanning;
+
+void updatePosition();
 
 class POI
 {
@@ -148,7 +150,7 @@ string  readQR()
 
 void recordPos(int id)
 {
-	short pos = readSensor(SENSOR_DISTANCE);
+	//short pos = readSensor(SENSOR_DISTANCE);
 	POI* newPOI = new POI(id,x,y,heading);
 	POIs.push_back(newPOI);
 }
@@ -214,6 +216,7 @@ void followLine()
 	int counter=0;
 	while(!stop)
 	{
+		updatePosition();
 		counter++;
 		usleep(10000);
 		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
@@ -253,6 +256,7 @@ void myTurn(int a, int b, int c, int d)
 void dPause(string message)
 {
 	cout <<message<<endl;
+	cout<<"x: "<<x<<" y: "<<y<<" heading: "<<heading<<endl;
 	string tmp;
 	cin >> tmp;
 }
