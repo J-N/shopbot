@@ -36,11 +36,12 @@ class POI
 	int x;
 	int y;
 	int heading;
-
-	POI(int id, int x, int y, int heading)
-	{
-		this.id=id; this.x=x; this.y=y; this.heading=heading;
-	}
+	POI(int id, int x, int y, int heading);
+	
+}
+POI::POI(int id, int x, int y, int heading)
+{
+	this.id=id; this.x=x; this.y=y; this.heading=heading;
 }
 
 vector<POI*> POIs;
@@ -391,9 +392,7 @@ int main(int argv, char* argc[])
 			break;
 		}
 	}
-	followLine();
-	intersection(1);
-	followLine();
+	initalizeStore();
 		/*string qr = readQR();
 		if (qr.size() != 0)
 		{
