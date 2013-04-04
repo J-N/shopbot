@@ -38,7 +38,8 @@ class POI
 	int heading;
 	POI(int id, int x, int y, int heading);
 	
-}
+};
+
 POI::POI(int id, int x, int y, int heading)
 {
 	this.id=id; this.x=x; this.y=y; this.heading=heading;
