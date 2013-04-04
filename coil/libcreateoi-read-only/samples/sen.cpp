@@ -250,15 +250,26 @@ void myTurn(int a, int b, int c, int d)
 	turn(a,b,c,d);
 }
 
+void dPause(string message)
+{
+	cout <<string<<endl;
+	string tmp;
+	cin > tmp;
+}
+
 void initalizeStore()
 {
 	//first we need to drive forward until we reach the the edge of the store
 	followLine();
+	dPause("found homeEdge");
 	//we are now at the edge of the store
 	//we need to record our current posistion
 	recordPos(homeEdge);
 	//now we want to make a right turn
 	//intersection(1);
+	drive(50,0);
+	usleep(500000);
+	drive(0,0);
 	myTurn(50,-1,-90,0);
 	//begin scanning items
 	scanning=true;
