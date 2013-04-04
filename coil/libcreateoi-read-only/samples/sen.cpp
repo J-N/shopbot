@@ -254,7 +254,7 @@ void dPause(string message)
 {
 	cout <<string<<endl;
 	string tmp;
-	cin > tmp;
+	cin >> tmp;
 }
 
 void initalizeStore()
