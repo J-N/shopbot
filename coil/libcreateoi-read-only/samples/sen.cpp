@@ -268,42 +268,62 @@ void initalizeStore()
 	//now we want to make a right turn
 	//intersection(1);
 	drive(50,0);
-	usleep(500000);
+	usleep(3000000);
 	drive(0,0);
 	myTurn(50,-1,-90,0);
 	//begin scanning items
 	scanning=true;
 	followLine();
+	dPause("found top");
 	//we are at the top intersection
 	//save our current position
 	recordPos(topIntersection);
 	//now we want to drive straight
 	//intersection(0);
-	myTurn(50,-1,-90,0);
+	myTurn(50,-1,-10,0);
+	drive(50,0);
+	usleep(3000000);
 	followLine();
+	dPause("found bot");
+	drive(50,0);
+	usleep(3000000);
+	drive(0,0);
+	myTurn(50,1,80,0);
 	//we are at the bottom intersection
 	//save our current position
 	recordPos(botIntersection);
 	//now we want to turn left
-	intersection(1);
+	//intersection(1);
 	followLine();
+	dPause("back at top");
 	//we are back at the top intersection
 	//we want to spin 180 and go back down to scan other side of aisle
 	myTurn(50,-1,-180,0);
 	followLine();
+	dPause("back at bot");
 	//we are back at the bottom intersection
 	//we want to make a left turn
-	intersection(1);
+	drive(50,0);
+	usleep(3000000);
+	drive(0,0);
+	myTurn(50,1,90,0);
+	//intersection(1);
 	followLine();
+	dPause("back at homeEdge");
 	//we are back at the homeEdge
 	//we want to disable scanning
 	scanning=false;
 	//we want to drive straight
-	intersection(0);
+	//intersection(0);
+	drive(50,0);
+	usleep(3000000);
+	drive(0,0);
 	followLine();
+	dPause("back at home position");
 	//we are now in the home posistion
 	//we want to spin 180
 	myTurn(50,-1,-180,0);
+	dPause("done");
 	//we are done!
 
 }
