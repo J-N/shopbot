@@ -395,6 +395,7 @@ int main(int argv, char* argc[])
 			lThresh = atoi(line.c_str());
 			break;
 		}
+	}
 		cout<<"Ready to begin"<<endl;
 		cin>> res;
 	initalizeStore();
