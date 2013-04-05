@@ -196,6 +196,35 @@ string  readQR()
 	return result;
 }
 
+void turnAround()
+{
+	int current;
+	int count=0;
+	while(1)
+	{
+		usleep(10000);
+		current = getAngle();
+		count += current;
+		//cout<<"Turning.."<<endl;
+		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
+		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
+		if(r <= rThresh)
+			rc=1;
+		if((l <= lThresh) && (rc==1))
+		{
+			cout<<"line found"<<endl;
+			drive(0,0);
+			//cin>>lc;
+			drive(50,-1);
+			rc=0;
+			lines++;
+		}
+		if (count <= -180)
+			break;
+
+	}
+}
+
 void recordPos(int id)
 {
 	//short pos = readSensor(SENSOR_DISTANCE);
@@ -316,7 +345,7 @@ void initalizeStore()
 {
 	//first we need to drive forward until we reach the the edge of the store
 	followLine();
-	dPause("found homeEdge");
+	//dPause("found homeEdge");
 	//we are now at the edge of the store
 	//we need to record our current posistion
 	recordPos(homeEdge);
@@ -332,7 +361,7 @@ void initalizeStore()
 	//begin scanning items
 	scanning=true;
 	followLine();
-	dPause("found top");
+	//dPause("found top");
 	//we are at the top intersection
 	//save our current position
 	recordPos(topIntersection);
