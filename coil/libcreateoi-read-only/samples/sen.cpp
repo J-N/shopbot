@@ -200,6 +200,7 @@ void turnAround()
 {
 	int current;
 	int count=0;
+	drive(50,-1);
 	while(1)
 	{
 		usleep(10000);
@@ -212,12 +213,13 @@ void turnAround()
 			rc=1;
 		if((l <= lThresh) && (rc==1))
 		{
-			cout<<"line found"<<endl;
+			//cout<<"line found"<<endl;
 			drive(0,0);
 			//cin>>lc;
-			drive(50,-1);
+			//drive(50,-1);
 			rc=0;
-			lines++;
+			//lines++;
+			break;
 		}
 		if (count <= -180)
 			break;
@@ -360,6 +362,8 @@ void initalizeStore()
 	lastPOI->connections[1]=currentLine;
 	//begin scanning items
 	scanning=true;
+	
+	
 	followLine();
 	//dPause("found top");
 	//we are at the top intersection
