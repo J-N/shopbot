@@ -25,44 +25,92 @@
 using namespace std;
 
 FILE* qrFD;
-int x=0;
-int y=0;
-int heading=0;
+float x=0;
+float y=0;
+float heading=0;
 short rThresh;
 short lThresh;
 bool scanning;
+int currentDistance;
 
 void updatePosition();
+
+class line;
+class item;
+class POI;
+
+class item
+{
+	public: 
+	int id;
+	line* pLine;
+	int distance; // distance from POI 0 on lineA
+	item(int id, line* pLine, int distance)
+	{
+		this->id=id;
+		this->pLine=pLine;
+		this->distance=distance;
+	}
+};
+
+class line
+{
+	public:
+	POI* poi0;
+	POI* poi1;
+	int distance;
+	vector <item*> items;
+	line(POI* poi0)
+	{
+		this->poi0 = poi0;
+		//this->poi1 = poi1;
+	}
+};
+
 
 class POI
 {
 	public:
 	int id;
-	int x;
-	int y;
-	int heading;
-	POI(int id, int x, int y, int heading);
+	//float x;
+	//float y;
+	//float heading;
+	//float distance;
+	line* connections[3];
+	//POI(int id, float x, float y, float heading);
+	//POI(int id, float distance);
+	POI(int id);
 	
 };
 
-POI::POI(int id, int x, int y, int heading)
+POI::POI(int id)
 {
-	this->id=id; this->x=x; this->y=y; this->heading=heading;
+	//this->id=id; this->x=x; this->y=y; this->heading=heading;
+	this->id=id;
+	// this->distance=distance;
 }
 
 vector<POI*> POIs;
+POI* lastPOI;
+line* currentLine;
 /* Plays some random notes on the create's speakers. */
-/*void horn() {
-  char song[SONG_LENGTH * 2];
-  int i;
+void foundItem() {
+  char song[4];
+  song[0]=36;
+  song[1]=16;
+  song[2]=72;
+  song[3]=16;
+
+ /* int i;
   for (i =0; i< SONG_LENGTH; i++) {
     song[i*2] = 31 + floor(drand48() * (127-31));
     song[i*2 +1] = 8 + floor(drand48() * 10);
   }
-  writeSong(0, SONG_LENGTH, song);
+*/
+  writeSong(0, 2, (byte*)song);
   playSong (0);
 }
-*/
+
 
 void myHandler(int var=0)
 {
@@ -151,7 +199,8 @@ string  readQR()
 void recordPos(int id)
 {
 	//short pos = readSensor(SENSOR_DISTANCE);
-	POI* newPOI = new POI(id,x,y,heading);
+	//POI* newPOI = new POI(id,x,y,heading);
+	POI* newPOI = new POI(id);
 	POIs.push_back(newPOI);
 }
 
@@ -240,6 +289,7 @@ void updatePosition()
 	int da=getAngle();
 	heading+=da;
 	int dr=getDistance();
+	currentDistance += dr;
 	x+=dr*cos(da*PI/180);
 	y+=dr*sin(da*PI/180);
 }
@@ -256,7 +306,8 @@ void myTurn(int a, int b, int c, int d)
 void dPause(string message)
 {
 	cout <<message<<endl;
-	cout<<"x: "<<x<<" y: "<<y<<" heading: "<<heading<<endl;
+	//cout<<"x: "<<x<<" y: "<<y<<" heading: "<<heading<<endl;
+	cout << "Distance: " << currentDistance << endl;
 	string tmp;
 	cin >> tmp;
 }
@@ -269,12 +320,15 @@ void initalizeStore()
 	//we are now at the edge of the store
 	//we need to record our current posistion
 	recordPos(homeEdge);
+	lastPOI=POIs[0];
 	//now we want to make a right turn
 	//intersection(1);
 	drive(50,0);
 	usleep(3000000);
 	drive(0,0);
-	myTurn(50,-1,-90,0);
+	myTurn(50,-1,-80,0);
+	currentLine =  new line(lastPOI);
+	lastPOI->connections[1]=currentLine;
 	//begin scanning items
 	scanning=true;
 	followLine();
@@ -282,11 +336,18 @@ void initalizeStore()
 	//we are at the top intersection
 	//save our current position
 	recordPos(topIntersection);
+	lastPOI=POIs[1];
+	lastPOI->connections[2] = currentLine;
+	currentLine->poi1=POIs[1];
+	currentLine->distance = currentDistance;
 	//now we want to drive straight
 	//intersection(0);
 	myTurn(50,-1,-10,0);
 	drive(50,0);
 	usleep(3000000);
+	currentDistance = 0; //reset distance count
+	currentLine =  new line(lastPOI);
+	lastPOI->connections[0]=currentLine;
 	followLine();
 	dPause("found bot");
 	drive(50,0);
@@ -296,14 +357,28 @@ void initalizeStore()
 	//we are at the bottom intersection
 	//save our current position
 	recordPos(botIntersection);
+	lastPOI=POIs[2];
+	lastPOI->connections[2] = currentLine;
+	currentLine->poi1=POIs[2];
+	currentLine->distance = currentDistance;
+	currentDistance =0;
+	currentLine =  new line(lastPOI);
+	lastPOI->connections[1]=currentLine;
 	//now we want to turn left
 	//intersection(1);
 	followLine();
+	currentLine->poi1=POIs[1];
+	currentLine->distance = currentDistance;
+	lastPOI=POIs[1];
+	lastPOI->connections[1]=currentLine;
 	dPause("back at top");
 	//we are back at the top intersection
 	//we want to spin 180 and go back down to scan other side of aisle
 	myTurn(50,-1,-180,0);
 	followLine();
+	lastPOI=POIs[2];
+	currentLine = new line(lastPOI);
+	lastPOI->connections[0]=currentLine;
 	dPause("back at bot");
 	//we are back at the bottom intersection
 	//we want to make a left turn
@@ -311,9 +386,14 @@ void initalizeStore()
 	usleep(3000000);
 	drive(0,0);
 	myTurn(50,1,90,0);
+	currentDistance =0;
 	//intersection(1);
 	followLine();
 	dPause("back at homeEdge");
+	currentLine->distance = currentDistance;
+	lastPOI=POIs[0];
+	currentLine->poi1=POIs[0];
+	currentDistance=0;
 	//we are back at the homeEdge
 	//we want to disable scanning
 	scanning=false;
@@ -329,6 +409,7 @@ void initalizeStore()
 	myTurn(50,-1,-180,0);
 	dPause("done");
 	//we are done!
+	foundItem();
 
 }
 
