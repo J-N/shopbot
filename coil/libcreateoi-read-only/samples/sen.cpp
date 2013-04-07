@@ -13,6 +13,8 @@
 #include <iostream>
 #include <fstream>
 #include <signal.h>
+#include <pthread.h>
+
 #define MAX(a,b)	(a > b? a : b)
 #define MIN(a,b)	(a < b? a : b)
 #define SONG_LENGTH 8
@@ -185,15 +187,26 @@ int calcMode(vector<int> vUserInput)
 	return *occurSet.begin();
 }
 
-string  readQR()
+void  *readQR( void *ptr)
 {
-	char tmp[100];
-	string result;
-	if(fgets(tmp, 100, qrFD) != NULL)
+	while(1)
 	{
-		result = tmp;
+		char tmp[100];
+		string result;
+		if(fgets(tmp, 100, qrFD) != NULL)
+		{
+			result = tmp;
+			int id = atoi(tmp);
+			if(scanning) // if we are suppose to be reading codes
+			{
+				foundItem();
+				item* newItem = new item(id, currentLine, currentDistance);
+				currentLine->items.push_back(newItem);
+				cout<<"QR decteded "<<result<<" Current distance: "<<currentDistance<<endl;
+			}
+		}
 	}
-	return result;
+	//return result;
 }
 void turnLeft()
 {
@@ -362,7 +375,7 @@ void intersection(int path)
 void followLine()
 {
 	cout<<"Following line"<<endl;
-	int speed = 50;
+	int speed = 30;
 	drive(3*speed,0);
 	int stop=0;
 	int counter=0;
@@ -535,6 +548,10 @@ void setup()
 	cout<<"Waiting for QR communication"<<endl;	
 	qrFD = fopen("/dev/QRComms","r");
 	cout<<"QR communication enabled"<<endl;
+	//make QR thread
+	pthread_t qrThread;
+	int qrRet;
+	qrRet = pthread_create(&qrThread, NULL, readQR, NULL);
 }
 void calibrateFloor()
 {
@@ -592,6 +609,25 @@ void calibrateFloor()
   	myfile << rThresh<<endl<<lThresh<<endl;
   	myfile.close();	
 }
+
+bool constructPath (line* checkLine,  int item)
+{
+	if (find(checkLine->items.begin(), checkLine->items.end(), item) != checkLine->items.end)
+	{
+		//found line containing item
+		return true;
+	}
+	else
+		return false;
+}
+
+
+void getItem(int item)
+{
+
+
+}
+
 int main(int argv, char* argc[])
 {
 	if (argv < 2) {
@@ -626,18 +662,6 @@ int main(int argv, char* argc[])
 		cout<<"Ready to begin"<<endl;
 		cin>> res;
 	initalizeStore();
-		/*string qr = readQR();
-		if (qr.size() != 0)
-		{
-			if (qr == "D") // we have detected a QR code
-			{
-				drive(0,0); // stop so we can analyze it
-				
-			}
-			else // we have determined what number it is
-			{
-				recordPos(qr);
-			}
-		}*/
+	getItem(22);
 	drive(0,0);
 }
