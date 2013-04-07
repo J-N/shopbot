@@ -195,11 +195,46 @@ string  readQR()
 	}
 	return result;
 }
-
-void turnAround()
+void turnLeft()
 {
 	int current;
 	int count=0;
+	int rc=0;
+	drive(50,1);
+	while(1)
+	{
+		usleep(10000);
+		current = getAngle();
+		count += current;
+		//cout<<"Turning.."<<endl;
+		if(count >= 45)
+		{
+		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
+		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
+		if(l <= lThresh)
+			rc=1;
+		if((r <= rThresh) && (rc==1))
+		{
+			//cout<<"line found"<<endl;
+			drive(0,0);
+			//cin>>lc;
+			//drive(50,-1);
+			rc=0;
+			//lines++;
+			break;
+		}
+		}
+		if (count >= 90)
+			break;
+
+	}
+}
+
+void turnRight()
+{
+	int current;
+	int count=0;
+	int rc=0;
 	drive(50,-1);
 	while(1)
 	{
@@ -207,6 +242,8 @@ void turnAround()
 		current = getAngle();
 		count += current;
 		//cout<<"Turning.."<<endl;
+		if(count <= -45)
+		{
 		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
 		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
 		if(r <= rThresh)
@@ -220,6 +257,41 @@ void turnAround()
 			rc=0;
 			//lines++;
 			break;
+		}
+		}
+		if (count <= -90)
+			break;
+
+	}
+}
+void turnAround()
+{
+	int current;
+	int count=0;
+	int rc=0;
+	drive(50,-1);
+	while(1)
+	{
+		usleep(10000);
+		current = getAngle();
+		count += current;
+		//cout<<"Turning.."<<endl;
+		if(count <= -90)
+		{
+		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
+		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
+		if(r <= rThresh)
+			rc=1;
+		if((l <= lThresh) && (rc==1))
+		{
+			//cout<<"line found"<<endl;
+			drive(0,0);
+			//cin>>lc;
+			//drive(50,-1);
+			rc=0;
+			//lines++;
+			break;
+		}
 		}
 		if (count <= -180)
 			break;
@@ -357,7 +429,8 @@ void initalizeStore()
 	drive(50,0);
 	usleep(3000000);
 	drive(0,0);
-	myTurn(50,-1,-80,0);
+	//myTurn(50,-1,-80,0);
+	turnRight();
 	currentLine =  new line(lastPOI);
 	lastPOI->connections[1]=currentLine;
 	//begin scanning items
@@ -382,11 +455,12 @@ void initalizeStore()
 	currentLine =  new line(lastPOI);
 	lastPOI->connections[0]=currentLine;
 	followLine();
-	dPause("found bot");
+	//dPause("found bot");
 	drive(50,0);
 	usleep(3000000);
 	drive(0,0);
-	myTurn(50,1,80,0);
+	//myTurn(50,1,70,0);
+	turnLeft();
 	//we are at the bottom intersection
 	//save our current position
 	recordPos(botIntersection);
@@ -404,15 +478,16 @@ void initalizeStore()
 	currentLine->distance = currentDistance;
 	lastPOI=POIs[1];
 	lastPOI->connections[1]=currentLine;
-	dPause("back at top");
+	//dPause("back at top");
 	//we are back at the top intersection
 	//we want to spin 180 and go back down to scan other side of aisle
-	myTurn(50,-1,-180,0);
+	//myTurn(50,-1,-180,0);
+	turnAround();
 	followLine();
 	lastPOI=POIs[2];
 	currentLine = new line(lastPOI);
 	lastPOI->connections[0]=currentLine;
-	dPause("back at bot");
+	//dPause("back at bot");
 	//we are back at the bottom intersection
 	//we want to make a left turn
 	drive(50,0);
@@ -422,7 +497,7 @@ void initalizeStore()
 	currentDistance =0;
 	//intersection(1);
 	followLine();
-	dPause("back at homeEdge");
+	//dPause("back at homeEdge");
 	currentLine->distance = currentDistance;
 	lastPOI=POIs[0];
 	currentLine->poi1=POIs[0];
@@ -432,15 +507,17 @@ void initalizeStore()
 	scanning=false;
 	//we want to drive straight
 	//intersection(0);
+	myTurn(50,-1,-10,0);
 	drive(50,0);
-	usleep(3000000);
+	usleep(2000000);
 	drive(0,0);
 	followLine();
-	dPause("back at home position");
+	//dPause("back at home position");
 	//we are now in the home posistion
 	//we want to spin 180
-	myTurn(50,-1,-180,0);
-	dPause("done");
+	//myTurn(50,-1,-180,0);
+	turnAround();
+	//dPause("done");
 	//we are done!
 	foundItem();
 
