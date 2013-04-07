@@ -612,7 +612,7 @@ void calibrateFloor()
 
 bool constructPath (line* checkLine,  int item)
 {
-	if (find(checkLine->items.begin(), checkLine->items.end(), item) != checkLine->items.end)
+	if (find(checkLine->items.begin(), checkLine->items.end(), item) != checkLine->items.end())
 	{
 		//found line containing item
 		return true;
