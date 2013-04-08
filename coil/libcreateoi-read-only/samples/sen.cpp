@@ -96,6 +96,126 @@ int calcMode(std::vector<int> vUserInput)
 	return *occurSet.begin();
 }
 
+void*  readPath(void *ptr)
+{
+	while(1)
+	{
+		if(shopping) // if we are suppose to be reading codes
+		{
+			char tmp[100];
+			std::string result;
+			if(fgets(tmp, 100, pathFD) != NULL)
+			{
+				result = tmp;
+				int id = atoi(tmp);
+					
+				std::cout<<"Item request detected: "<<result<<std::endl;
+				getItem(id);
+			}
+		}
+	}
+	//return result;
+}
+void turnLeft()
+{
+	int current;
+	int count=0;
+	int rc=0;
+	drive(50,1);
+	while(1)
+	{
+		usleep(10000);
+		current = getAngle();
+		count += current;
+		//std::cout<<"Turning.."<<std::endl;
+		if(count >= 45)
+		{
+		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
+		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
+		if(l <= lThresh)
+			rc=1;
+		if((r <= rThresh) && (rc==1))
+		{
+			//std::cout<<"line found"<<std::endl;
+			drive(0,0);
+			//std::cin>>lc;
+			//drive(50,-1);
+			rc=0;
+			//lines++;
+			break;
+		}
+		}
+		if (count >= 90)
+			break;
+
+	}
+}
+
+void turnRight()
+{
+	int current;
+	int count=0;
+	int rc=0;
+	drive(50,-1);
+	while(1)
+	{
+		usleep(10000);
+		current = getAngle();
+		count += current;
+		//std::cout<<"Turning.."<<std::endl;
+		if(count <= -45)
+		{
+		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
+		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
+		if(r <= rThresh)
+			rc=1;
+		if((l <= lThresh) && (rc==1))
+		{
+			//std::cout<<"line found"<<std::endl;
+			drive(0,0);
+			//std::cin>>lc;
+			//drive(50,-1);
+			rc=0;
+			//lines++;
+			break;
+		}
+		}
+		if (count <= -90)
+			break;
+
+	}
+}
+void turnAround()
+{
+	int current;
+	int count=0;
+	int rc=0;
+	drive(50,-1);
+	while(1)
+	{
+		usleep(10000);
+		current = getAngle();
+		count += current;
+		//std::cout<<"Turning.."<<std::endl;
+		if(count <= -90)
+		{
+		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
+		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
+		if(r <= rThresh)
+			rc=1;
+		if((l <= lThresh) && (rc==1))
+		{
+			//std::cout<<"line found"<<std::endl;
+			drive(0,0);
+			//std::cin>>lc;
+			//drive(50,-1);
+			rc=0;
+			//lines++;
+			break;
+		}
+		}
+		if (count <= -180)
+
 void  *readQR( void *ptr)
 {
 	while(1)
@@ -279,16 +399,21 @@ void intersection(int path)
 	}		
 }
 
-void followLine()
+void followLine(int dist=5000)
 {
 	std::cout<<"Following line"<<std::endl;
-	int speed = 40;
+	int speed = 45;
 	drive(3*speed,0);
 	int stop=0;
 	int counter=0;
 	while(stop< 2)
 	{
 		updatePosition();
+		if(currentDistance >= dist)
+		{
+			drive(0,0);
+			break;
+		}
 		counter++;
 		usleep(20000);
 		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
@@ -430,6 +555,7 @@ void initalizeStore()
 	lastNode=nodes[0];
 	currentLine->node1=nodes[0];
 	currentDistance=0;
+	lastNode->connections[2]=currentLine;
 	//we are back at the homeEdge
 	//we want to disable scanning
 	scanning=false;
@@ -448,7 +574,9 @@ void initalizeStore()
 	//dPause("done");
 	//we are done!
 	foundItem();
-	saveStore();
+	store newStore;
+	newStore.nodes=nodes;
+	saveStore(newStore, "store");
 }
 
 void setup()
@@ -457,16 +585,22 @@ void setup()
 	signal(SIGQUIT, myHandler);
 	signal(SIGABRT, myHandler);
 	signal(SIGTERM, myHandler);
+
+	shopping=false;
 	
 	mkfifo("/dev/QRComms",777);
 	mkfifo("/dev/pathComms",777);
 	std::cout<<"Waiting for QR communication"<<std::endl;	
 	qrFD = fopen("/dev/QRComms","r");
 	std::cout<<"QR communication enabled"<<std::endl;
+	std::cout<<"Waiting for Path communication"<<std::endl;	
+	pathFD = fopen("/dev/pathComms","r");
+	std::cout<<"Path communication enabled"<<std::endl;
 	//make QR thread
-	pthread_t qrThread;
-	int qrRet;
+	pthread_t qrThread, pathThread;
+	int qrRet, pathRet;
 	qrRet = pthread_create(&qrThread, NULL, readQR, NULL);
+	pathRet = pthread_create(&pathThread, NULL, readPath, NULL);
 }
 void calibrateFloor()
 {
@@ -542,7 +676,7 @@ bool runBFS(mapObject *cur, int item, std::string path[]) {
 		return true;
 	}
 	else{
-		cur->visited = true;
+		//cur->visited = true;
 		if (cur->whatAmI() == 'l') {
 			char buf[10];
 			sprintf(buf,"%d",curline->node0->id);
@@ -567,7 +701,6 @@ bool runBFS(mapObject *cur, int item, std::string path[]) {
 			sprintf(buf,"%d",curnode->connections[2]->id);
 			path[curnode->connections[2]->id] = path[curnode->id] + buf + " ";
 			q.push(curnode->connections[2]);
-			std::cout << "end of else of node" << std::endl;
 
 		}
 	}
@@ -590,23 +723,61 @@ std::string itemPath (mapObject *cur, int item)
 			break;
 		}
 	}
+	std::queue<mapObject*> empty;
+	std::swap(q,empty);
 	return path[last->id];
 }
 
 void getItem(int item)
 {
-
-//std::cout << itemPath(currentLine,item) << std::endl; // go to our item
+	//item iTar;
+	std::string path = itemPath(currentLine,item); // get path
+	std::cout<<path<<std::endl;
+	int index=2;
+	while(1)
+	{
+		if(index >= path.size())
+			break;
+		if(currentLine->node1->id == atoi(&path[index]))
+		{	
+			followLine();
+			lastNode=currentLine->node1;
+			if(lastNode->connections[1]->id == atoi(&path[index+2]))
+			{
+			 	drive(50,0);
+		         	usleep(3000000);
+		         	drive(0,0);
+				turnLeft();
+				currentLine=lastNode->connections[1];
+				currentDistance=0;
+			}
+			else if(lastNode->connections[0]->id == atoi(&path[index+2]))
+			{
+ 				myTurn(50,-1,-10,0);
+        			drive(50,0);
+        			usleep(3000000);
+		         	drive(0,0);
+				currentLine=lastNode->connections[0];
+				currentDistance=0;
+			}
+		}
+		index+=2;
+	}
+	int ii=0;
+	for(ii=0; ii<currentLine->items.size(); ii++)
+	{
+		if(currentLine->items[ii]->id==item)
+		{
+			//iTar=currentLine->items[ii];
+			break;
+		}
+	}
+	followLine(currentLine->items[ii]->distance);
+	foundItem();
+	std::cout<<*currentLine->items[ii]<<std::endl;
 
 }
 
-void saveStore()
-{
-	std::ofstream ofs("store");
-        boost::archive::text_oarchive oa(ofs);
-        oa << nodes;
-
-}
 
 
 int main(int argv, char* argc[])
@@ -652,15 +823,20 @@ int main(int argv, char* argc[])
 		}
 		else if(res == "n")
 		{
-			std::ifstream ifs("store");
-    			boost::archive::text_iarchive ia(ifs);
-			ia >> nodes;
+			store newStore;
+			restoreStore(newStore, "store");
+			nodes=newStore.nodes;
 			break;
 		}
 	}
 		std::cout<<"Ready to begin"<<std::endl;
 		std::cin>> res;
-	initalizeStore();
-	//getItem(22);
+		currentLine=nodes[0]->connections[2];
+		shopping=true;
+	//	getItem(22);
+	//	sleep(2);
+	//	getItem(36);
+	//	sleep(2);
+	//	getItem(44);
 	drive(0,0);
 }

@@ -49,12 +49,14 @@ class item;
 class mapObject;
 
 FILE* qrFD;
+FILE* pathFD;
 float x=0;
 float y=0;
 float heading=0;
 short rThresh;
 short lThresh;
 bool scanning;
+bool shopping;
 int currentDistance;
 int lineCounter=3;
 void updatePosition();
@@ -87,7 +89,7 @@ class mapObject
 
 class item
 {
-        //friend std::ostream & operator<<(std::ostream &os, const item &it);
+        friend std::ostream & operator<<(std::ostream &os, const item &it);
         friend class boost::serialization::access;
         template<class Archive>
         void serialize(Archive & ar, const unsigned int version)
@@ -108,9 +110,9 @@ class item
                 this->id=id;
                 this->pLine=pLine;
                 this->distance=distance;
+	//	pLine->items.push_back(this);
         }
 };
-
 
 
 class line: public mapObject
@@ -144,11 +146,17 @@ class line: public mapObject
 	}
 	bool hasItem(int item)
         {
-                if(this->id == 3)
-                        return true;
-                else
-                        return false;
                 // iterate over vectors, ret true if match
+		int ii=0;
+		for(ii=0; ii<this->items.size(); ii++)
+        	{
+                	if(this->items[ii]->id==item)
+                	{
+                       		 //iTar=currentLine->items[ii];
+                       	 	return true;
+        	       	 }
+        	}
+		return false;	
         }
 
 
@@ -159,23 +167,68 @@ class line: public mapObject
 class node: public mapObject
 {
 	 friend class boost::serialization::access;
-  	 int num;
 	 template<class Archive>
 	void serialize(Archive & ar, const unsigned int /* file_version */){
 	 ar & boost::serialization::base_object<mapObject>(*this);
-       	 ar & num;
 	 ar & connections;
+	 ar & num;
     	}
 
 	public:
+	int num;
 	line* connections[3];
 	node()
 	{
 	}
-	node( int d)
-	{
+	node(int d)
+        {
 		this->num = d;
-	}
+                this->id=d;
+                this->visited=false;
+                this->type = 'n';
+        }
+
 };
+
+std::ostream & operator<<(std::ostream &os, const item &it)
+{
+    return os << "Item ID:" << it.id << " on line: " << it.pLine->id << " at distance "<< it.distance;
+}
+
+
+class store
+{
+        friend class boost::serialization::access;
+        template<class Archive>
+        void serialize(Archive & ar, unsigned int version)
+        {
+                ar & nodes;
+        }
+
+        public:
+        std::vector<node*> nodes;
+        store()
+        {
+        }
+
+};
+
+void saveStore(const store &s, const char * filename){
+    // make an archive
+    std::ofstream ofs(filename);
+    boost::archive::text_oarchive oa(ofs);
+    oa << s;
+}
+
+void
+restoreStore(store &s, const char * filename)
+{
+    // open the archive
+    std::ifstream ifs(filename);
+    boost::archive::text_iarchive ia(ifs);
+
+    // restore the schedule from the archive
+    ia >> s;
+}
 
 
