@@ -1,100 +1,9 @@
+#include "sen.h"
 
-#include <createoi.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <vector>
-#include <algorithm>
-#include <set>
-#include <iostream>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <signal.h>
-#include <pthread.h>
-
-#define MAX(a,b)	(a > b? a : b)
-#define MIN(a,b)	(a < b? a : b)
-#define SONG_LENGTH 8
-#define PI 3.14159265
-
-#define homeEdge -1
-#define botIntersection -2
-#define topIntersection -3
-
-using namespace std;
-
-FILE* qrFD;
-float x=0;
-float y=0;
-float heading=0;
-short rThresh;
-short lThresh;
-bool scanning;
-int currentDistance;
-
-void updatePosition();
-
-class line;
-class item;
-class POI;
-
-class item
-{
-	public: 
-	int id;
-	line* pLine;
-	int distance; // distance from POI 0 on lineA
-	item(int id, line* pLine, int distance)
-	{
-		this->id=id;
-		this->pLine=pLine;
-		this->distance=distance;
-	}
-};
-
-class line
-{
-	public:
-	POI* poi0;
-	POI* poi1;
-	int distance;
-	vector <item*> items;
-	line(POI* poi0)
-	{
-		this->poi0 = poi0;
-		//this->poi1 = poi1;
-	}
-};
-
-
-class POI
-{
-	public:
-	int id;
-	//float x;
-	//float y;
-	//float heading;
-	//float distance;
-	line* connections[3];
-	//POI(int id, float x, float y, float heading);
-	//POI(int id, float distance);
-	POI(int id);
-	
-};
-
-POI::POI(int id)
-{
-	//this->id=id; this->x=x; this->y=y; this->heading=heading;
-	this->id=id;
-	// this->distance=distance;
-}
-
-vector<POI*> POIs;
-POI* lastPOI;
+std::vector<node*> nodes;
+node* lastNode;
 line* currentLine;
+std::queue<mapObject*> q;
 /* Plays some random notes on the create's speakers. */
 void foundItem() {
   char song[4];
@@ -116,7 +25,7 @@ void foundItem() {
 
 void myHandler(int var=0)
 {
-	cout<<"Caught quit signal"<<endl;
+	std::cout<<"Caught quit signal"<<std::endl;
 	drive(0,0); // stop the robot
 	stopOI_MT (); // stop the connection
 	exit(1);
@@ -134,7 +43,7 @@ void printSensors()
         free (sensors);
 }
 
-double calcMedian(vector<int> scores)
+double calcMedian(std::vector<int> scores)
 {
   double median;
   size_t size = scores.size();
@@ -153,15 +62,15 @@ double calcMedian(vector<int> scores)
   return median;
 }
 
-int calcMode(vector<int> vUserInput)
+int calcMode(std::vector<int> vUserInput)
 {
-	vector<int> vOccurrence;
+	std::vector<int> vOccurrence;
 	vOccurrence.resize(vUserInput.size());
-	set <int> occurSet;
+	std::set <int> occurSet;
 	int mode;
 	int ckOccur = 0;
 	int maxOccur = 0;
-	for( vector<int>::const_iterator iter = vUserInput.begin(); iter != vUserInput.end(); ++iter ) {
+	for( std::vector<int>::const_iterator iter = vUserInput.begin(); iter != vUserInput.end(); ++iter ) {
 	//	sum = sum + *iter;//used for mean
 
 		// vOccurrence will be used later to find the mode
@@ -171,7 +80,7 @@ int calcMode(vector<int> vUserInput)
 		}
 	}
 	
-	for( vector<int>::const_iterator iter = vOccurrence.begin(); iter != vOccurrence.end(); ++iter ) {
+	for( std::vector<int>::const_iterator iter = vOccurrence.begin(); iter != vOccurrence.end(); ++iter ) {
 		if( *iter == 1 )//if the vector is filled with 1's it means each number has occurred only once, therefore no mode.
 			ckOccur = ckOccur + 1;
 		else if( *iter >maxOccur )
@@ -192,7 +101,7 @@ void  *readQR( void *ptr)
 	while(1)
 	{
 		char tmp[100];
-		string result;
+		std::string result;
 		if(fgets(tmp, 100, qrFD) != NULL)
 		{
 			result = tmp;
@@ -202,7 +111,7 @@ void  *readQR( void *ptr)
 				foundItem();
 				item* newItem = new item(id, currentLine, currentDistance);
 				currentLine->items.push_back(newItem);
-				cout<<"QR decteded "<<result<<" Current distance: "<<currentDistance<<endl;
+				std::cout<<"QR decteded "<<result<<" Current distance: "<<currentDistance<<std::endl;
 			}
 		}
 	}
@@ -219,7 +128,7 @@ void turnLeft()
 		usleep(10000);
 		current = getAngle();
 		count += current;
-		//cout<<"Turning.."<<endl;
+		//std::cout<<"Turning.."<<std::endl;
 		if(count >= 45)
 		{
 		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
@@ -228,9 +137,9 @@ void turnLeft()
 			rc=1;
 		if((r <= rThresh) && (rc==1))
 		{
-			//cout<<"line found"<<endl;
+			//std::cout<<"line found"<<std::endl;
 			drive(0,0);
-			//cin>>lc;
+			//std::cin>>lc;
 			//drive(50,-1);
 			rc=0;
 			//lines++;
@@ -254,7 +163,7 @@ void turnRight()
 		usleep(10000);
 		current = getAngle();
 		count += current;
-		//cout<<"Turning.."<<endl;
+		//std::cout<<"Turning.."<<std::endl;
 		if(count <= -45)
 		{
 		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
@@ -263,9 +172,9 @@ void turnRight()
 			rc=1;
 		if((l <= lThresh) && (rc==1))
 		{
-			//cout<<"line found"<<endl;
+			//std::cout<<"line found"<<std::endl;
 			drive(0,0);
-			//cin>>lc;
+			//std::cin>>lc;
 			//drive(50,-1);
 			rc=0;
 			//lines++;
@@ -288,7 +197,7 @@ void turnAround()
 		usleep(10000);
 		current = getAngle();
 		count += current;
-		//cout<<"Turning.."<<endl;
+		//std::cout<<"Turning.."<<std::endl;
 		if(count <= -90)
 		{
 		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
@@ -297,9 +206,9 @@ void turnAround()
 			rc=1;
 		if((l <= lThresh) && (rc==1))
 		{
-			//cout<<"line found"<<endl;
+			//std::cout<<"line found"<<std::endl;
 			drive(0,0);
-			//cin>>lc;
+			//std::cin>>lc;
 			//drive(50,-1);
 			rc=0;
 			//lines++;
@@ -314,10 +223,8 @@ void turnAround()
 
 void recordPos(int id)
 {
-	//short pos = readSensor(SENSOR_DISTANCE);
-	//POI* newPOI = new POI(id,x,y,heading);
-	POI* newPOI = new POI(id);
-	POIs.push_back(newPOI);
+	node* newNode = new node(id);
+	nodes.push_back(newNode);
 }
 
 void intersection(int path)
@@ -325,7 +232,7 @@ void intersection(int path)
 	driveDistance(50,0,90,1); //drive 30 mm forward
 	//reset sensor
 	getAngle();
-	cout<<"got angle"<<endl;
+	std::cout<<"got angle"<<std::endl;
 	drive(50,-1);
 	int count=0, current=0, rc=0, lc=0, lines=0;
 	while(1)
@@ -333,16 +240,16 @@ void intersection(int path)
 		usleep(10000);
 		current = getAngle();
 		count += current;
-		cout<<"Turning.."<<endl;
+		std::cout<<"Turning.."<<std::endl;
 		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
 		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
 		if(r <= rThresh)
 			rc=1;
 		if((l <= lThresh) && (rc==1))
 		{
-			cout<<"line found"<<endl;
+			std::cout<<"line found"<<std::endl;
 			drive(0,0);
-			//cin>>lc;
+			//std::cin>>lc;
 			drive(50,-1);
 			rc=0;
 			lines++;
@@ -352,9 +259,9 @@ void intersection(int path)
 
 	}
 	drive(0,0);
-	cout<<"done turning"<<endl;
-	cout<<"lines: "<<lines<<endl;
-	//cin>>lc;
+	std::cout<<"done turning"<<std::endl;
+	std::cout<<"lines: "<<lines<<std::endl;
+	//std::cin>>lc;
 	if(path) // we want to make a turn
 	{
 		if(lines==2)
@@ -374,22 +281,27 @@ void intersection(int path)
 
 void followLine()
 {
-	cout<<"Following line"<<endl;
-	int speed = 30;
+	std::cout<<"Following line"<<std::endl;
+	int speed = 40;
 	drive(3*speed,0);
 	int stop=0;
 	int counter=0;
-	while(!stop)
+	while(stop< 2)
 	{
 		updatePosition();
 		counter++;
-		usleep(10000);
+		usleep(20000);
 		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
 		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
 		if ((r <= rThresh) && (l <= lThresh)) //we are at an intersection
 		{
-			drive(0,0);
-			stop=1;
+			if(currentDistance > 400)
+			{
+				drive(0,0);
+				usleep(100000);
+				stop++;
+				continue;
+			}
 		}
 		else if(r <= rThresh) //we have crossed the line
 			directDrive(speed,-speed);
@@ -397,6 +309,7 @@ void followLine()
 			directDrive(-speed,speed);
 		else //drive straight
 			drive(3*speed,0);
+		stop=0;
 	}
 }
 
@@ -419,24 +332,25 @@ void myTurn(int a, int b, int c, int d)
 	turn(a,b,c,d);
 }
 
-void dPause(string message)
+void dPause(std::string message)
 {
-	cout <<message<<endl;
-	//cout<<"x: "<<x<<" y: "<<y<<" heading: "<<heading<<endl;
-	cout << "Distance: " << currentDistance << endl;
-	string tmp;
-	cin >> tmp;
+	std::cout <<message<<std::endl;
+	//std::cout<<"x: "<<x<<" y: "<<y<<" heading: "<<heading<<std::endl;
+	std::cout << "Distance: " << currentDistance << std::endl;
+	std::string tmp;
+	std::cin >> tmp;
 }
 
 void initalizeStore()
 {
+	currentDistance=0;
 	//first we need to drive forward until we reach the the edge of the store
 	followLine();
 	//dPause("found homeEdge");
 	//we are now at the edge of the store
 	//we need to record our current posistion
 	recordPos(homeEdge);
-	lastPOI=POIs[0];
+	lastNode=nodes[0];
 	//now we want to make a right turn
 	//intersection(1);
 	drive(50,0);
@@ -444,20 +358,20 @@ void initalizeStore()
 	drive(0,0);
 	//myTurn(50,-1,-80,0);
 	turnRight();
-	currentLine =  new line(lastPOI);
-	lastPOI->connections[1]=currentLine;
+	currentLine =  new line(lastNode);
+	lastNode->connections[1]=currentLine;
 	//begin scanning items
 	scanning=true;
-	
+	currentDistance=0;
 	
 	followLine();
 	//dPause("found top");
 	//we are at the top intersection
 	//save our current position
 	recordPos(topIntersection);
-	lastPOI=POIs[1];
-	lastPOI->connections[2] = currentLine;
-	currentLine->poi1=POIs[1];
+	lastNode=nodes[1];
+	lastNode->connections[2] = currentLine;
+	currentLine->node1=nodes[1];
 	currentLine->distance = currentDistance;
 	//now we want to drive straight
 	//intersection(0);
@@ -465,8 +379,8 @@ void initalizeStore()
 	drive(50,0);
 	usleep(3000000);
 	currentDistance = 0; //reset distance count
-	currentLine =  new line(lastPOI);
-	lastPOI->connections[0]=currentLine;
+	currentLine =  new line(lastNode);
+	lastNode->connections[0]=currentLine;
 	followLine();
 	//dPause("found bot");
 	drive(50,0);
@@ -477,29 +391,30 @@ void initalizeStore()
 	//we are at the bottom intersection
 	//save our current position
 	recordPos(botIntersection);
-	lastPOI=POIs[2];
-	lastPOI->connections[2] = currentLine;
-	currentLine->poi1=POIs[2];
+	lastNode=nodes[2];
+	lastNode->connections[2] = currentLine;
+	currentLine->node1=nodes[2];
 	currentLine->distance = currentDistance;
+	currentLine =  new line(lastNode);
+	lastNode->connections[1]=currentLine;
 	currentDistance =0;
-	currentLine =  new line(lastPOI);
-	lastPOI->connections[1]=currentLine;
+	
 	//now we want to turn left
 	//intersection(1);
 	followLine();
-	currentLine->poi1=POIs[1];
+	currentLine->node1=nodes[1];
 	currentLine->distance = currentDistance;
-	lastPOI=POIs[1];
-	lastPOI->connections[1]=currentLine;
+	lastNode=nodes[1];
+	lastNode->connections[1]=currentLine;
 	//dPause("back at top");
 	//we are back at the top intersection
 	//we want to spin 180 and go back down to scan other side of aisle
 	//myTurn(50,-1,-180,0);
 	turnAround();
 	followLine();
-	lastPOI=POIs[2];
-	currentLine = new line(lastPOI);
-	lastPOI->connections[0]=currentLine;
+	lastNode=nodes[2];
+	currentLine = new line(lastNode);
+	lastNode->connections[0]=currentLine;
 	//dPause("back at bot");
 	//we are back at the bottom intersection
 	//we want to make a left turn
@@ -512,8 +427,8 @@ void initalizeStore()
 	followLine();
 	//dPause("back at homeEdge");
 	currentLine->distance = currentDistance;
-	lastPOI=POIs[0];
-	currentLine->poi1=POIs[0];
+	lastNode=nodes[0];
+	currentLine->node1=nodes[0];
 	currentDistance=0;
 	//we are back at the homeEdge
 	//we want to disable scanning
@@ -533,7 +448,7 @@ void initalizeStore()
 	//dPause("done");
 	//we are done!
 	foundItem();
-
+	saveStore();
 }
 
 void setup()
@@ -545,9 +460,9 @@ void setup()
 	
 	mkfifo("/dev/QRComms",777);
 	mkfifo("/dev/pathComms",777);
-	cout<<"Waiting for QR communication"<<endl;	
+	std::cout<<"Waiting for QR communication"<<std::endl;	
 	qrFD = fopen("/dev/QRComms","r");
-	cout<<"QR communication enabled"<<endl;
+	std::cout<<"QR communication enabled"<<std::endl;
 	//make QR thread
 	pthread_t qrThread;
 	int qrRet;
@@ -567,8 +482,8 @@ void calibrateFloor()
 	short leftFloor, leftTape, rightFloor, rightTape;
 	scans = 20;
 	printf("Begining Floor Calibration\n");
-	vector<int> left;
-	vector<int> right;
+	std::vector<int> left;
+	std::vector<int> right;
 	for (ii=0; ii<scans; ii++)
 	{
 		right.push_back(readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL));
@@ -581,13 +496,13 @@ void calibrateFloor()
 	
 	printf("Left: %hu Right: %hu\n",leftFloor,rightFloor);
 	//usleep(1000000);
-	cout<<"Now put ontop of tape"<<endl;
+	std::cout<<"Now put ontop of tape"<<std::endl;
 	int tmp;
-	cin>>tmp;
+	std::cin>>tmp;
 	//usleep(5000000);
 	right.clear();
 	left.clear();
-	cout<<"Starting tape calibration"<<endl;
+	std::cout<<"Starting tape calibration"<<std::endl;
 	for (ii=0; ii<20; ii++)
 	{
 	right.push_back(readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL));
@@ -598,35 +513,101 @@ void calibrateFloor()
 	leftTape = (short)calcMode(left);
 	rightTape = (short)calcMode(right);
 	printf("Left: %hu Right: %hu\n",leftTape,rightTape);
-	cout<<"Remove tape calibration"<<endl;
+	std::cout<<"Remove tape calibration"<<std::endl;
 	
 	usleep(5000000);
 	rThresh = (rightFloor + rightTape) / 2;
 	lThresh = (leftFloor + leftTape) / 2;
 	
-	ofstream myfile;
+	std::ofstream myfile;
  	myfile.open ("calibration.txt");
-  	myfile << rThresh<<endl<<lThresh<<endl;
+  	myfile << rThresh<<std::endl<<lThresh<<std::endl;
   	myfile.close();	
 }
 
-bool constructPath (line* checkLine,  int item)
-{
-	if (find(checkLine->items.begin(), checkLine->items.end(), item) != checkLine->items.end())
-	{
-		//found line containing item
+bool runBFS(mapObject *cur, int item, std::string path[]) {
+	q.pop();
+	line *curline;
+	node* curnode;
+	if(cur->whatAmI() == 'l') {
+		curline = (line*)cur;
+	}
+	if(cur->whatAmI() == 'n') {
+		curnode = (node*)cur;
+	} 
+	// make a corresponding point in the array for all of them
+	if(cur->visited) {
+	}
+	else if (cur->whatAmI() == 'l' && curline->hasItem(item)) {
 		return true;
 	}
-	else
-		return false;
+	else{
+		cur->visited = true;
+		if (cur->whatAmI() == 'l') {
+			char buf[10];
+			sprintf(buf,"%d",curline->node0->id);
+			path[curline->node0->id] = path[curline->id] + buf + " ";
+			q.push(curline->node0);
+
+			std::sprintf(buf,"%d",curline->node1->id);
+			path[curline->node1->id] = path[curline->id] + buf + " ";
+			q.push(curline->node1);
+		} else {
+			char buf[10];
+			if(curnode->id != 0)
+			{
+			sprintf(buf,"%d",curnode->connections[0]->id);
+			path[curnode->connections[0]->id] = path[curnode->id] + buf + " ";
+			q.push(curnode->connections[0]);
+			}
+			sprintf(buf,"%d",curnode->connections[1]->id);
+			path[curnode->connections[1]->id] = path[curnode->id] + buf + " ";
+			q.push(curnode->connections[1]);
+
+			sprintf(buf,"%d",curnode->connections[2]->id);
+			path[curnode->connections[2]->id] = path[curnode->id] + buf + " ";
+			q.push(curnode->connections[2]);
+			std::cout << "end of else of node" << std::endl;
+
+		}
+	}
+	return false;
+	
 }
 
+std::string itemPath (mapObject *cur, int item)
+{ 
+	std::string path[7]; // should also be nodes+edges
+
+	q.push(cur);
+	char buf[10];
+	sprintf(buf, "%d ",cur->id);
+	path[cur->id] = buf;
+	mapObject *last;
+	while (q.size() != 0) {
+		last = q.front();
+		if(runBFS(last, item, path)) {
+			break;
+		}
+	}
+	return path[last->id];
+}
 
 void getItem(int item)
 {
 
+//std::cout << itemPath(currentLine,item) << std::endl; // go to our item
 
 }
+
+void saveStore()
+{
+	std::ofstream ofs("store");
+        boost::archive::text_oarchive oa(ofs);
+        oa << nodes;
+
+}
+
 
 int main(int argv, char* argc[])
 {
@@ -637,12 +618,12 @@ int main(int argv, char* argc[])
 	setup();
 	startOI_MT (argc[1]);
 	drive(0, 0);
-	string res;
+	std::string res;
 	while(1)
 	{
-		cout<<"Would you like to callibrate the floor? (y/n)"<<endl;
+		std::cout<<"Would you like to callibrate the floor? (y/n)"<<std::endl;
 		
-		cin >> res;
+		std::cin >> res;
 		if(res == "y")
 		{
 			calibrateFloor();
@@ -650,8 +631,8 @@ int main(int argv, char* argc[])
 		}
 		else if(res == "n")
 		{
-			ifstream myfile ("calibration.txt");
-			string line;
+			std::ifstream myfile ("calibration.txt");
+			std::string line;
 			getline (myfile,line);
 			rThresh = atoi(line.c_str());
 			getline (myfile,line);
@@ -659,9 +640,27 @@ int main(int argv, char* argc[])
 			break;
 		}
 	}
-		cout<<"Ready to begin"<<endl;
-		cin>> res;
+	while(1)
+	{
+		std::cout<<"Would you like to init the floor? (y/n)"<<std::endl;
+		
+		std::cin >> res;
+		if(res == "y")
+		{
+			initalizeStore();
+			break;
+		}
+		else if(res == "n")
+		{
+			std::ifstream ifs("store");
+    			boost::archive::text_iarchive ia(ifs);
+			ia >> nodes;
+			break;
+		}
+	}
+		std::cout<<"Ready to begin"<<std::endl;
+		std::cin>> res;
 	initalizeStore();
-	getItem(22);
+	//getItem(22);
 	drive(0,0);
 }
