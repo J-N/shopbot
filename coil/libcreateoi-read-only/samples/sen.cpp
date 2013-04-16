@@ -4,6 +4,10 @@ std::vector<node*> nodes;
 node* lastNode;
 line* currentLine;
 std::queue<mapObject*> q;
+pthread_t qrThread, pathThread;
+
+bool orientation=true;
+
 /* Plays some random notes on the create's speakers. */
 void foundItem() {
   char song[4];
@@ -215,7 +219,9 @@ void turnAround()
 		}
 		}
 		if (count <= -180)
-
+			break;
+	}
+}
 void  *readQR( void *ptr)
 {
 	while(1)
@@ -236,109 +242,6 @@ void  *readQR( void *ptr)
 		}
 	}
 	//return result;
-}
-void turnLeft()
-{
-	int current;
-	int count=0;
-	int rc=0;
-	drive(50,1);
-	while(1)
-	{
-		usleep(10000);
-		current = getAngle();
-		count += current;
-		//std::cout<<"Turning.."<<std::endl;
-		if(count >= 45)
-		{
-		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
-		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
-		if(l <= lThresh)
-			rc=1;
-		if((r <= rThresh) && (rc==1))
-		{
-			//std::cout<<"line found"<<std::endl;
-			drive(0,0);
-			//std::cin>>lc;
-			//drive(50,-1);
-			rc=0;
-			//lines++;
-			break;
-		}
-		}
-		if (count >= 90)
-			break;
-
-	}
-}
-
-void turnRight()
-{
-	int current;
-	int count=0;
-	int rc=0;
-	drive(50,-1);
-	while(1)
-	{
-		usleep(10000);
-		current = getAngle();
-		count += current;
-		//std::cout<<"Turning.."<<std::endl;
-		if(count <= -45)
-		{
-		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
-		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
-		if(r <= rThresh)
-			rc=1;
-		if((l <= lThresh) && (rc==1))
-		{
-			//std::cout<<"line found"<<std::endl;
-			drive(0,0);
-			//std::cin>>lc;
-			//drive(50,-1);
-			rc=0;
-			//lines++;
-			break;
-		}
-		}
-		if (count <= -90)
-			break;
-
-	}
-}
-void turnAround()
-{
-	int current;
-	int count=0;
-	int rc=0;
-	drive(50,-1);
-	while(1)
-	{
-		usleep(10000);
-		current = getAngle();
-		count += current;
-		//std::cout<<"Turning.."<<std::endl;
-		if(count <= -90)
-		{
-		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
-		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
-		if(r <= rThresh)
-			rc=1;
-		if((l <= lThresh) && (rc==1))
-		{
-			//std::cout<<"line found"<<std::endl;
-			drive(0,0);
-			//std::cin>>lc;
-			//drive(50,-1);
-			rc=0;
-			//lines++;
-			break;
-		}
-		}
-		if (count <= -180)
-			break;
-
-	}
 }
 
 void recordPos(int id)
@@ -402,7 +305,7 @@ void intersection(int path)
 void followLine(int dist=5000)
 {
 	std::cout<<"Following line"<<std::endl;
-	int speed = 45;
+	int speed = 35;
 	drive(3*speed,0);
 	int stop=0;
 	int counter=0;
@@ -420,10 +323,10 @@ void followLine(int dist=5000)
 		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
 		if ((r <= rThresh) && (l <= lThresh)) //we are at an intersection
 		{
-			if(currentDistance > 400)
+			if(currentDistance > 100)
 			{
 				drive(0,0);
-				usleep(100000);
+				usleep(200000);
 				stop++;
 				continue;
 			}
@@ -597,7 +500,6 @@ void setup()
 	pathFD = fopen("/dev/pathComms","r");
 	std::cout<<"Path communication enabled"<<std::endl;
 	//make QR thread
-	pthread_t qrThread, pathThread;
 	int qrRet, pathRet;
 	qrRet = pthread_create(&qrThread, NULL, readQR, NULL);
 	pathRet = pthread_create(&pathThread, NULL, readPath, NULL);
@@ -739,7 +641,12 @@ void getItem(int item)
 		if(index >= path.size())
 			break;
 		if(currentLine->node1->id == atoi(&path[index]))
-		{	
+		{
+			if(!orientation)
+			{
+				turnAround();
+				orientation=true;
+			}	
 			followLine();
 			lastNode=currentLine->node1;
 			if(lastNode->connections[1]->id == atoi(&path[index+2]))
@@ -761,6 +668,34 @@ void getItem(int item)
 				currentDistance=0;
 			}
 		}
+		else//need to spin arround
+		{
+			if(orientation)
+			{
+				turnAround();
+				orientation=false; //denote we are going backwards
+			}
+			followLine();
+			lastNode=currentLine->node0;
+			if(lastNode->connections[1]->id == atoi(&path[index+2]))
+			{
+			 	drive(50,0);
+		         	usleep(3000000);
+		         	drive(0,0);
+				turnRight();
+				currentLine=lastNode->connections[1];
+				currentDistance=0;
+			}
+			else if(lastNode->connections[2]->id == atoi(&path[index+2]))
+			{
+ 				myTurn(50,1,10,0);
+        			drive(50,0);
+        			usleep(3000000);
+		         	drive(0,0);
+				currentLine=lastNode->connections[2];
+				currentDistance=0;
+			}
+		}
 		index+=2;
 	}
 	int ii=0;
@@ -772,7 +707,11 @@ void getItem(int item)
 			break;
 		}
 	}
-	followLine(currentLine->items[ii]->distance);
+	if(orientation)
+		followLine(currentLine->items[ii]->distance);
+	else
+		followLine(currentLine->distance - currentLine->items[ii]->distance);
+	
 	foundItem();
 	std::cout<<*currentLine->items[ii]<<std::endl;
 
@@ -838,5 +777,6 @@ int main(int argv, char* argc[])
 	//	getItem(36);
 	//	sleep(2);
 	//	getItem(44);
+		pthread_join( pathThread, NULL);
 	drive(0,0);
 }

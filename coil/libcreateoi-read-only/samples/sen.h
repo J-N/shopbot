@@ -61,6 +61,7 @@ int currentDistance;
 int lineCounter=3;
 void updatePosition();
 void saveStore();
+void getItem(int);
 
 class mapObject
 {
