@@ -236,7 +236,7 @@ void  *readQR( void *ptr)
 			if(scanning) // if we are suppose to be reading codes
 			{
 				foundItem();
-				item* newItem = new item(id, currentLine, currentDistance);
+				item* newItem = new item(id, currentLine, currentDistance, orientation);
 				currentLine->items.push_back(newItem);
 				std::cout<<"QR decteded "<<result<<" Current distance: "<<currentDistance<<std::endl;
 			}
@@ -778,12 +778,22 @@ void getItem(int item)
 		}
 	}
 	if(orientation)
+	{
 		followLine(currentLine->items[ii]->distance);
+		if(!currentLine->items[ii]->orientation)
+		{
+			turnAround();
+			orientation=false;
+		}
+	}
 	else
 	{
 		followLine(currentLine->distance - currentLine->items[ii]->distance);
-		turnAround();
-		orientation=true;
+		if(currentLine->items[ii]->orientation)
+		{
+			turnAround();
+			orientation=true;
+		}
 	}
 	foundItem();
 	std::cout<<*currentLine->items[ii]<<std::endl;

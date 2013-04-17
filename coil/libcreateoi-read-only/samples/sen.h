@@ -98,19 +98,22 @@ class item
                 ar & id;
                 ar & distance;
                 ar & pLine;
+                ar & orientation;
         }
         public:
         int id;
         line* pLine;
+	bool orientation;
         int distance; // distance from node 0 on its line
 	item()
 	{
 	}
-        item(int id, line* pLine, int distance)
+        item(int id, line* pLine, int distance, bool myor=true)
         {
                 this->id=id;
                 this->pLine=pLine;
                 this->distance=distance;
+                this->orientation=myor;
 	//	pLine->items.push_back(this);
         }
 };
