@@ -136,6 +136,10 @@ int main()
 	nodes[1]->connections[1]->items.push_back(myItem);
 	std::cout<<*myItem<<std::endl;
 	
+	myItem = new item(77,nodes[1]->connections[1], 700, false);
+	nodes[1]->connections[1]->items.push_back(myItem);
+	std::cout<<*myItem<<std::endl;
+	
 	store newStore;
 	newStore.nodes=nodes;
 
