@@ -14,7 +14,7 @@ void constructMap()
         nodes.push_back(topNode);
         topNode->connections[2]=line1;
         line1->node1=topNode;
-        line1->distance = 2400;
+        line1->distance = 2200;
 
         line* line2 = new line(topNode);
         topNode->connections[0]=line2;

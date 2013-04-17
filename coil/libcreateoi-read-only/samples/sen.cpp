@@ -149,10 +149,11 @@ void turnLeft()
 			break;
 		}
 		}
-		if (count >= 90)
+		if (count >= 95)
 			break;
 
 	}
+	drive(0,0);
 }
 
 void turnRight()
@@ -638,28 +639,35 @@ void getItem(int item)
 	int index=2;
 	while(1)
 	{
-		if(index >= path.size())
+		std::cout<<"Path loop index:"<<index<<" path size: "<<path.size()<<std::endl;
+		if(index >= path.size()-2)
 			break;
 		if(currentLine->node1->id == atoi(&path[index]))
 		{
 			if(!orientation)
 			{
+				std::cout<<"Need to spin"<<std::endl;
 				turnAround();
 				orientation=true;
 			}	
 			followLine();
 			lastNode=currentLine->node1;
+			if(currentLine->id
 			if(lastNode->connections[1]->id == atoi(&path[index+2]))
 			{
+				std::cout<<"Need to turn left"<<std::endl;
 			 	drive(50,0);
 		         	usleep(3000000);
 		         	drive(0,0);
 				turnLeft();
+				std::cout<<"Done turning"<<std::endl;
+		         	sleep(5);
 				currentLine=lastNode->connections[1];
 				currentDistance=0;
 			}
 			else if(lastNode->connections[0]->id == atoi(&path[index+2]))
 			{
+				std::cout<<"need to go straight"<<std::endl;
  				myTurn(50,-1,-10,0);
         			drive(50,0);
         			usleep(3000000);
@@ -670,6 +678,7 @@ void getItem(int item)
 		}
 		else//need to spin arround
 		{
+			std::cout<<"point is behind us"<<std::endl;
 			if(orientation)
 			{
 				turnAround();
@@ -697,7 +706,10 @@ void getItem(int item)
 			}
 		}
 		index+=2;
+		std::cout<<"index incremented"<<std::endl;
 	}
+	std::cout<<"on final line"<<std::endl;
+	//currentDistance=0;
 	int ii=0;
 	for(ii=0; ii<currentLine->items.size(); ii++)
 	{
