@@ -219,9 +219,10 @@ void turnAround()
 			break;
 		}
 		}
-		if (count <= -180)
+		if (count <= -185)
 			break;
 	}
+	drive(0,0);
 }
 void  *readQR( void *ptr)
 {
@@ -751,6 +752,8 @@ void getItem(int item)
 				turnRight();
 				currentLine=lastNode->connections[1];
 				currentDistance=0;
+				if(lastNode->id == 2)
+					orientation=true;
 			}
 			else if(lastNode->connections[2]->id == atoi(&path[index+2]))
 			{
