@@ -652,7 +652,35 @@ void getItem(int item)
 			}	
 			followLine();
 			lastNode=currentLine->node1;
-			if(currentLine->id
+			if(currentLine->id == 5) // we are on the middle line
+			{
+				if(lastNode->connections[0]->id == atoi(&path[index+2]))
+				{
+					std::cout<<"Need to turn left"<<std::endl;
+			 		drive(50,0);
+		         		usleep(3000000);
+		         		drive(0,0);
+					turnLeft();
+					std::cout<<"Done turning"<<std::endl;
+					currentLine=lastNode->connections[0];
+					currentDistance=0;
+				}
+				if(lastNode->connections[2]->id == atoi(&path[index+2]))
+				{
+					std::cout<<"Need to turn right"<<std::endl;
+			 		drive(50,0);
+		         		usleep(3000000);
+		         		drive(0,0);
+					turnRight();
+					std::cout<<"Done turning"<<std::endl;
+					currentLine=lastNode->connections[2];
+					currentDistance=0;
+					orientation=false; //denote we are going backwards
+				}
+				
+			}
+			else
+			{
 			if(lastNode->connections[1]->id == atoi(&path[index+2]))
 			{
 				std::cout<<"Need to turn left"<<std::endl;
@@ -661,7 +689,6 @@ void getItem(int item)
 		         	drive(0,0);
 				turnLeft();
 				std::cout<<"Done turning"<<std::endl;
-		         	sleep(5);
 				currentLine=lastNode->connections[1];
 				currentDistance=0;
 			}
@@ -675,6 +702,7 @@ void getItem(int item)
 				currentLine=lastNode->connections[0];
 				currentDistance=0;
 			}
+			}
 		}
 		else//need to spin arround
 		{
@@ -686,6 +714,35 @@ void getItem(int item)
 			}
 			followLine();
 			lastNode=currentLine->node0;
+			if(currentLine->id == 5) // we are on the middle line
+			{
+				if(lastNode->connections[0]->id == atoi(&path[index+2]))
+				{
+					std::cout<<"Need to turn left"<<std::endl;
+			 		drive(50,0);
+		         		usleep(3000000);
+		         		drive(0,0);
+					turnLeft();
+					std::cout<<"Done turning"<<std::endl;
+					currentLine=lastNode->connections[0];
+					currentDistance=0;
+					orientation=true; //denote we are going backwards
+				
+				}
+				if(lastNode->connections[2]->id == atoi(&path[index+2]))
+				{
+					std::cout<<"Need to turn right"<<std::endl;
+			 		drive(50,0);
+		         		usleep(3000000);
+		         		drive(0,0);
+					turnRight();
+					std::cout<<"Done turning"<<std::endl;
+					currentLine=lastNode->connections[2];
+					currentDistance=0;
+				}
+			}
+			else
+			{		
 			if(lastNode->connections[1]->id == atoi(&path[index+2]))
 			{
 			 	drive(50,0);
@@ -703,6 +760,7 @@ void getItem(int item)
 		         	drive(0,0);
 				currentLine=lastNode->connections[2];
 				currentDistance=0;
+			}
 			}
 		}
 		index+=2;
