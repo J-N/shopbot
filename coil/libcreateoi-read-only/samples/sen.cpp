@@ -780,8 +780,11 @@ void getItem(int item)
 	if(orientation)
 		followLine(currentLine->items[ii]->distance);
 	else
+	{
 		followLine(currentLine->distance - currentLine->items[ii]->distance);
-	
+		turnAround();
+		orientation=true;
+	}
 	foundItem();
 	std::cout<<*currentLine->items[ii]<<std::endl;
 
