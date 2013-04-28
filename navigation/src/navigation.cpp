@@ -1,3 +1,4 @@
+/** @file */
 #include "navigation.h"
 
 std::vector<node*> nodes;
@@ -8,7 +9,9 @@ pthread_t qrThread, pathThread;
 
 bool orientation=true;
 
-/* Plays some random notes on the create's speakers. */
+/**
+* Plays two notes to signify a found item 
+*/
 void foundItem() {
   char song[4];
   song[0]=36;
@@ -16,17 +19,15 @@ void foundItem() {
   song[2]=72;
   song[3]=16;
 
- /* int i;
-  for (i =0; i< SONG_LENGTH; i++) {
-    song[i*2] = 31 + floor(drand48() * (127-31));
-    song[i*2 +1] = 8 + floor(drand48() * 10);
-  }
-*/
   writeSong(0, 2, (byte*)song);
   playSong (0);
 }
 
 
+/**
+* Catches a sigterm signal and attempts to gracefully stop the robot
+* @param var the error signal
+*/
 void myHandler(int var=0)
 {
 	std::cout<<"Caught quit signal"<<std::endl;
@@ -35,6 +36,9 @@ void myHandler(int var=0)
 	exit(1);
 }
 
+/**
+* Prints out all of the sensor values
+*/
 void printSensors()
 {
         int* sensors = getAllSensors();
@@ -47,6 +51,11 @@ void printSensors()
         free (sensors);
 }
 
+/**
+* Calculates the median of a vector of ints
+* @param scores vector of ints
+* @return a double which is the median value
+*/
 double calcMedian(std::vector<int> scores)
 {
   double median;

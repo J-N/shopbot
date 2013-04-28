@@ -1,0 +1,637 @@
+\hypertarget{navigation_8cpp}{\section{src/navigation.cpp \-File \-Reference}
+\label{navigation_8cpp}\index{src/navigation.\-cpp@{src/navigation.\-cpp}}
+}
+{\ttfamily \#include \char`\"{}navigation.\-h\char`\"{}}\*
+\-Include dependency graph for navigation.\-cpp\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{navigation_8cpp_acbfb3e072c1a5a6d982f8dc43024fd76}{found\-Item} ()
+\item 
+void \hyperlink{navigation_8cpp_ac10588e054c50bb29dc2f8b05024d3db}{my\-Handler} (int var=0)
+\item 
+void \hyperlink{navigation_8cpp_aba4aee36a01c836d2f38d8dda7b84b4e}{print\-Sensors} ()
+\item 
+double \hyperlink{navigation_8cpp_ab47b6a25c8a5b0751290df5419e2f2ca}{calc\-Median} (std\-::vector$<$ int $>$ scores)
+\item 
+int \hyperlink{navigation_8cpp_a869172c4f780317a25c641caf8f0affc}{calc\-Mode} (std\-::vector$<$ int $>$ v\-User\-Input)
+\item 
+void $\ast$ \hyperlink{navigation_8cpp_a88fe9e7efc12716f5383f6e989823fd6}{read\-Path} (void $\ast$ptr)
+\item 
+void \hyperlink{navigation_8cpp_adaf487f84c38e060c84f3cb829e70f2b}{turn\-Left} ()
+\item 
+void \hyperlink{navigation_8cpp_acf4fa5da14085c3a9a170f9de29d2755}{turn\-Right} ()
+\item 
+void \hyperlink{navigation_8cpp_a30ab4062310f87ecf886181e45d520b9}{turn\-Around} ()
+\item 
+void $\ast$ \hyperlink{navigation_8cpp_a5859ab1ed5387dda534cde60acd6433f}{read\-Q\-R} (void $\ast$ptr)
+\item 
+void \hyperlink{navigation_8cpp_a3bb1ca18a0ff0cf6ea9ceabc1114a17f}{record\-Pos} (int id)
+\item 
+void \hyperlink{navigation_8cpp_aa908bc176d551b5e212bbaa6cc7fa163}{intersection} (int path)
+\item 
+void \hyperlink{navigation_8cpp_a00d846f684c436c946110ccf42366036}{follow\-Line} (int dist=5000)
+\item 
+void \hyperlink{navigation_8cpp_a37af0b3ac5daed8222a09ab966e57867}{update\-Position} ()
+\item 
+void \hyperlink{navigation_8cpp_a527311b1bdd2b12743354bfea568f43f}{my\-Turn} (int a, int b, int c, int d)
+\item 
+void \hyperlink{navigation_8cpp_a997e9464190ec10a93ed93e7f6259df8}{d\-Pause} (std\-::string message)
+\item 
+void \hyperlink{navigation_8cpp_ab630a37977733a9412b925c7e38c5691}{initalize\-Store} ()
+\item 
+void \hyperlink{navigation_8cpp_a4fc01d736fe50cf5b977f755b675f11d}{setup} ()
+\item 
+void \hyperlink{navigation_8cpp_a51e31af2d9d26baa32822a6621049e33}{calibrate\-Floor} ()
+\item 
+bool \hyperlink{navigation_8cpp_afdf70677e49e323fa694583f464c4099}{run\-B\-F\-S} (\hyperlink{classmapObject}{map\-Object} $\ast$cur, int \hyperlink{classitem}{item}, std\-::string path\mbox{[}$\,$\mbox{]})
+\item 
+std\-::string \hyperlink{navigation_8cpp_a6c1494be1aa062212a5badd5f5c8cba4}{item\-Path} (\hyperlink{classmapObject}{map\-Object} $\ast$cur, int \hyperlink{classitem}{item})
+\item 
+void \hyperlink{navigation_8cpp_af8a1342f61f59294730ffab25dba7ffd}{get\-Item} (int \hyperlink{classitem}{item})
+\item 
+int \hyperlink{navigation_8cpp_ac4c0f8a8146b128f1b8f920e3a9c3b1e}{main} (int argv, char $\ast$argc\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+std\-::vector$<$ \hyperlink{classnode}{node} $\ast$ $>$ \hyperlink{navigation_8cpp_ada53f6817be44c256ea647b67e09aa7f}{nodes}
+\item 
+\hyperlink{classnode}{node} $\ast$ \hyperlink{navigation_8cpp_a6c5a9a46a9a36b9bb5b0f0cab8a62ef0}{last\-Node}
+\item 
+\hyperlink{classline}{line} $\ast$ \hyperlink{navigation_8cpp_a59ce81fe64b0d45a0eb603a332e7a43d}{current\-Line}
+\item 
+std\-::queue$<$ \hyperlink{classmapObject}{map\-Object} $\ast$ $>$ \hyperlink{navigation_8cpp_aa68b26e20d6a23099301c81e343ac4db}{q}
+\item 
+pthread\-\_\-t \hyperlink{navigation_8cpp_a5098a13359e4d7569b5527d15f497e6f}{qr\-Thread}
+\item 
+pthread\-\_\-t \hyperlink{navigation_8cpp_ad6f66e0339ceb8a83c34fddd5a463ba1}{path\-Thread}
+\item 
+bool \hyperlink{navigation_8cpp_a090f2f5989c5dad5d8f8a22089409e25}{orientation} = true
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{navigation_8cpp_ab47b6a25c8a5b0751290df5419e2f2ca}{\index{navigation.\-cpp@{navigation.\-cpp}!calc\-Median@{calc\-Median}}
+\index{calc\-Median@{calc\-Median}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{calc\-Median}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf calc\-Median} (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ int $>$}]{scores}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_ab47b6a25c8a5b0751290df5419e2f2ca}
+\-Calculates the median of a vector of ints 
+\begin{DoxyParams}{\-Parameters}
+{\em scores} & vector of ints \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+a double which is the median value 
+\end{DoxyReturn}
+\hypertarget{navigation_8cpp_a869172c4f780317a25c641caf8f0affc}{\index{navigation.\-cpp@{navigation.\-cpp}!calc\-Mode@{calc\-Mode}}
+\index{calc\-Mode@{calc\-Mode}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{calc\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf calc\-Mode} (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ int $>$}]{v\-User\-Input}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_a869172c4f780317a25c641caf8f0affc}
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=326pt]{navigation_8cpp_a869172c4f780317a25c641caf8f0affc_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_a51e31af2d9d26baa32822a6621049e33}{\index{navigation.\-cpp@{navigation.\-cpp}!calibrate\-Floor@{calibrate\-Floor}}
+\index{calibrate\-Floor@{calibrate\-Floor}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{calibrate\-Floor}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf calibrate\-Floor} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_a51e31af2d9d26baa32822a6621049e33}
+
+
+\-Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=252pt]{navigation_8cpp_a51e31af2d9d26baa32822a6621049e33_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=230pt]{navigation_8cpp_a51e31af2d9d26baa32822a6621049e33_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_a997e9464190ec10a93ed93e7f6259df8}{\index{navigation.\-cpp@{navigation.\-cpp}!d\-Pause@{d\-Pause}}
+\index{d\-Pause@{d\-Pause}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{d\-Pause}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf d\-Pause} (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{message}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_a997e9464190ec10a93ed93e7f6259df8}
+\hypertarget{navigation_8cpp_a00d846f684c436c946110ccf42366036}{\index{navigation.\-cpp@{navigation.\-cpp}!follow\-Line@{follow\-Line}}
+\index{follow\-Line@{follow\-Line}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{follow\-Line}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf follow\-Line} (
+\begin{DoxyParamCaption}
+\item[{int}]{dist = {\ttfamily 5000}}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_a00d846f684c436c946110ccf42366036}
+
+
+\-Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=258pt]{navigation_8cpp_a00d846f684c436c946110ccf42366036_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_a00d846f684c436c946110ccf42366036_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_acbfb3e072c1a5a6d982f8dc43024fd76}{\index{navigation.\-cpp@{navigation.\-cpp}!found\-Item@{found\-Item}}
+\index{found\-Item@{found\-Item}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{found\-Item}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf found\-Item} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_acbfb3e072c1a5a6d982f8dc43024fd76}
+\-Plays two notes to signify a found item 
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_acbfb3e072c1a5a6d982f8dc43024fd76_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_af8a1342f61f59294730ffab25dba7ffd}{\index{navigation.\-cpp@{navigation.\-cpp}!get\-Item@{get\-Item}}
+\index{get\-Item@{get\-Item}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{get\-Item}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf get\-Item} (
+\begin{DoxyParamCaption}
+\item[{int}]{item}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_af8a1342f61f59294730ffab25dba7ffd}
+
+
+\-Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_af8a1342f61f59294730ffab25dba7ffd_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_af8a1342f61f59294730ffab25dba7ffd_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_ab630a37977733a9412b925c7e38c5691}{\index{navigation.\-cpp@{navigation.\-cpp}!initalize\-Store@{initalize\-Store}}
+\index{initalize\-Store@{initalize\-Store}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{initalize\-Store}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf initalize\-Store} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_ab630a37977733a9412b925c7e38c5691}
+
+
+\-Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_ab630a37977733a9412b925c7e38c5691_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=228pt]{navigation_8cpp_ab630a37977733a9412b925c7e38c5691_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_aa908bc176d551b5e212bbaa6cc7fa163}{\index{navigation.\-cpp@{navigation.\-cpp}!intersection@{intersection}}
+\index{intersection@{intersection}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{intersection}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf intersection} (
+\begin{DoxyParamCaption}
+\item[{int}]{path}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_aa908bc176d551b5e212bbaa6cc7fa163}
+\hypertarget{navigation_8cpp_a6c1494be1aa062212a5badd5f5c8cba4}{\index{navigation.\-cpp@{navigation.\-cpp}!item\-Path@{item\-Path}}
+\index{item\-Path@{item\-Path}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{item\-Path}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string {\bf item\-Path} (
+\begin{DoxyParamCaption}
+\item[{{\bf map\-Object} $\ast$}]{cur, }
+\item[{int}]{item}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_a6c1494be1aa062212a5badd5f5c8cba4}
+
+
+\-Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_a6c1494be1aa062212a5badd5f5c8cba4_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_a6c1494be1aa062212a5badd5f5c8cba4_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_ac4c0f8a8146b128f1b8f920e3a9c3b1e}{\index{navigation.\-cpp@{navigation.\-cpp}!main@{main}}
+\index{main@{main}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf main} (
+\begin{DoxyParamCaption}
+\item[{int}]{argv, }
+\item[{char $\ast$}]{argc\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_ac4c0f8a8146b128f1b8f920e3a9c3b1e}
+
+
+\-Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_ac4c0f8a8146b128f1b8f920e3a9c3b1e_cgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_ac10588e054c50bb29dc2f8b05024d3db}{\index{navigation.\-cpp@{navigation.\-cpp}!my\-Handler@{my\-Handler}}
+\index{my\-Handler@{my\-Handler}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{my\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf my\-Handler} (
+\begin{DoxyParamCaption}
+\item[{int}]{var = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_ac10588e054c50bb29dc2f8b05024d3db}
+\-Catches a sigterm signal and attempts to gracefully stop the robot 
+\begin{DoxyParams}{\-Parameters}
+{\em var} & the error signal \\
+\hline
+\end{DoxyParams}
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{navigation_8cpp_ac10588e054c50bb29dc2f8b05024d3db_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_a527311b1bdd2b12743354bfea568f43f}{\index{navigation.\-cpp@{navigation.\-cpp}!my\-Turn@{my\-Turn}}
+\index{my\-Turn@{my\-Turn}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{my\-Turn}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf my\-Turn} (
+\begin{DoxyParamCaption}
+\item[{int}]{a, }
+\item[{int}]{b, }
+\item[{int}]{c, }
+\item[{int}]{d}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_a527311b1bdd2b12743354bfea568f43f}
+
+
+\-Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=248pt]{navigation_8cpp_a527311b1bdd2b12743354bfea568f43f_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_a527311b1bdd2b12743354bfea568f43f_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_aba4aee36a01c836d2f38d8dda7b84b4e}{\index{navigation.\-cpp@{navigation.\-cpp}!print\-Sensors@{print\-Sensors}}
+\index{print\-Sensors@{print\-Sensors}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{print\-Sensors}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf print\-Sensors} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_aba4aee36a01c836d2f38d8dda7b84b4e}
+\-Prints out all of the sensor values \hypertarget{navigation_8cpp_a88fe9e7efc12716f5383f6e989823fd6}{\index{navigation.\-cpp@{navigation.\-cpp}!read\-Path@{read\-Path}}
+\index{read\-Path@{read\-Path}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{read\-Path}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ {\bf read\-Path} (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_a88fe9e7efc12716f5383f6e989823fd6}
+
+
+\-Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_a88fe9e7efc12716f5383f6e989823fd6_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=288pt]{navigation_8cpp_a88fe9e7efc12716f5383f6e989823fd6_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_a5859ab1ed5387dda534cde60acd6433f}{\index{navigation.\-cpp@{navigation.\-cpp}!read\-Q\-R@{read\-Q\-R}}
+\index{read\-Q\-R@{read\-Q\-R}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{read\-Q\-R}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ {\bf read\-Q\-R} (
+\begin{DoxyParamCaption}
+\item[{void $\ast$}]{ptr}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_a5859ab1ed5387dda534cde60acd6433f}
+
+
+\-Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=226pt]{navigation_8cpp_a5859ab1ed5387dda534cde60acd6433f_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{navigation_8cpp_a5859ab1ed5387dda534cde60acd6433f_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_a3bb1ca18a0ff0cf6ea9ceabc1114a17f}{\index{navigation.\-cpp@{navigation.\-cpp}!record\-Pos@{record\-Pos}}
+\index{record\-Pos@{record\-Pos}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{record\-Pos}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf record\-Pos} (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_a3bb1ca18a0ff0cf6ea9ceabc1114a17f}
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=326pt]{navigation_8cpp_a3bb1ca18a0ff0cf6ea9ceabc1114a17f_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_afdf70677e49e323fa694583f464c4099}{\index{navigation.\-cpp@{navigation.\-cpp}!run\-B\-F\-S@{run\-B\-F\-S}}
+\index{run\-B\-F\-S@{run\-B\-F\-S}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{run\-B\-F\-S}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf run\-B\-F\-S} (
+\begin{DoxyParamCaption}
+\item[{{\bf map\-Object} $\ast$}]{cur, }
+\item[{int}]{item, }
+\item[{std\-::string}]{path\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_afdf70677e49e323fa694583f464c4099}
+
+
+\-Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=276pt]{navigation_8cpp_afdf70677e49e323fa694583f464c4099_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_afdf70677e49e323fa694583f464c4099_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_a4fc01d736fe50cf5b977f755b675f11d}{\index{navigation.\-cpp@{navigation.\-cpp}!setup@{setup}}
+\index{setup@{setup}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{setup}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf setup} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_a4fc01d736fe50cf5b977f755b675f11d}
+
+
+\-Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_a4fc01d736fe50cf5b977f755b675f11d_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{navigation_8cpp_a4fc01d736fe50cf5b977f755b675f11d_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_a30ab4062310f87ecf886181e45d520b9}{\index{navigation.\-cpp@{navigation.\-cpp}!turn\-Around@{turn\-Around}}
+\index{turn\-Around@{turn\-Around}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{turn\-Around}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf turn\-Around} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_a30ab4062310f87ecf886181e45d520b9}
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_a30ab4062310f87ecf886181e45d520b9_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_adaf487f84c38e060c84f3cb829e70f2b}{\index{navigation.\-cpp@{navigation.\-cpp}!turn\-Left@{turn\-Left}}
+\index{turn\-Left@{turn\-Left}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{turn\-Left}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf turn\-Left} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_adaf487f84c38e060c84f3cb829e70f2b}
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_adaf487f84c38e060c84f3cb829e70f2b_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_acf4fa5da14085c3a9a170f9de29d2755}{\index{navigation.\-cpp@{navigation.\-cpp}!turn\-Right@{turn\-Right}}
+\index{turn\-Right@{turn\-Right}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{turn\-Right}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf turn\-Right} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_acf4fa5da14085c3a9a170f9de29d2755}
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_acf4fa5da14085c3a9a170f9de29d2755_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8cpp_a37af0b3ac5daed8222a09ab966e57867}{\index{navigation.\-cpp@{navigation.\-cpp}!update\-Position@{update\-Position}}
+\index{update\-Position@{update\-Position}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{update\-Position}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf update\-Position} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{navigation_8cpp_a37af0b3ac5daed8222a09ab966e57867}
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8cpp_a37af0b3ac5daed8222a09ab966e57867_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{navigation_8cpp_a59ce81fe64b0d45a0eb603a332e7a43d}{\index{navigation.\-cpp@{navigation.\-cpp}!current\-Line@{current\-Line}}
+\index{current\-Line@{current\-Line}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{current\-Line}]{\setlength{\rightskip}{0pt plus 5cm}{\bf line}$\ast$ {\bf current\-Line}}}\label{navigation_8cpp_a59ce81fe64b0d45a0eb603a332e7a43d}
+\hypertarget{navigation_8cpp_a6c5a9a46a9a36b9bb5b0f0cab8a62ef0}{\index{navigation.\-cpp@{navigation.\-cpp}!last\-Node@{last\-Node}}
+\index{last\-Node@{last\-Node}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{last\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf node}$\ast$ {\bf last\-Node}}}\label{navigation_8cpp_a6c5a9a46a9a36b9bb5b0f0cab8a62ef0}
+\hypertarget{navigation_8cpp_ada53f6817be44c256ea647b67e09aa7f}{\index{navigation.\-cpp@{navigation.\-cpp}!nodes@{nodes}}
+\index{nodes@{nodes}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{nodes}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf node}$\ast$$>$ {\bf nodes}}}\label{navigation_8cpp_ada53f6817be44c256ea647b67e09aa7f}
+\hypertarget{navigation_8cpp_a090f2f5989c5dad5d8f8a22089409e25}{\index{navigation.\-cpp@{navigation.\-cpp}!orientation@{orientation}}
+\index{orientation@{orientation}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{orientation}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf orientation} = true}}\label{navigation_8cpp_a090f2f5989c5dad5d8f8a22089409e25}
+\hypertarget{navigation_8cpp_ad6f66e0339ceb8a83c34fddd5a463ba1}{\index{navigation.\-cpp@{navigation.\-cpp}!path\-Thread@{path\-Thread}}
+\index{path\-Thread@{path\-Thread}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{path\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}pthread\-\_\-t {\bf path\-Thread}}}\label{navigation_8cpp_ad6f66e0339ceb8a83c34fddd5a463ba1}
+\hypertarget{navigation_8cpp_aa68b26e20d6a23099301c81e343ac4db}{\index{navigation.\-cpp@{navigation.\-cpp}!q@{q}}
+\index{q@{q}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{q}]{\setlength{\rightskip}{0pt plus 5cm}std\-::queue$<${\bf map\-Object}$\ast$$>$ {\bf q}}}\label{navigation_8cpp_aa68b26e20d6a23099301c81e343ac4db}
+\hypertarget{navigation_8cpp_a5098a13359e4d7569b5527d15f497e6f}{\index{navigation.\-cpp@{navigation.\-cpp}!qr\-Thread@{qr\-Thread}}
+\index{qr\-Thread@{qr\-Thread}!navigation.cpp@{navigation.\-cpp}}
+\subsubsection[{qr\-Thread}]{\setlength{\rightskip}{0pt plus 5cm}pthread\-\_\-t {\bf qr\-Thread}}}\label{navigation_8cpp_a5098a13359e4d7569b5527d15f497e6f}

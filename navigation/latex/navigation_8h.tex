@@ -1,0 +1,290 @@
+\hypertarget{navigation_8h}{\section{src/navigation.h \-File \-Reference}
+\label{navigation_8h}\index{src/navigation.\-h@{src/navigation.\-h}}
+}
+{\ttfamily \#include $<$createoi.\-h$>$}\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\*
+{\ttfamily \#include $<$stdio.\-h$>$}\*
+{\ttfamily \#include $<$math.\-h$>$}\*
+{\ttfamily \#include $<$algorithm$>$}\*
+{\ttfamily \#include $<$set$>$}\*
+{\ttfamily \#include $<$iostream$>$}\*
+{\ttfamily \#include $<$sys/types.\-h$>$}\*
+{\ttfamily \#include $<$sys/stat.\-h$>$}\*
+{\ttfamily \#include $<$string$>$}\*
+{\ttfamily \#include $<$fstream$>$}\*
+{\ttfamily \#include $<$signal.\-h$>$}\*
+{\ttfamily \#include $<$pthread.\-h$>$}\*
+{\ttfamily \#include $<$queue$>$}\*
+{\ttfamily \#include $<$cstddef$>$}\*
+{\ttfamily \#include $<$iomanip$>$}\*
+{\ttfamily \#include $<$boost/archive/tmpdir.\-hpp$>$}\*
+{\ttfamily \#include $<$boost/archive/text\-\_\-iarchive.\-hpp$>$}\*
+{\ttfamily \#include $<$boost/archive/text\-\_\-oarchive.\-hpp$>$}\*
+{\ttfamily \#include $<$boost/serialization/base\-\_\-object.\-hpp$>$}\*
+{\ttfamily \#include $<$boost/serialization/utility.\-hpp$>$}\*
+{\ttfamily \#include $<$boost/serialization/vector.\-hpp$>$}\*
+{\ttfamily \#include $<$boost/serialization/assume\-\_\-abstract.\-hpp$>$}\*
+\-Include dependency graph for navigation.\-h\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8h__incl}
+\end{center}
+\end{figure}
+\-This graph shows which files directly or indirectly include this file\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=176pt]{navigation_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{\-Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classmapObject}{map\-Object}
+\item 
+class \hyperlink{classitem}{item}
+\item 
+class \hyperlink{classline}{line}
+\item 
+class \hyperlink{classnode}{node}
+\item 
+class \hyperlink{classstore}{store}
+\end{DoxyCompactItemize}
+\subsection*{\-Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{navigation_8h_afa99ec4acc4ecb2dc3c2d05da15d0e3f}{\-M\-A\-X}(a, b)~(a $>$ b? a \-: b)
+\item 
+\#define \hyperlink{navigation_8h_a3acffbd305ee72dcd4593c0d8af64a4f}{\-M\-I\-N}(a, b)~(a $<$ b? a \-: b)
+\item 
+\#define \hyperlink{navigation_8h_acbe434c077abb42ebfb7db87e36a0cca}{\-S\-O\-N\-G\-\_\-\-L\-E\-N\-G\-T\-H}~8
+\item 
+\#define \hyperlink{navigation_8h_a598a3330b3c21701223ee0ca14316eca}{\-P\-I}~3.\-14159265
+\item 
+\#define \hyperlink{navigation_8h_a3d4c40c54ea337a4e104fc89dcf9c70d}{home\-Edge}~0
+\item 
+\#define \hyperlink{navigation_8h_ae075abcebe80a62bef54871945bc94f1}{bot\-Intersection}~2
+\item 
+\#define \hyperlink{navigation_8h_a34cbdea7807e6ea35e77e40c0def2a7c}{top\-Intersection}~1
+\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{navigation_8h_a37af0b3ac5daed8222a09ab966e57867}{update\-Position} ()
+\item 
+void \hyperlink{navigation_8h_a8eaf8f77ce40a02170cd1c9e69fe9ac5}{save\-Store} ()
+\item 
+void \hyperlink{navigation_8h_a6ee68aeab0b9fab8f5ddd7607e1667b8}{get\-Item} (int)
+\item 
+std\-::ostream \& \hyperlink{navigation_8h_ad5cf939a6e6c4b931dafe347ed299894}{operator$<$$<$} (std\-::ostream \&os, const \hyperlink{classitem}{item} \&it)
+\item 
+void \hyperlink{navigation_8h_a096d3d6345ea117266183945503a19ab}{save\-Store} (const \hyperlink{classstore}{store} \&s, const char $\ast$filename)
+\item 
+void \hyperlink{navigation_8h_a82599baf04d71300e980863a25c1252e}{restore\-Store} (\hyperlink{classstore}{store} \&s, const char $\ast$filename)
+\end{DoxyCompactItemize}
+\subsection*{\-Variables}
+\begin{DoxyCompactItemize}
+\item 
+\-F\-I\-L\-E $\ast$ \hyperlink{navigation_8h_a5f7a265ae2c15f26ab3ca1de1fbd5b25}{qr\-F\-D}
+\item 
+\-F\-I\-L\-E $\ast$ \hyperlink{navigation_8h_aac8a9698d2c271f9da446043b4e89021}{path\-F\-D}
+\item 
+float \hyperlink{navigation_8h_ad0da36b2558901e21e7a30f6c227a45e}{x} = 0
+\item 
+float \hyperlink{navigation_8h_aa4f0d3eebc3c443f9be81bf48561a217}{y} = 0
+\item 
+float \hyperlink{navigation_8h_ac5682e48513a771560df50e3b213e61a}{heading} = 0
+\item 
+short \hyperlink{navigation_8h_a912ecf24c95299596291bfb8559c5634}{r\-Thresh}
+\item 
+short \hyperlink{navigation_8h_aa09f151ad8cdd9a856ca4bb6ddcbd722}{l\-Thresh}
+\item 
+bool \hyperlink{navigation_8h_acf9cd88a8d6ebd179aebeec090d2fc5d}{scanning}
+\item 
+bool \hyperlink{navigation_8h_af58947263b7aca4a08b9c9da1d3391ce}{shopping}
+\item 
+int \hyperlink{navigation_8h_a249f5e1e3c8affcc05b3572cdfe24164}{current\-Distance}
+\item 
+int \hyperlink{navigation_8h_a344462e154011b2f37a7af0dbf8fd10a}{line\-Counter} = 3
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Define \-Documentation}
+\hypertarget{navigation_8h_ae075abcebe80a62bef54871945bc94f1}{\index{navigation.\-h@{navigation.\-h}!bot\-Intersection@{bot\-Intersection}}
+\index{bot\-Intersection@{bot\-Intersection}!navigation.h@{navigation.\-h}}
+\subsubsection[{bot\-Intersection}]{\setlength{\rightskip}{0pt plus 5cm}\#define {\bf bot\-Intersection}~2}}\label{navigation_8h_ae075abcebe80a62bef54871945bc94f1}
+\hypertarget{navigation_8h_a3d4c40c54ea337a4e104fc89dcf9c70d}{\index{navigation.\-h@{navigation.\-h}!home\-Edge@{home\-Edge}}
+\index{home\-Edge@{home\-Edge}!navigation.h@{navigation.\-h}}
+\subsubsection[{home\-Edge}]{\setlength{\rightskip}{0pt plus 5cm}\#define {\bf home\-Edge}~0}}\label{navigation_8h_a3d4c40c54ea337a4e104fc89dcf9c70d}
+\hypertarget{navigation_8h_afa99ec4acc4ecb2dc3c2d05da15d0e3f}{\index{navigation.\-h@{navigation.\-h}!\-M\-A\-X@{\-M\-A\-X}}
+\index{\-M\-A\-X@{\-M\-A\-X}!navigation.h@{navigation.\-h}}
+\subsubsection[{\-M\-A\-X}]{\setlength{\rightskip}{0pt plus 5cm}\#define {\bf \-M\-A\-X}(
+\begin{DoxyParamCaption}
+\item[{}]{a, }
+\item[{}]{b}
+\end{DoxyParamCaption}
+)~(a $>$ b? a \-: b)}}\label{navigation_8h_afa99ec4acc4ecb2dc3c2d05da15d0e3f}
+\hypertarget{navigation_8h_a3acffbd305ee72dcd4593c0d8af64a4f}{\index{navigation.\-h@{navigation.\-h}!\-M\-I\-N@{\-M\-I\-N}}
+\index{\-M\-I\-N@{\-M\-I\-N}!navigation.h@{navigation.\-h}}
+\subsubsection[{\-M\-I\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define {\bf \-M\-I\-N}(
+\begin{DoxyParamCaption}
+\item[{}]{a, }
+\item[{}]{b}
+\end{DoxyParamCaption}
+)~(a $<$ b? a \-: b)}}\label{navigation_8h_a3acffbd305ee72dcd4593c0d8af64a4f}
+\hypertarget{navigation_8h_a598a3330b3c21701223ee0ca14316eca}{\index{navigation.\-h@{navigation.\-h}!\-P\-I@{\-P\-I}}
+\index{\-P\-I@{\-P\-I}!navigation.h@{navigation.\-h}}
+\subsubsection[{\-P\-I}]{\setlength{\rightskip}{0pt plus 5cm}\#define {\bf \-P\-I}~3.\-14159265}}\label{navigation_8h_a598a3330b3c21701223ee0ca14316eca}
+\hypertarget{navigation_8h_acbe434c077abb42ebfb7db87e36a0cca}{\index{navigation.\-h@{navigation.\-h}!\-S\-O\-N\-G\-\_\-\-L\-E\-N\-G\-T\-H@{\-S\-O\-N\-G\-\_\-\-L\-E\-N\-G\-T\-H}}
+\index{\-S\-O\-N\-G\-\_\-\-L\-E\-N\-G\-T\-H@{\-S\-O\-N\-G\-\_\-\-L\-E\-N\-G\-T\-H}!navigation.h@{navigation.\-h}}
+\subsubsection[{\-S\-O\-N\-G\-\_\-\-L\-E\-N\-G\-T\-H}]{\setlength{\rightskip}{0pt plus 5cm}\#define {\bf \-S\-O\-N\-G\-\_\-\-L\-E\-N\-G\-T\-H}~8}}\label{navigation_8h_acbe434c077abb42ebfb7db87e36a0cca}
+\hypertarget{navigation_8h_a34cbdea7807e6ea35e77e40c0def2a7c}{\index{navigation.\-h@{navigation.\-h}!top\-Intersection@{top\-Intersection}}
+\index{top\-Intersection@{top\-Intersection}!navigation.h@{navigation.\-h}}
+\subsubsection[{top\-Intersection}]{\setlength{\rightskip}{0pt plus 5cm}\#define {\bf top\-Intersection}~1}}\label{navigation_8h_a34cbdea7807e6ea35e77e40c0def2a7c}
+
+
+\subsection{\-Function \-Documentation}
+\hypertarget{navigation_8h_a6ee68aeab0b9fab8f5ddd7607e1667b8}{\index{navigation.\-h@{navigation.\-h}!get\-Item@{get\-Item}}
+\index{get\-Item@{get\-Item}!navigation.h@{navigation.\-h}}
+\subsubsection[{get\-Item}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf get\-Item} (
+\begin{DoxyParamCaption}
+\item[{int}]{}
+\end{DoxyParamCaption}
+)}}\label{navigation_8h_a6ee68aeab0b9fab8f5ddd7607e1667b8}
+
+
+\-Here is the call graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8h_a6ee68aeab0b9fab8f5ddd7607e1667b8_cgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8h_a6ee68aeab0b9fab8f5ddd7607e1667b8_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8h_ad5cf939a6e6c4b931dafe347ed299894}{\index{navigation.\-h@{navigation.\-h}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!navigation.h@{navigation.\-h}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\-::ostream \&}]{os, }
+\item[{const {\bf item} \&}]{it}
+\end{DoxyParamCaption}
+)}}\label{navigation_8h_ad5cf939a6e6c4b931dafe347ed299894}
+\hypertarget{navigation_8h_a82599baf04d71300e980863a25c1252e}{\index{navigation.\-h@{navigation.\-h}!restore\-Store@{restore\-Store}}
+\index{restore\-Store@{restore\-Store}!navigation.h@{navigation.\-h}}
+\subsubsection[{restore\-Store}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf restore\-Store} (
+\begin{DoxyParamCaption}
+\item[{{\bf store} \&}]{s, }
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}}\label{navigation_8h_a82599baf04d71300e980863a25c1252e}
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{navigation_8h_a82599baf04d71300e980863a25c1252e_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8h_a8eaf8f77ce40a02170cd1c9e69fe9ac5}{\index{navigation.\-h@{navigation.\-h}!save\-Store@{save\-Store}}
+\index{save\-Store@{save\-Store}!navigation.h@{navigation.\-h}}
+\subsubsection[{save\-Store}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf save\-Store} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{navigation_8h_a8eaf8f77ce40a02170cd1c9e69fe9ac5}
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=326pt]{navigation_8h_a8eaf8f77ce40a02170cd1c9e69fe9ac5_icgraph}
+\end{center}
+\end{figure}
+
+
+\hypertarget{navigation_8h_a096d3d6345ea117266183945503a19ab}{\index{navigation.\-h@{navigation.\-h}!save\-Store@{save\-Store}}
+\index{save\-Store@{save\-Store}!navigation.h@{navigation.\-h}}
+\subsubsection[{save\-Store}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf save\-Store} (
+\begin{DoxyParamCaption}
+\item[{const {\bf store} \&}]{s, }
+\item[{const char $\ast$}]{filename}
+\end{DoxyParamCaption}
+)}}\label{navigation_8h_a096d3d6345ea117266183945503a19ab}
+\hypertarget{navigation_8h_a37af0b3ac5daed8222a09ab966e57867}{\index{navigation.\-h@{navigation.\-h}!update\-Position@{update\-Position}}
+\index{update\-Position@{update\-Position}!navigation.h@{navigation.\-h}}
+\subsubsection[{update\-Position}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf update\-Position} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{navigation_8h_a37af0b3ac5daed8222a09ab966e57867}
+
+
+\-Here is the caller graph for this function\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{navigation_8h_a37af0b3ac5daed8222a09ab966e57867_icgraph}
+\end{center}
+\end{figure}
+
+
+
+
+\subsection{\-Variable \-Documentation}
+\hypertarget{navigation_8h_a249f5e1e3c8affcc05b3572cdfe24164}{\index{navigation.\-h@{navigation.\-h}!current\-Distance@{current\-Distance}}
+\index{current\-Distance@{current\-Distance}!navigation.h@{navigation.\-h}}
+\subsubsection[{current\-Distance}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf current\-Distance}}}\label{navigation_8h_a249f5e1e3c8affcc05b3572cdfe24164}
+\hypertarget{navigation_8h_ac5682e48513a771560df50e3b213e61a}{\index{navigation.\-h@{navigation.\-h}!heading@{heading}}
+\index{heading@{heading}!navigation.h@{navigation.\-h}}
+\subsubsection[{heading}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf heading} = 0}}\label{navigation_8h_ac5682e48513a771560df50e3b213e61a}
+\hypertarget{navigation_8h_a344462e154011b2f37a7af0dbf8fd10a}{\index{navigation.\-h@{navigation.\-h}!line\-Counter@{line\-Counter}}
+\index{line\-Counter@{line\-Counter}!navigation.h@{navigation.\-h}}
+\subsubsection[{line\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf line\-Counter} = 3}}\label{navigation_8h_a344462e154011b2f37a7af0dbf8fd10a}
+\hypertarget{navigation_8h_aa09f151ad8cdd9a856ca4bb6ddcbd722}{\index{navigation.\-h@{navigation.\-h}!l\-Thresh@{l\-Thresh}}
+\index{l\-Thresh@{l\-Thresh}!navigation.h@{navigation.\-h}}
+\subsubsection[{l\-Thresh}]{\setlength{\rightskip}{0pt plus 5cm}short {\bf l\-Thresh}}}\label{navigation_8h_aa09f151ad8cdd9a856ca4bb6ddcbd722}
+\hypertarget{navigation_8h_aac8a9698d2c271f9da446043b4e89021}{\index{navigation.\-h@{navigation.\-h}!path\-F\-D@{path\-F\-D}}
+\index{path\-F\-D@{path\-F\-D}!navigation.h@{navigation.\-h}}
+\subsubsection[{path\-F\-D}]{\setlength{\rightskip}{0pt plus 5cm}\-F\-I\-L\-E$\ast$ {\bf path\-F\-D}}}\label{navigation_8h_aac8a9698d2c271f9da446043b4e89021}
+\hypertarget{navigation_8h_a5f7a265ae2c15f26ab3ca1de1fbd5b25}{\index{navigation.\-h@{navigation.\-h}!qr\-F\-D@{qr\-F\-D}}
+\index{qr\-F\-D@{qr\-F\-D}!navigation.h@{navigation.\-h}}
+\subsubsection[{qr\-F\-D}]{\setlength{\rightskip}{0pt plus 5cm}\-F\-I\-L\-E$\ast$ {\bf qr\-F\-D}}}\label{navigation_8h_a5f7a265ae2c15f26ab3ca1de1fbd5b25}
+\hypertarget{navigation_8h_a912ecf24c95299596291bfb8559c5634}{\index{navigation.\-h@{navigation.\-h}!r\-Thresh@{r\-Thresh}}
+\index{r\-Thresh@{r\-Thresh}!navigation.h@{navigation.\-h}}
+\subsubsection[{r\-Thresh}]{\setlength{\rightskip}{0pt plus 5cm}short {\bf r\-Thresh}}}\label{navigation_8h_a912ecf24c95299596291bfb8559c5634}
+\hypertarget{navigation_8h_acf9cd88a8d6ebd179aebeec090d2fc5d}{\index{navigation.\-h@{navigation.\-h}!scanning@{scanning}}
+\index{scanning@{scanning}!navigation.h@{navigation.\-h}}
+\subsubsection[{scanning}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf scanning}}}\label{navigation_8h_acf9cd88a8d6ebd179aebeec090d2fc5d}
+\hypertarget{navigation_8h_af58947263b7aca4a08b9c9da1d3391ce}{\index{navigation.\-h@{navigation.\-h}!shopping@{shopping}}
+\index{shopping@{shopping}!navigation.h@{navigation.\-h}}
+\subsubsection[{shopping}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf shopping}}}\label{navigation_8h_af58947263b7aca4a08b9c9da1d3391ce}
+\hypertarget{navigation_8h_ad0da36b2558901e21e7a30f6c227a45e}{\index{navigation.\-h@{navigation.\-h}!x@{x}}
+\index{x@{x}!navigation.h@{navigation.\-h}}
+\subsubsection[{x}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf x} = 0}}\label{navigation_8h_ad0da36b2558901e21e7a30f6c227a45e}
+\hypertarget{navigation_8h_aa4f0d3eebc3c443f9be81bf48561a217}{\index{navigation.\-h@{navigation.\-h}!y@{y}}
+\index{y@{y}!navigation.h@{navigation.\-h}}
+\subsubsection[{y}]{\setlength{\rightskip}{0pt plus 5cm}float {\bf y} = 0}}\label{navigation_8h_aa4f0d3eebc3c443f9be81bf48561a217}

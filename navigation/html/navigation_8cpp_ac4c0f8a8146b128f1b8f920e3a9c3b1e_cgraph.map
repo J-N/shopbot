@@ -1,0 +1,24 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$navigation_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="setup" alt="" coords="128,140,181,169"/>
+<area shape="rect" id="node37" href="$navigation_8cpp.html#a51e31af2d9d26baa32822a6621049e33" title="calibrateFloor" alt="" coords="105,269,204,299"/>
+<area shape="rect" id="node41" href="$navigation_8cpp.html#ab630a37977733a9412b925c7e38c5691" title="initalizeStore" alt="" coords="388,219,484,248"/>
+<area shape="rect" id="node53" href="$navigation_8h.html#a82599baf04d71300e980863a25c1252e" title="restoreStore" alt="" coords="108,323,201,352"/>
+<area shape="rect" id="node5" href="$navigation_8cpp.html#ac10588e054c50bb29dc2f8b05024d3db" title="myHandler" alt="" coords="253,61,339,91"/>
+<area shape="rect" id="node7" href="$navigation_8cpp.html#a5859ab1ed5387dda534cde60acd6433f" title="readQR" alt="" coords="403,59,469,88"/>
+<area shape="rect" id="node11" href="$navigation_8cpp.html#a88fe9e7efc12716f5383f6e989823fd6" title="readPath" alt="" coords="259,165,333,195"/>
+<area shape="rect" id="node9" href="$navigation_8cpp.html#acbfb3e072c1a5a6d982f8dc43024fd76" title="foundItem" alt="" coords="536,5,616,35"/>
+<area shape="rect" id="node13" href="$navigation_8cpp.html#af8a1342f61f59294730ffab25dba7ffd" title="getItem" alt="" coords="403,165,469,195"/>
+<area shape="rect" id="node15" href="$navigation_8cpp.html#a6c1494be1aa062212a5badd5f5c8cba4" title="itemPath" alt="" coords="539,59,613,88"/>
+<area shape="rect" id="node23" href="$navigation_8cpp.html#a30ab4062310f87ecf886181e45d520b9" title="turnAround" alt="" coords="533,165,619,195"/>
+<area shape="rect" id="node25" href="$navigation_8cpp.html#a00d846f684c436c946110ccf42366036" title="followLine" alt="" coords="536,272,616,301"/>
+<area shape="rect" id="node29" href="$navigation_8cpp.html#adaf487f84c38e060c84f3cb829e70f2b" title="turnLeft" alt="" coords="543,325,609,355"/>
+<area shape="rect" id="node31" href="$navigation_8cpp.html#acf4fa5da14085c3a9a170f9de29d2755" title="turnRight" alt="" coords="539,112,613,141"/>
+<area shape="rect" id="node33" href="$navigation_8cpp.html#a527311b1bdd2b12743354bfea568f43f" title="myTurn" alt="" coords="543,219,609,248"/>
+<area shape="rect" id="node17" href="$navigation_8cpp.html#afdf70677e49e323fa694583f464c4099" title="runBFS" alt="" coords="688,59,755,88"/>
+<area shape="rect" id="node19" href="$classmapObject.html#aa8c23bfcff8c79b85b774dd701b967f2" title="mapObject::whatAmI" alt="" coords="825,32,969,61"/>
+<area shape="rect" id="node21" href="$classline.html#a7864bb1bcfa4770acf64ab2c3f8398f2" title="line::hasItem" alt="" coords="849,85,945,115"/>
+<area shape="rect" id="node27" href="$navigation_8cpp.html#a37af0b3ac5daed8222a09ab966e57867" title="updatePosition" alt="" coords="668,245,775,275"/>
+<area shape="rect" id="node39" href="$navigation_8cpp.html#a869172c4f780317a25c641caf8f0affc" title="calcMode" alt="" coords="257,269,335,299"/>
+<area shape="rect" id="node44" href="$navigation_8cpp.html#a3bb1ca18a0ff0cf6ea9ceabc1114a17f" title="recordPos" alt="" coords="536,432,616,461"/>
+<area shape="rect" id="node51" href="$navigation_8h.html#a8eaf8f77ce40a02170cd1c9e69fe9ac5" title="saveStore" alt="" coords="536,379,616,408"/>
+</map>

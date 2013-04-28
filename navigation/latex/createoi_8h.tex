@@ -1,0 +1,1135 @@
+\hypertarget{createoi_8h}{\section{libcreateoi/src/createoi.h \-File \-Reference}
+\label{createoi_8h}\index{libcreateoi/src/createoi.\-h@{libcreateoi/src/createoi.\-h}}
+}
+
+
+\-Header file for \hyperlink{createoi_8c}{createoi.\-c}.  
+
+
+{\ttfamily \#include $<$unistd.\-h$>$}\*
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef unsigned char \hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte}
+\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{createoi_8h_aae8900ff97d727eda493fd7e75b5f16c}{oi\-\_\-command} \{ \*
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-S\-T\-A\-R\-T} =  128, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-B\-A\-U\-D}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-S\-A\-F\-E} =  131, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-F\-U\-L\-L}, 
+\*
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-S\-P\-O\-T} =  134, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-C\-O\-V\-E\-R}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-D\-E\-M\-O}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-D\-R\-I\-V\-E}, 
+\*
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-L\-O\-W\-\_\-\-S\-I\-D\-E\-\_\-\-D\-R\-I\-V\-E\-R\-S}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-L\-E\-D}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-S\-O\-N\-G}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-P\-L\-A\-Y\-\_\-\-S\-O\-N\-G}, 
+\*
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-S\-E\-N\-S\-O\-R\-S}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-C\-O\-V\-E\-R\-\_\-\-A\-N\-D\-\_\-\-D\-O\-C\-K}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-P\-W\-M\-\_\-\-L\-O\-W\-\_\-\-S\-I\-D\-E\-\_\-\-D\-R\-I\-V\-E\-R\-S}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-D\-R\-I\-V\-E\-\_\-\-D\-I\-R\-E\-C\-T}, 
+\*
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-D\-I\-G\-I\-T\-A\-L\-\_\-\-O\-U\-T\-S} =  147, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-S\-T\-R\-E\-A\-M}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-Q\-U\-E\-R\-Y\-\_\-\-L\-I\-S\-T}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-P\-A\-U\-S\-E\-\_\-\-R\-E\-S\-U\-M\-E\-\_\-\-S\-T\-R\-E\-A\-M}, 
+\*
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-S\-E\-N\-D\-\_\-\-I\-R}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-S\-C\-R\-I\-P\-T}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-P\-L\-A\-Y\-\_\-\-S\-C\-R\-I\-P\-T}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-S\-H\-O\-W\-\_\-\-S\-C\-R\-I\-P\-T}, 
+\*
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-W\-A\-I\-T\-\_\-\-T\-I\-M\-E}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-W\-A\-I\-T\-\_\-\-D\-I\-S\-T\-A\-N\-C\-E}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-W\-A\-I\-T\-\_\-\-A\-N\-G\-L\-E}, 
+{\bfseries \-O\-P\-C\-O\-D\-E\-\_\-\-W\-A\-I\-T\-\_\-\-E\-V\-E\-N\-T}
+ \}
+\begin{DoxyCompactList}\small\item\em \-Command \-Opcodes. \end{DoxyCompactList}\item 
+enum \hyperlink{createoi_8h_a7dc2d40666678e74fb1ededa34da4597}{oi\-\_\-sensor} \{ \*
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-G\-R\-O\-U\-P\-\_\-0} =  0, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-G\-R\-O\-U\-P\-\_\-1}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-G\-R\-O\-U\-P\-\_\-2}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-G\-R\-O\-U\-P\-\_\-3}, 
+\*
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-G\-R\-O\-U\-P\-\_\-4}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-G\-R\-O\-U\-P\-\_\-5}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-G\-R\-O\-U\-P\-\_\-\-A\-L\-L}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-B\-U\-M\-P\-S\-\_\-\-A\-N\-D\-\_\-\-W\-H\-E\-E\-L\-\_\-\-D\-R\-O\-P\-S}, 
+\*
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-W\-A\-L\-L}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-C\-L\-I\-F\-F\-\_\-\-L\-E\-F\-T}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-C\-L\-I\-F\-F\-\_\-\-F\-R\-O\-N\-T\-\_\-\-L\-E\-F\-T}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-C\-L\-I\-F\-F\-\_\-\-F\-R\-O\-N\-T\-\_\-\-R\-I\-G\-H\-T}, 
+\*
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-C\-L\-I\-F\-F\-\_\-\-R\-I\-G\-H\-T}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-V\-I\-R\-T\-U\-A\-L\-\_\-\-W\-A\-L\-L}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-O\-V\-E\-R\-C\-U\-R\-R\-E\-N\-T}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-I\-N\-F\-R\-A\-R\-E\-D} =  17, 
+\*
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-B\-U\-T\-T\-O\-N\-S}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-D\-I\-S\-T\-A\-N\-C\-E}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-A\-N\-G\-L\-E}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-C\-H\-A\-R\-G\-I\-N\-G\-\_\-\-S\-T\-A\-T\-E}, 
+\*
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-V\-O\-L\-T\-A\-G\-E}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-C\-U\-R\-R\-E\-N\-T}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-B\-A\-T\-T\-E\-R\-Y\-\_\-\-T\-E\-M\-P}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-B\-A\-T\-T\-E\-R\-Y\-\_\-\-C\-H\-A\-R\-G\-E}, 
+\*
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-B\-A\-T\-T\-E\-R\-Y\-\_\-\-C\-A\-P\-A\-C\-I\-T\-Y}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-W\-A\-L\-L\-\_\-\-S\-I\-G\-N\-A\-L}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-C\-L\-I\-F\-F\-\_\-\-L\-E\-F\-T\-\_\-\-S\-I\-G\-N\-A\-L}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-C\-L\-I\-F\-F\-\_\-\-F\-R\-O\-N\-T\-\_\-\-L\-E\-F\-T\-\_\-\-S\-I\-G\-N\-A\-L}, 
+\*
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-C\-L\-I\-F\-F\-\_\-\-F\-R\-O\-N\-T\-\_\-\-R\-I\-G\-H\-T\-\_\-\-S\-I\-G\-N\-A\-L}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-C\-L\-I\-F\-F\-\_\-\-R\-I\-G\-H\-T\-\_\-\-S\-I\-G\-N\-A\-L}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-D\-I\-G\-I\-T\-A\-L\-\_\-\-I\-N\-P\-U\-T\-S}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-A\-N\-A\-L\-O\-G\-\_\-\-S\-I\-G\-N\-A\-L}, 
+\*
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-C\-H\-A\-R\-G\-I\-N\-G\-\_\-\-S\-O\-U\-R\-C\-E\-S\-\_\-\-A\-V\-A\-I\-L\-A\-B\-L\-E}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-O\-I\-\_\-\-M\-O\-D\-E}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-S\-O\-N\-G\-\_\-\-N\-U\-M\-B\-E\-R}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-S\-O\-N\-G\-\_\-\-I\-S\-\_\-\-P\-L\-A\-Y\-I\-N\-G}, 
+\*
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-N\-U\-M\-\_\-\-S\-T\-R\-E\-A\-M\-\_\-\-P\-A\-C\-K\-E\-T\-S}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-E\-D\-\_\-\-V\-E\-L\-O\-C\-I\-T\-Y}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-E\-D\-\_\-\-R\-A\-D\-I\-U\-S}, 
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-E\-D\-\_\-\-R\-I\-G\-H\-T\-\_\-\-V\-E\-L}, 
+\*
+{\bfseries \-S\-E\-N\-S\-O\-R\-\_\-\-R\-E\-Q\-U\-E\-S\-T\-E\-D\-\_\-\-L\-E\-F\-T\-\_\-\-V\-E\-L}
+ \}
+\begin{DoxyCompactList}\small\item\em \-Sensor packet constants. \end{DoxyCompactList}\item 
+enum \hyperlink{createoi_8h_a92562946ff9f1a04b1b4be65d19a6124}{oi\-\_\-baud} \{ \*
+{\bfseries \-B\-A\-U\-D300}, 
+{\bfseries \-B\-A\-U\-D600}, 
+{\bfseries \-B\-A\-U\-D1200}, 
+{\bfseries \-B\-A\-U\-D2400}, 
+\*
+{\bfseries \-B\-A\-U\-D4800}, 
+{\bfseries \-B\-A\-U\-D9600}, 
+{\bfseries \-B\-A\-U\-D14400}, 
+{\bfseries \-B\-A\-U\-D19200}, 
+\*
+{\bfseries \-B\-A\-U\-D28800}, 
+{\bfseries \-B\-A\-U\-D38400}, 
+{\bfseries \-B\-A\-U\-D57600}, 
+{\bfseries \-B\-A\-U\-D115200}
+ \}
+\begin{DoxyCompactList}\small\item\em \-Baud \-Rate \-Codes. \end{DoxyCompactList}\item 
+enum \hyperlink{createoi_8h_aced6d4b690e3f859331d0fdbcae06a38}{oi\-\_\-demo} \{ \*
+{\bfseries \-D\-E\-M\-O\-\_\-\-C\-O\-V\-E\-R}, 
+{\bfseries \-D\-E\-M\-O\-\_\-\-C\-O\-V\-E\-R\-\_\-\-A\-N\-D\-\_\-\-D\-O\-C\-K}, 
+{\bfseries \-D\-E\-M\-O\-\_\-\-S\-P\-O\-T\-\_\-\-C\-O\-V\-E\-R}, 
+{\bfseries \-D\-E\-M\-O\-\_\-\-M\-O\-U\-S\-E}, 
+\*
+{\bfseries \-D\-E\-M\-O\-\_\-\-F\-I\-G\-U\-R\-E\-\_\-\-E\-I\-G\-H\-T}, 
+{\bfseries \-D\-E\-M\-O\-\_\-\-W\-I\-M\-P}, 
+{\bfseries \-D\-E\-M\-O\-\_\-\-H\-O\-M\-E}, 
+{\bfseries \-D\-E\-M\-O\-\_\-\-T\-A\-G}, 
+\*
+{\bfseries \-D\-E\-M\-O\-\_\-\-P\-A\-C\-H\-E\-L\-B\-E\-L}, 
+{\bfseries \-D\-E\-M\-O\-\_\-\-B\-A\-N\-J\-O}, 
+{\bfseries \-D\-E\-M\-O\-\_\-\-A\-B\-O\-R\-T} =  255
+ \}
+\begin{DoxyCompactList}\small\item\em \-Demo codes. \end{DoxyCompactList}\item 
+enum \hyperlink{createoi_8h_aef628b258fdb657fd1f4987d7687710a}{oi\-\_\-led} \{ {\bfseries \-L\-E\-D\-\_\-\-A\-D\-V\-A\-N\-C\-E} =  8, 
+{\bfseries \-L\-E\-D\-\_\-\-P\-L\-A\-Y} =  2
+ \}
+\begin{DoxyCompactList}\small\item\em \-L\-E\-D switches. \end{DoxyCompactList}\item 
+enum \hyperlink{createoi_8h_a542610db377b4ad0a7bdaae4dd50f083}{oi\-\_\-output} \{ {\bfseries \-O\-U\-T\-P\-U\-T\-\_\-0} =  1, 
+{\bfseries \-O\-U\-T\-P\-U\-T\-\_\-1} =  2, 
+{\bfseries \-O\-U\-T\-P\-U\-T\-\_\-2} =  4
+ \}
+\begin{DoxyCompactList}\small\item\em \-Output switches. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{createoi_8h_a1d76ab965b6f8836904f2b9ab7b2ef28}{start\-O\-I} (const char $\ast$serial)
+\begin{DoxyCompactList}\small\item\em \-Starts the \-O\-I. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_abb2aa2b9b8358b0375e39e19871500f0}{start\-O\-I\-\_\-\-M\-T} (const char $\ast$serial)
+\begin{DoxyCompactList}\small\item\em \-Starts the \-O\-I in multi-\/threaded mode. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a59548dd125df0d5e9ec05ae5d8f1ef66}{set\-Baud} (\hyperlink{createoi_8h_a92562946ff9f1a04b1b4be65d19a6124}{oi\-\_\-baud} rate)
+\begin{DoxyCompactList}\small\item\em \-Sets the baud rate for serial port transfer. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a22f457bdba8557e2b1131d655adb25fc}{enter\-Safe\-Mode} ()
+\begin{DoxyCompactList}\small\item\em \-Put \-Create into \-Safe \-Mode. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a3659ef14a6662586178c12b591b70be3}{enter\-Full\-Mode} ()
+\begin{DoxyCompactList}\small\item\em \-Put \-Create into \-Full \-Mode. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a4b7430b55c775552c98dc6928768ac66}{run\-Demo} (\hyperlink{createoi_8h_aced6d4b690e3f859331d0fdbcae06a38}{oi\-\_\-demo} demo)
+\begin{DoxyCompactList}\small\item\em \-Run a built-\/in demo. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a63c48a75f21301ec9901883d255f95e1}{run\-Cover\-Demo} ()
+\begin{DoxyCompactList}\small\item\em \-Run the \-Cover demo. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a756f914174bcbb7a480f33d232ccf6e2}{run\-Cover\-And\-Dock\-Demo} ()
+\begin{DoxyCompactList}\small\item\em \-Run the \-Cover and \-Dock demo. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_ab3d15a8d09c6146d0cb149bc1dad16fd}{run\-Spot\-Demo} ()
+\begin{DoxyCompactList}\small\item\em \-Run the \-Spot demo. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_ab7efed02bbf07d36793c779ef6112713}{drive} (short vel, short rad)
+\begin{DoxyCompactList}\small\item\em \-Drive the robot with a given velocity and turning radius. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a5a63134c125eb4de834987a0937afd74}{direct\-Drive} (short \-Lwheel, short \-Rwheel)
+\begin{DoxyCompactList}\small\item\em \-Control the \-Create's wheels directly. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_af0f319790c94ad5cfc97cceebef816d9}{drive\-Distance} (short vel, short rad, int dist, int interrupt)
+\begin{DoxyCompactList}\small\item\em \-Drive for the specified distance. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_af214bbce5f242d39cfb77183a4ef77b7}{turn} (short vel, short rad, int angle, int interrupt)
+\begin{DoxyCompactList}\small\item\em \-Turn for the specified angle. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a8e0f43a94aa6be31df25b4329f0ba9c9}{set\-L\-E\-D\-State} (\hyperlink{createoi_8h_aef628b258fdb657fd1f4987d7687710a}{oi\-\_\-led} lflags, \hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} p\-Color, \hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} p\-Inten)
+\begin{DoxyCompactList}\small\item\em \-Controls the state of the \-L\-E\-Ds on the \-Create. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_ac8824a7cafb14ebd97b3460547ede517}{set\-Digital\-Outs} (\hyperlink{createoi_8h_a542610db377b4ad0a7bdaae4dd50f083}{oi\-\_\-output} oflags)
+\begin{DoxyCompactList}\small\item\em \-Sets state of digital ouputs. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_ab081994be838b23c19cd28e0149e6153}{set\-P\-W\-M\-Low\-Side\-Drivers} (\hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} pwm0, \hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} pwm1, \hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} pwm2)
+\begin{DoxyCompactList}\small\item\em \-Control low side drivers with variable power. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a3f548b8bdef98c7e4abeaebb899d4bcc}{set\-Low\-Side\-Drivers} (\hyperlink{createoi_8h_a542610db377b4ad0a7bdaae4dd50f083}{oi\-\_\-output} oflags)
+\begin{DoxyCompactList}\small\item\em \-Control state of low side drivers. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a835de410a1d4d22a239dc90a0bded55e}{send\-I\-Rbyte} (\hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} irbyte)
+\begin{DoxyCompactList}\small\item\em \-Sends \-I\-R signal. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a0ad7a276b77f802e2a024d3146de2e20}{write\-Song} (\hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} number, \hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} length, \hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$song)
+\begin{DoxyCompactList}\small\item\em \-Create and store a small song. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a88022912dca7ec708d8fbe22adc2e874}{play\-Song} (\hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} number)
+\begin{DoxyCompactList}\small\item\em \-Play a stored song. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a762208d3b0de0124f59761eb8b063866}{read\-Raw\-Sensor} (\hyperlink{createoi_8h_a7dc2d40666678e74fb1ededa34da4597}{oi\-\_\-sensor} packet, \hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int size)
+\begin{DoxyCompactList}\small\item\em \-Get raw data from sensor. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a9d8501ffc64d0d6114a340f5e271da95}{read\-Sensor} (\hyperlink{createoi_8h_a7dc2d40666678e74fb1ededa34da4597}{oi\-\_\-sensor} packet)
+\begin{DoxyCompactList}\small\item\em \-Read formatted data from single sensor. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_abbfc5136e07563b242069f2c368b0365}{get\-Distance} ()
+\begin{DoxyCompactList}\small\item\em \-Get current distance. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_ae71094a2b50726fbec9d9475b2c92e01}{get\-Angle} ()
+\begin{DoxyCompactList}\small\item\em \-Get current angle. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a796071782f68917c3b86eab3237caf8f}{get\-Velocity} ()
+\begin{DoxyCompactList}\small\item\em \-Get current velocity. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a019948291c8e134564407c2b1b3911e5}{get\-Turning\-Radius} ()
+\begin{DoxyCompactList}\small\item\em \-Get current turning radius. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_adf0b64fce485fba51e96ec5a779ba1b4}{get\-Overcurrent} ()
+\begin{DoxyCompactList}\small\item\em \-Get overcurrent reading. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a94b9f8e3734b5e9fa2723c314d6c5b39}{get\-Bumps\-And\-Wheel\-Drops} ()
+\begin{DoxyCompactList}\small\item\em \-Get bumper and wheel drop state. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_ab94e7fb699e1b8522599ff259c24b53e}{get\-Cliffs} ()
+\begin{DoxyCompactList}\small\item\em \-Get state of cliff sensors. \end{DoxyCompactList}\item 
+int $\ast$ \hyperlink{createoi_8h_a5975f37a6c0cae9c2e9dd0b76aa3cf03}{get\-All\-Sensors} ()
+\begin{DoxyCompactList}\small\item\em \-Get data from all sensors. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a3c26db92dc13e2889c4f1fa77641aee0}{read\-Raw\-Sensor\-List} (\hyperlink{createoi_8h_a7dc2d40666678e74fb1ededa34da4597}{oi\-\_\-sensor} $\ast$packet\-\_\-list, \hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} num\-\_\-packets, \hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$buffer, int size)
+\begin{DoxyCompactList}\small\item\em \-Get raw data from multiple sensors. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a7de38bb3d1ad4371f085b4bfb55550c4}{write\-Script} (\hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$script, \hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} size)
+\begin{DoxyCompactList}\small\item\em \-Send script to \-Create. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_ac5afe6b488d0d9ccf8d7d2551ebd3213}{play\-Script} ()
+\begin{DoxyCompactList}\small\item\em \-Plays currently stored script. \end{DoxyCompactList}\item 
+\hyperlink{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{byte} $\ast$ \hyperlink{createoi_8h_aa92fc3abcb34387dccea5bf16b5ba7b2}{get\-Script} ()
+\begin{DoxyCompactList}\small\item\em \-Get script from \-Create. \end{DoxyCompactList}\item 
+double \hyperlink{createoi_8h_a7ce81cef031fe7559261a49fd9967621}{wait\-Time} (double time)
+\begin{DoxyCompactList}\small\item\em \-Waits for the given amount of time. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_abc9a1b2c08a2a92a0898bcdcc1e35390}{wait\-Distance} (int dist, int interrupt)
+\begin{DoxyCompactList}\small\item\em \-Waits for \-Create to travel given distance. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a60c183552af694d27fe7208b69125582}{wait\-Angle} (int angle, int interrupt)
+\begin{DoxyCompactList}\small\item\em \-Waits for \-Create to turn given angle. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_aa4ca13d7ed7c5dea4923fa31d5f5e118}{stop\-O\-I} ()
+\begin{DoxyCompactList}\small\item\em \-Stops the \-Create and closes connection to it. \end{DoxyCompactList}\item 
+int \hyperlink{createoi_8h_a257e46e91460ce76c302c6bbb0327948}{stop\-O\-I\-\_\-\-M\-T} ()
+\begin{DoxyCompactList}\small\item\em \-Stops the \-Create and closes connection to it. \end{DoxyCompactList}\item 
+void \hyperlink{createoi_8h_a501b23017e83659e29d56b0eed3b23ef}{enable\-Debug} ()
+\begin{DoxyCompactList}\small\item\em \-Enables \-Debug \-Mode. \end{DoxyCompactList}\item 
+void \hyperlink{createoi_8h_a550c7c97dc5c6cdb86430ba869d2d2d3}{disable\-Debug} ()
+\begin{DoxyCompactList}\small\item\em \-Disables \-Debug \-Mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Header file for \hyperlink{createoi_8c}{createoi.\-c}. \-Header file for \hyperlink{createoi_8c}{createoi.\-c} and for \-C\-O\-I\-L. \#include this file in your program to make use of \-C\-O\-I\-L functions. \-This file contains signatures for the available \-Create\-O\-I functions as well as definitions for the various datatypes used for them. \-Info on the different types can be found in the included documentation.
+
+\begin{DoxyAuthor}{\-Authors}
+\-Jesse \-De\-Guire, \-Nathan \-Sprague
+\end{DoxyAuthor}
+\-This file is part of \-C\-O\-I\-L.
+
+\-C\-O\-I\-L is free software\-: you can redistribute it and/or modify it under the terms of the \-G\-N\-U \-General \-Public \-License as published by the \-Free \-Software \-Foundation, either version 3 of the \-License, or (at your option) any later version.
+
+\-C\-O\-I\-L is distributed in the hope that it will be useful, but \-W\-I\-T\-H\-O\-U\-T \-A\-N\-Y \-W\-A\-R\-R\-A\-N\-T\-Y; without even the implied warranty of \-M\-E\-R\-C\-H\-A\-N\-T\-A\-B\-I\-L\-I\-T\-Y or \-F\-I\-T\-N\-E\-S\-S \-F\-O\-R \-A \-P\-A\-R\-T\-I\-C\-U\-L\-A\-R \-P\-U\-R\-P\-O\-S\-E. \-See the \-G\-N\-U \-General \-Public \-License for more details.
+
+\-You should have received a copy of the \-G\-N\-U \-General \-Public \-License along with \-C\-O\-I\-L. \-If not, see $<$\href{http://www.gnu.org/licenses/}{\tt http\-://www.\-gnu.\-org/licenses/}$>$.
+
+\-Versions\-: 1.\-0 12 \-Jan 2008 \-Initial public release 1.\-1 04 \-Aug 2008 \-Added multi-\/threaded mode. 
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}{\index{createoi.\-h@{createoi.\-h}!byte@{byte}}
+\index{byte@{byte}!createoi.h@{createoi.\-h}}
+\subsubsection[{byte}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned char {\bf byte}}}\label{createoi_8h_a0c8186d9b9b7880309c27230bbb5e69d}
+8-\/bit unsigned value. \-Called \char`\"{}byte\char`\"{} to keep continuity with i\-Robot naming (and so \-I don't have to write \char`\"{}unsigned char\char`\"{} all the time). 
+
+\subsection{\-Enumeration \-Type \-Documentation}
+\hypertarget{createoi_8h_a92562946ff9f1a04b1b4be65d19a6124}{\index{createoi.\-h@{createoi.\-h}!oi\-\_\-baud@{oi\-\_\-baud}}
+\index{oi\-\_\-baud@{oi\-\_\-baud}!createoi.h@{createoi.\-h}}
+\subsubsection[{oi\-\_\-baud}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf oi\-\_\-baud}}}\label{createoi_8h_a92562946ff9f1a04b1b4be65d19a6124}
+
+
+\-Baud \-Rate \-Codes. 
+
+\-Codes to set the baud rate, in bits per second, at which data is sent over the serial port. \-Use with the \-Baud command. \hypertarget{createoi_8h_aae8900ff97d727eda493fd7e75b5f16c}{\index{createoi.\-h@{createoi.\-h}!oi\-\_\-command@{oi\-\_\-command}}
+\index{oi\-\_\-command@{oi\-\_\-command}!createoi.h@{createoi.\-h}}
+\subsubsection[{oi\-\_\-command}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf oi\-\_\-command}}}\label{createoi_8h_aae8900ff97d727eda493fd7e75b5f16c}
+
+
+\-Command \-Opcodes. 
+
+\-Defines constants for all of the available opcodes for the \-Create \-O\-I. \hypertarget{createoi_8h_aced6d4b690e3f859331d0fdbcae06a38}{\index{createoi.\-h@{createoi.\-h}!oi\-\_\-demo@{oi\-\_\-demo}}
+\index{oi\-\_\-demo@{oi\-\_\-demo}!createoi.h@{createoi.\-h}}
+\subsubsection[{oi\-\_\-demo}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf oi\-\_\-demo}}}\label{createoi_8h_aced6d4b690e3f859331d0fdbcae06a38}
+
+
+\-Demo codes. 
+
+\-Codes for the built-\/in demos. \-Use these with the \-Demo command. \hypertarget{createoi_8h_aef628b258fdb657fd1f4987d7687710a}{\index{createoi.\-h@{createoi.\-h}!oi\-\_\-led@{oi\-\_\-led}}
+\index{oi\-\_\-led@{oi\-\_\-led}!createoi.h@{createoi.\-h}}
+\subsubsection[{oi\-\_\-led}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf oi\-\_\-led}}}\label{createoi_8h_aef628b258fdb657fd1f4987d7687710a}
+
+
+\-L\-E\-D switches. 
+
+\-Used for turning off and on the \-L\-E\-Ds on top of the \-Create. \-Use with the \-L\-E\-Ds command. \hypertarget{createoi_8h_a542610db377b4ad0a7bdaae4dd50f083}{\index{createoi.\-h@{createoi.\-h}!oi\-\_\-output@{oi\-\_\-output}}
+\index{oi\-\_\-output@{oi\-\_\-output}!createoi.h@{createoi.\-h}}
+\subsubsection[{oi\-\_\-output}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf oi\-\_\-output}}}\label{createoi_8h_a542610db377b4ad0a7bdaae4dd50f083}
+
+
+\-Output switches. 
+
+\-Used for setting the the state of the digital and lowside outputs on the \-Cargo \-Bay connector. \hypertarget{createoi_8h_a7dc2d40666678e74fb1ededa34da4597}{\index{createoi.\-h@{createoi.\-h}!oi\-\_\-sensor@{oi\-\_\-sensor}}
+\index{oi\-\_\-sensor@{oi\-\_\-sensor}!createoi.h@{createoi.\-h}}
+\subsubsection[{oi\-\_\-sensor}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf oi\-\_\-sensor}}}\label{createoi_8h_a7dc2d40666678e74fb1ededa34da4597}
+
+
+\-Sensor packet constants. 
+
+\-Contains constants for each of the 42 sensor packets available in the \-Create. \-Note that not all packets are the same size. \-Refer to the \-Create \-Open \-Interface documentation for more info. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{createoi_8h_a5a63134c125eb4de834987a0937afd74}{\index{createoi.\-h@{createoi.\-h}!direct\-Drive@{direct\-Drive}}
+\index{direct\-Drive@{direct\-Drive}!createoi.h@{createoi.\-h}}
+\subsubsection[{direct\-Drive}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf direct\-Drive} (
+\begin{DoxyParamCaption}
+\item[{short}]{\-Lwheel, }
+\item[{short}]{\-Rwheel}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a5a63134c125eb4de834987a0937afd74}
+
+
+\-Control the \-Create's wheels directly. 
+
+\-Allows you to control the velocity of each wheel independently, ranging from -\/500 to 500mm/s. \-A positive velocity makes the wheel drive forward and a negative velocity makes it drive backward.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em \-Lwheel} & \-The velocity of the left wheel \\
+\hline
+{\em \-Rwheel} & \-The velocity of the right wheel\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a550c7c97dc5c6cdb86430ba869d2d2d3}{\index{createoi.\-h@{createoi.\-h}!disable\-Debug@{disable\-Debug}}
+\index{disable\-Debug@{disable\-Debug}!createoi.h@{createoi.\-h}}
+\subsubsection[{disable\-Debug}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf disable\-Debug} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a550c7c97dc5c6cdb86430ba869d2d2d3}
+
+
+\-Disables \-Debug \-Mode. 
+
+\-Turns off \-Debug \-Mode, so that serial transfers will no longer be printed to the console window. \hypertarget{createoi_8h_ab7efed02bbf07d36793c779ef6112713}{\index{createoi.\-h@{createoi.\-h}!drive@{drive}}
+\index{drive@{drive}!createoi.h@{createoi.\-h}}
+\subsubsection[{drive}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf drive} (
+\begin{DoxyParamCaption}
+\item[{short}]{vel, }
+\item[{short}]{rad}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_ab7efed02bbf07d36793c779ef6112713}
+
+
+\-Drive the robot with a given velocity and turning radius. 
+
+\-Drives the \-Create with the given velocity (mm/s) and turning radius (mm). \-The velocity ranges from -\/500 to 500mm/s, with negative velocities making the \-Create drive backward. \-The radius ranges from -\/2000 to 2000mm, with positive radii turning the \-Create left and negative radii turning it right.
+
+\-A radius of -\/1 makes the \-Create turn in place clockwise and 1 makes it turn in place counter-\/clockwise. \-Also, a radius of 0 will make the \-Create drive straight.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em vel} & \-The velocity, in mm/s, of the robot \\
+\hline
+{\em rad} & \-The turning radius, in mm, from the center of the turning circle to the center of the \-Create.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_af0f319790c94ad5cfc97cceebef816d9}{\index{createoi.\-h@{createoi.\-h}!drive\-Distance@{drive\-Distance}}
+\index{drive\-Distance@{drive\-Distance}!createoi.h@{createoi.\-h}}
+\subsubsection[{drive\-Distance}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf drive\-Distance} (
+\begin{DoxyParamCaption}
+\item[{short}]{vel, }
+\item[{short}]{rad, }
+\item[{int}]{dist, }
+\item[{int}]{interrupt}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_af0f319790c94ad5cfc97cceebef816d9}
+
+
+\-Drive for the specified distance. 
+
+\-Moves the \-Create at the specified velocity and turning radius until the specified distance is reached, at which point it will stop. \-Velocity ranges from -\/500mm/s to 500mm/s (negative values move backward) and turning radius ranges from -\/2000mm to 2000mm (negative values turn right; positive values turn left).
+
+\-A radius of -\/1 will spin the \-Create in place clockwise and a radius of 1 will spin it counter-\/clockwise. \-A radius of 0 will drive straight.
+
+\-The distance sensor on the \-Create will be reset to 0 after using this function.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em vel} & desired velocity in mm/s \\
+\hline
+{\em rad} & desired turning radius in mm\\
+\hline
+{\em dist} & distance the \-Create should travel before stopping in mm\\
+\hline
+{\em interrupt} & 0 if the movement should be non-\/interruptible\-: ignore collisions 1 if the movement should be interruptible\-: terminate on collision\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Distance travelled or \-I\-N\-T\-\_\-\-M\-I\-N on error 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a501b23017e83659e29d56b0eed3b23ef}{\index{createoi.\-h@{createoi.\-h}!enable\-Debug@{enable\-Debug}}
+\index{enable\-Debug@{enable\-Debug}!createoi.h@{createoi.\-h}}
+\subsubsection[{enable\-Debug}]{\setlength{\rightskip}{0pt plus 5cm}void {\bf enable\-Debug} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a501b23017e83659e29d56b0eed3b23ef}
+
+
+\-Enables \-Debug \-Mode. 
+
+\-Turns on \-Debug \-Mode, which will print serial transfers to the console window. \-Serial reads and writes will be printed in byte-\/aligned format, in the order they will be sent to the serial port. \hypertarget{createoi_8h_a3659ef14a6662586178c12b591b70be3}{\index{createoi.\-h@{createoi.\-h}!enter\-Full\-Mode@{enter\-Full\-Mode}}
+\index{enter\-Full\-Mode@{enter\-Full\-Mode}!createoi.h@{createoi.\-h}}
+\subsubsection[{enter\-Full\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf enter\-Full\-Mode} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a3659ef14a6662586178c12b591b70be3}
+
+
+\-Put \-Create into \-Full \-Mode. 
+
+\-The puts the \-Create into \-Full \-Mode, allowing complete control over the \-Create. \-The \-Create will turn off all safety features in this mode, giving you control over the \-Create's actions should any of the wheel drop or cliff sensor activate. \-Be warned, however, that this also means that nothing will stop the \-Create from driving off a cliff.
+
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a22f457bdba8557e2b1131d655adb25fc}{\index{createoi.\-h@{createoi.\-h}!enter\-Safe\-Mode@{enter\-Safe\-Mode}}
+\index{enter\-Safe\-Mode@{enter\-Safe\-Mode}!createoi.h@{createoi.\-h}}
+\subsubsection[{enter\-Safe\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf enter\-Safe\-Mode} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a22f457bdba8557e2b1131d655adb25fc}
+
+
+\-Put \-Create into \-Safe \-Mode. 
+
+\-This puts the \-Create into \-Safe \-Mode, allowing control over the \-Create. \-The \-Create will stop and revert to \-Passive \-Mode if any of the cliff or wheel drop sensors are activated or if the charger is plugged in and powered.
+
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a5975f37a6c0cae9c2e9dd0b76aa3cf03}{\index{createoi.\-h@{createoi.\-h}!get\-All\-Sensors@{get\-All\-Sensors}}
+\index{get\-All\-Sensors@{get\-All\-Sensors}!createoi.h@{createoi.\-h}}
+\subsubsection[{get\-All\-Sensors}]{\setlength{\rightskip}{0pt plus 5cm}int$\ast$ {\bf get\-All\-Sensors} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a5975f37a6c0cae9c2e9dd0b76aa3cf03}
+
+
+\-Get data from all sensors. 
+
+\-Returns a pointer to the data from all sensors in the \-Create. \-Sensors are in the order given in the \-Create\-O\-I specification, starting with \-Bumps and \-Wheel \-Drops.
+
+\begin{DoxyReturn}{\-Returns}
+\-Pointer to array of sensor data or a \-N\-U\-L\-L pointer on error. 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_ae71094a2b50726fbec9d9475b2c92e01}{\index{createoi.\-h@{createoi.\-h}!get\-Angle@{get\-Angle}}
+\index{get\-Angle@{get\-Angle}!createoi.h@{createoi.\-h}}
+\subsubsection[{get\-Angle}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf get\-Angle} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_ae71094a2b50726fbec9d9475b2c92e01}
+
+
+\-Get current angle. 
+
+\-Returns the angle the \-Create has turned since the last time this function was called or the last time the angle sensor was polled.
+
+\begin{DoxyReturn}{\-Returns}
+\-Angle \-Create turned since last reading or \-I\-N\-T\-\_\-\-M\-I\-N on error 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a94b9f8e3734b5e9fa2723c314d6c5b39}{\index{createoi.\-h@{createoi.\-h}!get\-Bumps\-And\-Wheel\-Drops@{get\-Bumps\-And\-Wheel\-Drops}}
+\index{get\-Bumps\-And\-Wheel\-Drops@{get\-Bumps\-And\-Wheel\-Drops}!createoi.h@{createoi.\-h}}
+\subsubsection[{get\-Bumps\-And\-Wheel\-Drops}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf get\-Bumps\-And\-Wheel\-Drops} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a94b9f8e3734b5e9fa2723c314d6c5b39}
+
+
+\-Get bumper and wheel drop state. 
+
+\-Returns the current state of the bumper and wheel drop sensors. \-The state of each is sent as a single bit. \-For example, a return value of 16 means that only the front caster's wheeldrop sensor is activated. \-A return value of 3 means that both bumper sensors are active.
+
+\begin{DoxyReturn}{\-Returns}
+\-Current state of bumper and wheel drops or \-I\-N\-T\-\_\-\-M\-I\-N on error 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_ab94e7fb699e1b8522599ff259c24b53e}{\index{createoi.\-h@{createoi.\-h}!get\-Cliffs@{get\-Cliffs}}
+\index{get\-Cliffs@{get\-Cliffs}!createoi.h@{createoi.\-h}}
+\subsubsection[{get\-Cliffs}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf get\-Cliffs} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_ab94e7fb699e1b8522599ff259c24b53e}
+
+
+\-Get state of cliff sensors. 
+
+\-Returns the current states of the four cliff sensors under the \-Create's bumper. \-Each sensor's state is returned as a single bit. \-For example, a return value of 8 means the left cliff sensor is activated.
+
+\begin{DoxyReturn}{\-Returns}
+\-Current state of cliff sensors or \-I\-N\-T\-\_\-\-M\-I\-N on error 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_abbfc5136e07563b242069f2c368b0365}{\index{createoi.\-h@{createoi.\-h}!get\-Distance@{get\-Distance}}
+\index{get\-Distance@{get\-Distance}!createoi.h@{createoi.\-h}}
+\subsubsection[{get\-Distance}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf get\-Distance} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_abbfc5136e07563b242069f2c368b0365}
+
+
+\-Get current distance. 
+
+\-Returns the distance the \-Create has travelled since the last time this function was called or the last time the distance sensor was polled.
+
+\begin{DoxyReturn}{\-Returns}
+\-Distance \-Create travelled since last reading or \-I\-N\-T\-\_\-\-M\-I\-N on error 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_adf0b64fce485fba51e96ec5a779ba1b4}{\index{createoi.\-h@{createoi.\-h}!get\-Overcurrent@{get\-Overcurrent}}
+\index{get\-Overcurrent@{get\-Overcurrent}!createoi.h@{createoi.\-h}}
+\subsubsection[{get\-Overcurrent}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf get\-Overcurrent} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_adf0b64fce485fba51e96ec5a779ba1b4}
+
+
+\-Get overcurrent reading. 
+
+\begin{DoxyReturn}{\-Returns}
+\-Value of overcurrent sensor 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_aa92fc3abcb34387dccea5bf16b5ba7b2}{\index{createoi.\-h@{createoi.\-h}!get\-Script@{get\-Script}}
+\index{get\-Script@{get\-Script}!createoi.h@{createoi.\-h}}
+\subsubsection[{get\-Script}]{\setlength{\rightskip}{0pt plus 5cm}{\bf byte}$\ast$ {\bf get\-Script} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_aa92fc3abcb34387dccea5bf16b5ba7b2}
+
+
+\-Get script from \-Create. 
+
+\-Gets the currently stored script from the \-Create and returns a pointer to it. \-The first data byte returned is the number of bytes in the script, followed by the script itself.
+
+\begin{DoxyReturn}{\-Returns}
+\-Pointer to script or \-N\-U\-L\-L on failure 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a019948291c8e134564407c2b1b3911e5}{\index{createoi.\-h@{createoi.\-h}!get\-Turning\-Radius@{get\-Turning\-Radius}}
+\index{get\-Turning\-Radius@{get\-Turning\-Radius}!createoi.h@{createoi.\-h}}
+\subsubsection[{get\-Turning\-Radius}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf get\-Turning\-Radius} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a019948291c8e134564407c2b1b3911e5}
+
+
+\-Get current turning radius. 
+
+\-Returns the \-Create's current turning radius. \-The read value may differ from the actual value slightly due to sensor inaccuracy and wheel slippage.
+
+\begin{DoxyReturn}{\-Returns}
+\-Create's currently requested turning radius or \-I\-N\-T\-\_\-\-M\-I\-N on error. 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a796071782f68917c3b86eab3237caf8f}{\index{createoi.\-h@{createoi.\-h}!get\-Velocity@{get\-Velocity}}
+\index{get\-Velocity@{get\-Velocity}!createoi.h@{createoi.\-h}}
+\subsubsection[{get\-Velocity}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf get\-Velocity} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a796071782f68917c3b86eab3237caf8f}
+
+
+\-Get current velocity. 
+
+\-Returns the \-Create's current velocity. \-Note that read velocity may be different from actual velocity due to sensor inaccuracy and wheel slippage.
+
+\begin{DoxyReturn}{\-Returns}
+\-Create's currently requested velocity or \-I\-N\-T\-\_\-\-M\-I\-N on error 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_ac5afe6b488d0d9ccf8d7d2551ebd3213}{\index{createoi.\-h@{createoi.\-h}!play\-Script@{play\-Script}}
+\index{play\-Script@{play\-Script}!createoi.h@{createoi.\-h}}
+\subsubsection[{play\-Script}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf play\-Script} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_ac5afe6b488d0d9ccf8d7d2551ebd3213}
+
+
+\-Plays currently stored script. 
+
+\-Loads the script that was written to the \-Create's internal memory and runs it. \-The script remains in memory after it has run, allowing you to play it multiple times.
+
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a88022912dca7ec708d8fbe22adc2e874}{\index{createoi.\-h@{createoi.\-h}!play\-Song@{play\-Song}}
+\index{play\-Song@{play\-Song}!createoi.h@{createoi.\-h}}
+\subsubsection[{play\-Song}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf play\-Song} (
+\begin{DoxyParamCaption}
+\item[{{\bf byte}}]{number}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a88022912dca7ec708d8fbe22adc2e874}
+
+
+\-Play a stored song. 
+
+\-Retrieves a stored song from memory and plays it. \-This command will not do anything if a song is already playing. \-Check the \char`\"{}song playing\char`\"{} sensor packet to check if the \-Create is ready to play a song. \-This command will return 0 as long as the command was able to be sent to the \-Create over the serial port, regardless of whether or not the \-Create is ready to play the song.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em number} & \-The song number to play (0-\/15)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a762208d3b0de0124f59761eb8b063866}{\index{createoi.\-h@{createoi.\-h}!read\-Raw\-Sensor@{read\-Raw\-Sensor}}
+\index{read\-Raw\-Sensor@{read\-Raw\-Sensor}!createoi.h@{createoi.\-h}}
+\subsubsection[{read\-Raw\-Sensor}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf read\-Raw\-Sensor} (
+\begin{DoxyParamCaption}
+\item[{{\bf oi\-\_\-sensor}}]{packet, }
+\item[{{\bf byte} $\ast$}]{buffer, }
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a762208d3b0de0124f59761eb8b063866}
+
+
+\-Get raw data from sensor. 
+
+\-Requests the \-O\-I to return a packet of sensor data. \-There are 42 different packets, each of which returns a value of a specific sensor or group of sensors. \-Different sensors have different packet sizes, so it is up to you to make sure you are requesting the correct size and that your buffer is large enough to accept the packets.
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em packet} & \-Sensor packet to read \\
+\hline
+\mbox{\tt out}  & {\em buffer} & \-Buffer to read raw packets into \\
+\hline
+\mbox{\tt in}  & {\em size} & \-Number of bytes to read into buffer\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+number of bytes read or -\/1 on failure 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a3c26db92dc13e2889c4f1fa77641aee0}{\index{createoi.\-h@{createoi.\-h}!read\-Raw\-Sensor\-List@{read\-Raw\-Sensor\-List}}
+\index{read\-Raw\-Sensor\-List@{read\-Raw\-Sensor\-List}!createoi.h@{createoi.\-h}}
+\subsubsection[{read\-Raw\-Sensor\-List}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf read\-Raw\-Sensor\-List} (
+\begin{DoxyParamCaption}
+\item[{{\bf oi\-\_\-sensor} $\ast$}]{packet\-\_\-list, }
+\item[{{\bf byte}}]{num\-\_\-packets, }
+\item[{{\bf byte} $\ast$}]{buffer, }
+\item[{int}]{size}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a3c26db92dc13e2889c4f1fa77641aee0}
+
+
+\-Get raw data from multiple sensors. 
+
+\-Requests the \-O\-I to return multiple sensor data packets. \-The packets are returned in the order you specify. \-It is up to you to make sure you are reading the correct number of bytes from the \-Create.
+
+
+\begin{DoxyParams}[1]{\-Parameters}
+\mbox{\tt in}  & {\em packet\-\_\-list} & \-List of sensor packets to return \\
+\hline
+\mbox{\tt in}  & {\em num\-\_\-packets} & \-Number of packets to get \\
+\hline
+\mbox{\tt out}  & {\em buffer} & \-Buffer to read data into \\
+\hline
+\mbox{\tt in}  & {\em size} & \-Number of bytes to read into buffer\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+number of bytes read or -\/1 on failure 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a9d8501ffc64d0d6114a340f5e271da95}{\index{createoi.\-h@{createoi.\-h}!read\-Sensor@{read\-Sensor}}
+\index{read\-Sensor@{read\-Sensor}!createoi.h@{createoi.\-h}}
+\subsubsection[{read\-Sensor}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf read\-Sensor} (
+\begin{DoxyParamCaption}
+\item[{{\bf oi\-\_\-sensor}}]{packet}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a9d8501ffc64d0d6114a340f5e271da95}
+
+
+\-Read formatted data from single sensor. 
+
+\-Returns data from the specified sensor in a user-\/readable format. \-This function will not work for sensor groups, only single sensors. \-Parameter can be one of oi\-\_\-sensor values.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em sensor} & \-The sensor to get data from\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Value read from specified sensor or \-I\-N\-T\-\_\-\-M\-I\-N on error 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a756f914174bcbb7a480f33d232ccf6e2}{\index{createoi.\-h@{createoi.\-h}!run\-Cover\-And\-Dock\-Demo@{run\-Cover\-And\-Dock\-Demo}}
+\index{run\-Cover\-And\-Dock\-Demo@{run\-Cover\-And\-Dock\-Demo}!createoi.h@{createoi.\-h}}
+\subsubsection[{run\-Cover\-And\-Dock\-Demo}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf run\-Cover\-And\-Dock\-Demo} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a756f914174bcbb7a480f33d232ccf6e2}
+
+
+\-Run the \-Cover and \-Dock demo. 
+
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a63c48a75f21301ec9901883d255f95e1}{\index{createoi.\-h@{createoi.\-h}!run\-Cover\-Demo@{run\-Cover\-Demo}}
+\index{run\-Cover\-Demo@{run\-Cover\-Demo}!createoi.h@{createoi.\-h}}
+\subsubsection[{run\-Cover\-Demo}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf run\-Cover\-Demo} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a63c48a75f21301ec9901883d255f95e1}
+
+
+\-Run the \-Cover demo. 
+
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a4b7430b55c775552c98dc6928768ac66}{\index{createoi.\-h@{createoi.\-h}!run\-Demo@{run\-Demo}}
+\index{run\-Demo@{run\-Demo}!createoi.h@{createoi.\-h}}
+\subsubsection[{run\-Demo}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf run\-Demo} (
+\begin{DoxyParamCaption}
+\item[{{\bf oi\-\_\-demo}}]{demo}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a4b7430b55c775552c98dc6928768ac66}
+
+
+\-Run a built-\/in demo. 
+
+\-This starts one of the \-Create's built-\/in demo routines. \-Information about the demos is available in the i\-Robot \-Create instruction manual. \-This will put the \-Create into \-Passive \-Mode.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em demo} & \-The value of the demo to run (or 255 to stop the current demo).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_ab3d15a8d09c6146d0cb149bc1dad16fd}{\index{createoi.\-h@{createoi.\-h}!run\-Spot\-Demo@{run\-Spot\-Demo}}
+\index{run\-Spot\-Demo@{run\-Spot\-Demo}!createoi.h@{createoi.\-h}}
+\subsubsection[{run\-Spot\-Demo}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf run\-Spot\-Demo} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_ab3d15a8d09c6146d0cb149bc1dad16fd}
+
+
+\-Run the \-Spot demo. 
+
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a835de410a1d4d22a239dc90a0bded55e}{\index{createoi.\-h@{createoi.\-h}!send\-I\-Rbyte@{send\-I\-Rbyte}}
+\index{send\-I\-Rbyte@{send\-I\-Rbyte}!createoi.h@{createoi.\-h}}
+\subsubsection[{send\-I\-Rbyte}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf send\-I\-Rbyte} (
+\begin{DoxyParamCaption}
+\item[{{\bf byte}}]{irbyte}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a835de410a1d4d22a239dc90a0bded55e}
+
+
+\-Sends \-I\-R signal. 
+
+\-Sends the given \-I\-R byte out of low side driver 1, using the format expected by the \-Create's \-I\-R receiver. \-The \-Create documentation suggests using a 100ohm resistor in parallel with the \-I\-R receiver and its resistor.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em irbyte} & \-The byte value to send\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successfull or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a59548dd125df0d5e9ec05ae5d8f1ef66}{\index{createoi.\-h@{createoi.\-h}!set\-Baud@{set\-Baud}}
+\index{set\-Baud@{set\-Baud}!createoi.h@{createoi.\-h}}
+\subsubsection[{set\-Baud}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf set\-Baud} (
+\begin{DoxyParamCaption}
+\item[{{\bf oi\-\_\-baud}}]{rate}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a59548dd125df0d5e9ec05ae5d8f1ef66}
+
+
+\-Sets the baud rate for serial port transfer. 
+
+\-This command sets the baud rate between the \-Create and computer. \-This persists until either this command is called again or until the \-Create loses power. \-This command will wait for 100ms after setting the baud rate to prevent data loss (this is in compliance with the \-O\-I specification). \-The default baud rate is 56kbps. {\bfseries \-Note\-: \-At a baud rate of 115200, there must be a 20us gap between each byte or else data loss will occur.}
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em rate} & \-New baud rate value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_ac8824a7cafb14ebd97b3460547ede517}{\index{createoi.\-h@{createoi.\-h}!set\-Digital\-Outs@{set\-Digital\-Outs}}
+\index{set\-Digital\-Outs@{set\-Digital\-Outs}!createoi.h@{createoi.\-h}}
+\subsubsection[{set\-Digital\-Outs}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf set\-Digital\-Outs} (
+\begin{DoxyParamCaption}
+\item[{{\bf oi\-\_\-output}}]{oflags}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_ac8824a7cafb14ebd97b3460547ede517}
+
+
+\-Sets state of digital ouputs. 
+
+\-Controls the state of the 3 digital outputs in the \-Cargo \-Bay \-Connector. \-Each output is able to provide up to 20m\-A of current. \-The state is set using bit flags, with 1 being high (5\-V) and 0 being low (0\-V).
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em oflags} & \-Output flags for setting the state of the 3 outputs\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a8e0f43a94aa6be31df25b4329f0ba9c9}{\index{createoi.\-h@{createoi.\-h}!set\-L\-E\-D\-State@{set\-L\-E\-D\-State}}
+\index{set\-L\-E\-D\-State@{set\-L\-E\-D\-State}!createoi.h@{createoi.\-h}}
+\subsubsection[{set\-L\-E\-D\-State}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf set\-L\-E\-D\-State} (
+\begin{DoxyParamCaption}
+\item[{{\bf oi\-\_\-led}}]{lflags, }
+\item[{{\bf byte}}]{p\-Color, }
+\item[{{\bf byte}}]{p\-Inten}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a8e0f43a94aa6be31df25b4329f0ba9c9}
+
+
+\-Controls the state of the \-L\-E\-Ds on the \-Create. 
+
+\-Allows you the control the state of the three \-L\-E\-Ds on the top of the \-Create. \-The \-Play and \-Advance \-L\-E\-Ds can be on or off and are controlled by setting bit flags. \-The \-Power \-L\-E\-D is set with two bytes\-: one for the color and the other for the light's intensity. \-The color ranges from green (0) to red (255).
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em lflags} & \-L\-E\-D flags for setting the \-Play and \-Advance \-L\-E\-Ds \\
+\hline
+{\em p\-Color} & \-Sets color for the \-Power \-L\-E\-D \\
+\hline
+{\em p\-Inten} & \-Intensity of the \-Power \-L\-E\-D\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a3f548b8bdef98c7e4abeaebb899d4bcc}{\index{createoi.\-h@{createoi.\-h}!set\-Low\-Side\-Drivers@{set\-Low\-Side\-Drivers}}
+\index{set\-Low\-Side\-Drivers@{set\-Low\-Side\-Drivers}!createoi.h@{createoi.\-h}}
+\subsubsection[{set\-Low\-Side\-Drivers}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf set\-Low\-Side\-Drivers} (
+\begin{DoxyParamCaption}
+\item[{{\bf oi\-\_\-output}}]{oflags}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a3f548b8bdef98c7e4abeaebb899d4bcc}
+
+
+\-Control state of low side drivers. 
+
+\-Controls the state of each of the low side drivers using bit flags. \-This command turns the drivers on at 100\% \-P\-W\-M duty cycle. \-Low side drivers 0 and 1 can provide up to 0.\-5\-A of current while driver 2 can provide up to 1.\-5\-A. \-If too much current is drawn, the current will be limited and the overcurrent flag in sensor packet 14 (overcurrent packet) is set.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em oflags} & \-Output flags for setting the state of the 3 drivers\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_ab081994be838b23c19cd28e0149e6153}{\index{createoi.\-h@{createoi.\-h}!set\-P\-W\-M\-Low\-Side\-Drivers@{set\-P\-W\-M\-Low\-Side\-Drivers}}
+\index{set\-P\-W\-M\-Low\-Side\-Drivers@{set\-P\-W\-M\-Low\-Side\-Drivers}!createoi.h@{createoi.\-h}}
+\subsubsection[{set\-P\-W\-M\-Low\-Side\-Drivers}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf set\-P\-W\-M\-Low\-Side\-Drivers} (
+\begin{DoxyParamCaption}
+\item[{{\bf byte}}]{pwm0, }
+\item[{{\bf byte}}]{pwm1, }
+\item[{{\bf byte}}]{pwm2}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_ab081994be838b23c19cd28e0149e6153}
+
+
+\-Control low side drivers with variable power. 
+
+\-Specifies the \-P\-W\-M (pulse width modulation) duty cycle for each of the three low side drivers in the system, with a maximum value of 128. \-For example, sending a value of 64 would control a driver with 50\% of battery voltage since 128/64 = .5.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em pwm0} & duty cycle for driver 0 \\
+\hline
+{\em pwm1} & duty cycle for driver 1 \\
+\hline
+{\em pwm2} & duty cycle for driver 2\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a1d76ab965b6f8836904f2b9ab7b2ef28}{\index{createoi.\-h@{createoi.\-h}!start\-O\-I@{start\-O\-I}}
+\index{start\-O\-I@{start\-O\-I}!createoi.h@{createoi.\-h}}
+\subsubsection[{start\-O\-I}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf start\-O\-I} (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{serial}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a1d76ab965b6f8836904f2b9ab7b2ef28}
+
+
+\-Starts the \-O\-I. 
+
+\-This command opens the serial connection and starts the \-Open \-Interface. \-The \-Create will be started in \-Passive \-Mode. \-You must send this command first before any others.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em serial} & \-The location of the serial port device file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_abb2aa2b9b8358b0375e39e19871500f0}{\index{createoi.\-h@{createoi.\-h}!start\-O\-I\-\_\-\-M\-T@{start\-O\-I\-\_\-\-M\-T}}
+\index{start\-O\-I\-\_\-\-M\-T@{start\-O\-I\-\_\-\-M\-T}!createoi.h@{createoi.\-h}}
+\subsubsection[{start\-O\-I\-\_\-\-M\-T}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf start\-O\-I\-\_\-\-M\-T} (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{serial}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_abb2aa2b9b8358b0375e39e19871500f0}
+
+
+\-Starts the \-O\-I in multi-\/threaded mode. 
+
+\-This command starts the interface in multithreaded mode. \-In this mode, a dedicated thread reads all sensor values periodically and caches the values. \-Subsequent calls to get$\ast$ sensor commands will read from the cache instead of querying the create.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em serial} & \-The location of the serial port device file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_aa4ca13d7ed7c5dea4923fa31d5f5e118}{\index{createoi.\-h@{createoi.\-h}!stop\-O\-I@{stop\-O\-I}}
+\index{stop\-O\-I@{stop\-O\-I}!createoi.h@{createoi.\-h}}
+\subsubsection[{stop\-O\-I}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf stop\-O\-I} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_aa4ca13d7ed7c5dea4923fa31d5f5e118}
+
+
+\-Stops the \-Create and closes connection to it. 
+
+\-Stops the \-Create and closes the serial connection to it. \-The connection can be restarted by calling the start\-O\-I command.
+
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a257e46e91460ce76c302c6bbb0327948}{\index{createoi.\-h@{createoi.\-h}!stop\-O\-I\-\_\-\-M\-T@{stop\-O\-I\-\_\-\-M\-T}}
+\index{stop\-O\-I\-\_\-\-M\-T@{stop\-O\-I\-\_\-\-M\-T}!createoi.h@{createoi.\-h}}
+\subsubsection[{stop\-O\-I\-\_\-\-M\-T}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf stop\-O\-I\-\_\-\-M\-T} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a257e46e91460ce76c302c6bbb0327948}
+
+
+\-Stops the \-Create and closes connection to it. 
+
+\-Stops the \-Create and closes the serial connection to it. \-The connection can be restarted by calling the start\-O\-I command.
+
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_af214bbce5f242d39cfb77183a4ef77b7}{\index{createoi.\-h@{createoi.\-h}!turn@{turn}}
+\index{turn@{turn}!createoi.h@{createoi.\-h}}
+\subsubsection[{turn}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf turn} (
+\begin{DoxyParamCaption}
+\item[{short}]{vel, }
+\item[{short}]{rad, }
+\item[{int}]{angle, }
+\item[{int}]{interrupt}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_af214bbce5f242d39cfb77183a4ef77b7}
+
+
+\-Turn for the specified angle. 
+
+\-Moves the \-Create at the specified velocity and turning radius until the specified angle is reached, at which point it will stop. \-Velocity ranges from -\/500mm/s to 500mm/s (negative values move backward) and turning radius ranges from -\/2000mm to 2000mm (negative values turn right; positive values turn left).
+
+\-A radius of -\/1 will spin the \-Create in place clockwise and a radius of 1 will spin it counter-\/clockwise. \-A radius of 0 will drive straight.
+
+\-The angle sensor on the \-Create will be reset to 0 after using this function.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em vel} & desired velocity in mm/s \\
+\hline
+{\em rad} & desired turning radius in mm \\
+\hline
+{\em angle} & distance the \-Create should travel before stopping in mm \\
+\hline
+{\em interrupt} & 0 if the movement should be non-\/interruptible\-: ignore collisions 1 if the movement should be interruptible\-: terminate on collision\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Angle turned or \-I\-N\-T\-\_\-\-M\-I\-N on error 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a60c183552af694d27fe7208b69125582}{\index{createoi.\-h@{createoi.\-h}!wait\-Angle@{wait\-Angle}}
+\index{wait\-Angle@{wait\-Angle}!createoi.h@{createoi.\-h}}
+\subsubsection[{wait\-Angle}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf wait\-Angle} (
+\begin{DoxyParamCaption}
+\item[{int}]{angle, }
+\item[{int}]{interrupt}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a60c183552af694d27fe7208b69125582}
+
+
+\-Waits for \-Create to turn given angle. 
+
+\-Waits for \-Create to turn the given angle (in degrees). \-The angle is incremented when the \-Create turns counterclockwise and decremented when turning clockwise. \-The angle sensor will be reset after using this function.
+
+\-The angle turned is updated once per 20ms or 50 times per second.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em angle} & \-Angle to travel in degrees. \\
+\hline
+{\em interrupt} & 0 if the waiting should be non-\/interruptible\-: ignore collisions 1 if the waiting should be interruptible\-: terminate on collision\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Angle turned or \-I\-N\-T\-\_\-\-M\-I\-N on error 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_abc9a1b2c08a2a92a0898bcdcc1e35390}{\index{createoi.\-h@{createoi.\-h}!wait\-Distance@{wait\-Distance}}
+\index{wait\-Distance@{wait\-Distance}!createoi.h@{createoi.\-h}}
+\subsubsection[{wait\-Distance}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf wait\-Distance} (
+\begin{DoxyParamCaption}
+\item[{int}]{dist, }
+\item[{int}]{interrupt}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_abc9a1b2c08a2a92a0898bcdcc1e35390}
+
+
+\-Waits for \-Create to travel given distance. 
+
+\-Waits for \-Create to travel the given distance (in millimeters). \-The distance is incremented $\ast$ when the \-Create travels forward and decremented when moving backward. \-If the wheels are $\ast$ passively rotated in either direction, the distance is incremented. \-The distance sensor $\ast$ will be reset after using this function.
+
+\-The distance travelled is updated once per 20ms or 50 times per second.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em dist} & \-Distance to travel in millimeters \\
+\hline
+{\em interrupt} & 0 if the waiting should be non-\/interruptible\-: ignore collisions 1 if the waiting should be interruptible\-: terminate on collision\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Distance travelled or \-I\-N\-T\-\_\-\-M\-I\-N on error 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a7ce81cef031fe7559261a49fd9967621}{\index{createoi.\-h@{createoi.\-h}!wait\-Time@{wait\-Time}}
+\index{wait\-Time@{wait\-Time}!createoi.h@{createoi.\-h}}
+\subsubsection[{wait\-Time}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf wait\-Time} (
+\begin{DoxyParamCaption}
+\item[{double}]{time}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a7ce81cef031fe7559261a49fd9967621}
+
+
+\-Waits for the given amount of time. 
+
+\-Waits the given amount of time, in seconds. \-This timer has a resolution of 1 microsecond, or 1e-\/6 seconds; however, there is no guarantee of the accuracy of this function. \-It will probably be a little off and it is possible for an external signal to wake up your program's thread prematurely. \-The function returns the time you told it to wait as a means of informing you it has woken.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em time} & \-Time in seconds to wait\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-The time passed in as a parameter 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a7de38bb3d1ad4371f085b4bfb55550c4}{\index{createoi.\-h@{createoi.\-h}!write\-Script@{write\-Script}}
+\index{write\-Script@{write\-Script}!createoi.h@{createoi.\-h}}
+\subsubsection[{write\-Script}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf write\-Script} (
+\begin{DoxyParamCaption}
+\item[{{\bf byte} $\ast$}]{script, }
+\item[{{\bf byte}}]{size}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a7de38bb3d1ad4371f085b4bfb55550c4}
+
+
+\-Send script to \-Create. 
+
+\-Sends a script, consisting of opcodes and data bytes, to the \-Create's internal memory. \-A script can be up to 100 bytes long.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em script} & \-Script to send to \-Create \\
+\hline
+{\em size} & \-Size, in bytes, of the script\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
+\hypertarget{createoi_8h_a0ad7a276b77f802e2a024d3146de2e20}{\index{createoi.\-h@{createoi.\-h}!write\-Song@{write\-Song}}
+\index{write\-Song@{write\-Song}!createoi.h@{createoi.\-h}}
+\subsubsection[{write\-Song}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf write\-Song} (
+\begin{DoxyParamCaption}
+\item[{{\bf byte}}]{number, }
+\item[{{\bf byte}}]{length, }
+\item[{{\bf byte} $\ast$}]{song}
+\end{DoxyParamCaption}
+)}}\label{createoi_8h_a0ad7a276b77f802e2a024d3146de2e20}
+
+
+\-Create and store a small song. 
+
+\-Writes and stores a small song into the \-Create's internal memory. \-You can store up to 16 songs, each with up to 16 notes each. \-Each note is associated with a sound from the robot's internal \-M\-I\-D\-I sequencer, with 31 being the lowest note and 127 being the highest. \-Anything outside that range is considered to be silence. \-See the i\-Robot \-O\-I \-Specification for more info.
+
+\-The first argument is the song number (0-\/15). \-The second argument is the number of notes in the song (1-\/16). \-The third argument is an array of bytes. \-The even entries (0, 2, 4, etc.) are the notes to play and the odd entries (1, 3, 5. etc.) are the durations of those notes, in increments of 1/64th of a second (so a value of 32 would play the note for half a second). \-The size of this array should be equal to twice the second argument.
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em number} & \-The song number being stored (0-\/15) \\
+\hline
+{\em length} & \-The number of notes in the song (1-\/16) \\
+\hline
+{\em song} & \-An array containing notes and durations of those notes. \-Size = 2 $\ast$ length\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+0 if successful or -\/1 otherwise 
+\end{DoxyReturn}
