@@ -1,0 +1,1 @@
+cmd_/usr/src/cdcacm-0.1/cdcacm.ko := ld -r -m elf_i386 -T /usr/src/linux-headers-3.0.0-14-generic/scripts/module-common.lds --build-id  -o /usr/src/cdcacm-0.1/cdcacm.ko /usr/src/cdcacm-0.1/cdcacm.o /usr/src/cdcacm-0.1/cdcacm.mod.o
