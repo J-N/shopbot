@@ -5,22 +5,46 @@ std::vector<node*> nodes;
 node* lastNode;
 line* currentLine;
 std::queue<mapObject*> q;
-pthread_t qrThread, pathThread;
+pthread_t qrThread, pathThread, sonarThread;
 int currentItem = 0;
-
+bool obstruction = false;
 bool orientation=true;
 
 /**
-* Plays two notes to signify a found item 
+* Plays notes to signify an action
 */
-void foundItem() {
-  char song[4];
-  song[0]=36;
-  song[1]=16;
-  song[2]=72;
-  song[3]=16;
+void notify(int type) {
 
-  writeSong(0, 2, (byte*)song);
+	char song[100];
+	int notes=0;
+	switch(type)
+	{
+		case NEWITEM:
+  			song[0]=36;
+  			song[1]=16;
+			notes=1;
+		break;
+		case FOUNDITEM:
+  			song[0]=36;
+  			song[1]=16;
+			song[2]=72;
+  			song[3]=16;
+			notes=2;
+		break;
+		case NOTFOUND:
+  			song[0]=18;
+  			song[1]=64;
+			notes=1;
+			break;
+		case OBSTACLE:
+  			song[0]=22;
+  			song[1]=64;
+			notes=1;
+		default:
+		break;
+	}
+
+  writeSong(0, notes, (byte*)song);
   playSong (0);
 }
 
@@ -110,6 +134,218 @@ int calcMode(std::vector<int> vUserInput)
 	return *occurSet.begin();
 }
 
+void* readSonar(void *ptr)
+{
+	while(1)
+	{
+		char tmp[100];
+		if(fgets(tmp, 100, sonarFD) != NULL)
+		{
+			int reading = atoi(tmp);
+			if(reading <= 7) // we are going to hit something
+			{
+				obstruction=true;
+			}
+			else
+			{
+				obstruction=false;
+			}
+		}
+	}
+}
+
+/*
+void printMap()
+{
+	int node;
+	int dist;
+	node* curnode;
+	pnode = nodes[0]; //node 0
+	std::cout<<"0 ";	
+	if(pnode->connections[1]->items.size() > 0)
+        {
+        	node = pnode->connections[1]->items[0]->id;
+                dist = pnode->connections[1]->items[0]->distance;
+        }
+	else
+	{
+		node = pnode->connections[1]->node1->id;
+		dist - pnode->connections[1]->distance;
+	}
+	std::cout<<node<<" "<<dist<<" ";
+	if(pnode->connections[2]->items.size() > 0)
+        {
+        	node = pnode->connections[2]->items[pnode->connections[2]->items.size()-1]->id;
+                dist = pnode->connections[2]->distance - pnode->connections[2]->items[pnode->connections[2]->item.size()-1]->distance;
+        }
+	else
+	{
+		node = pnode->connections[2]->node0->id;
+		dist - pnode->connections[2]->distance;
+	}
+	std::cout<<node<<" "<<dist<<" -1"<<std::endl;
+
+	pnode = nodes[1]; //node 1
+	std::cout<<"1 ";	
+	if(pnode->connections[0]->items.size() > 0)
+        {
+        	node = pnode->connections[0]->items[pnode->connections[0]->items.size()-1]->id;
+                dist = pnode->connections[0]->distance - pnode->connections[0]->items[pnode->connections[0]->item.size()-1]->distance;
+        }
+	else
+	{
+		node = pnode->connections[0]->node0->id;
+		dist - pnode->connections[0]->distance;
+	}
+	std::cout<<node<<" "<<dist<<" ";
+	if(pnode->connections[2]->items.size() > 0)
+        {
+        	node = pnode->connections[2]->items[0]->id;
+                dist = pnode->connections[2]->items[0]->distance;
+        }
+	else
+	{
+		node = pnode->connections[2]->node1->id;
+		dist - pnode->connections[2]->distance;
+	}
+	std::cout<<node<<" "<<dist<<" -1"<<std::endl;
+
+	pnode = nodes[2]; //node 2
+	std::cout<<"2 ";	
+	if(pnode->connections[0]->items.size() > 0)
+        {
+        	node = pnode->connections[0]->items[0]->id;
+                dist = pnode->connections[0]->items[0]->distance;
+        }
+	else
+	{
+		node = pnode->connections[0]->node1->id;
+		dist - pnode->connections[0]->distance;
+	}
+	std::cout<<node<<" "<<dist<<" ";
+	if(pnode->connections[1]->items.size() > 0)
+        {
+        	node = pnode->connections[1]->items[0]->id;
+                dist = pnode->connections[1]->items[0]->distance;
+        }
+	else
+	{
+		node = pnode->connections[1]->node1->id;
+		dist - pnode->connections[1]->distance;
+	}
+	std::cout<<node<<" "<<dist<<" ";
+	if(pnode->connections[2]->items.size() > 0)
+        {
+        	node = pnode->connections[2]->items[pnode->connections[2]->items.size()-1]->id;
+                dist = pnode->connections[2]->distance - pnode->connections[2]->items[pnode->connections[2]->item.size()-1]->distance;
+        }
+	else
+	{
+		node = pnode->connections[2]->node0->id;
+		dist - pnode->connections[2]->distance;
+	}
+	std::cout<<node<<" "<<dist<<" -1"<<std::endl;
+	
+	int ii=0;
+	line* pline;
+	pline = pnode->connections[2];
+	
+	for(ii=0; ii < pline->items.size(); ii++)
+	{
+		std::cout<<pline->items[ii]->id<<" ";
+		if(ii == 0)
+		{
+			node = pline->node0->id;
+			dist = pline->items[ii]->distance;
+		}
+		else
+		{
+			node = pline->items[ii-1]->id;
+			dist = pline->items[ii]->distance - pline->items[ii-1]->distance;
+		}
+		std::cout<<node<<" "<<dist<<" ";
+
+		if(ii+1 == pline->items.size()) // last element
+		{
+			node = pline->node1->id;
+			dist = pline->distance - pline->items[ii]->distance;
+		}
+		else
+		{
+			node = pline->items[ii+1]->id;
+			dist = pline->items[ii+1]->distance - pline->items[ii]->distance;
+		}
+		std::cout<<node<<" "<<dist<<" -1"<<std::endl;
+	}
+	pline = pnode->connections[1];
+	
+	for(ii=0; ii < pline->items.size(); ii++)
+	{
+		std::cout<<pline->items[ii]->id<<" ";
+		if(ii == 0)
+		{
+			node = pline->node0->id;
+			dist = pline->items[ii]->distance;
+		}
+		else
+		{
+			node = pline->items[ii-1]->id;
+			dist = pline->items[ii]->distance - pline->items[ii-1]->distance;
+		}
+		std::cout<<node<<" "<<dist<<" ";
+
+		if(ii+1 == pline->items.size()) // last element
+		{
+			node = pline->node0->id;
+			dist = pline->distance - pline->items[ii]->distance;
+		}
+		else
+		{
+			node = pline->items[ii+1]->id;
+			dist = pline->items[ii+1]->distance - pline->items[ii]->distance;
+		}
+		std::cout<<node<<" "<<dist<<" -1"<<std::endl;
+	}
+	pnode = nodes[0];
+	pline = pnode->connections[1];
+	
+	for(ii=0; ii < pline->items.size(); ii++)
+	{
+		std::cout<<pline->items[ii]->id<<" ";
+		if(ii == 0)
+		{
+			node = pline->node0->id;
+			dist = pline->items[ii]->distance;
+		}
+		else
+		{
+			node = pline->items[ii-1]->id;
+			dist = pline->items[ii]->distance - pline->items[ii-1]->distance;
+		}
+		std::cout<<node<<" "<<dist<<" ";
+
+		if(ii+1 == pline->items.size()) // last element
+		{
+			node = pline->node1->id;
+			dist = pline->distance - pline->items[ii]->distance;
+		}
+		else
+		{
+			node = pline->items[ii+1]->id;
+			dist = pline->items[ii+1]->distance - pline->items[ii]->distance;
+		}
+		std::cout<<node<<" "<<dist<<" -1"<<std::endl;
+	}
+
+}
+*/
+
+void processOrder()
+{
+	//get the order
+	
+}
+
 void*  readPath(void *ptr)
 {
 	while(1)
@@ -121,10 +357,15 @@ void*  readPath(void *ptr)
 			if(fgets(tmp, 100, pathFD) != NULL)
 			{
 				result = tmp;
-				int id = atoi(tmp);
+				int pos = result.find("|");
+				std::string item = result.substr(0,pos);
+				std::string quant = result.substr(pos+1);
+				int id = atoi(item.c_str());
+				int quantity = atoi(quant.c_str());
+				//int id = atoi(tmp);
 					
 				std::cout<<"Item request detected: "<<result<<std::endl;
-				getItem(id);
+				getItem(id,quantity);
 			}
 		}
 	}
@@ -253,13 +494,13 @@ void  *readQR( void *ptr)
 				std::cout<<"QR decteded "<<result<<" Current distance: "<<currentDistance<<std::endl;
 				if(currentLine->hasItem(id))
 				{
-					foundItem();
+					currentItem = id;
 				}
 				else//add item to current line
 				{
 					item* newItem = new item(id, currentLine, currentDistance, orientation);
 					currentLine->items.push_back(newItem);
-					foundItem();
+					notify(NEWITEM);
 				}
 			}
 		}
@@ -333,6 +574,14 @@ void followLine(int dist=5000)
 	int counter=0;
 	while(stop< 2)
 	{
+/*		if(obstruction)
+		{
+			drive(0,0);
+			continue;
+		}
+		else //drive straight
+			drive(3*speed,0);
+*/
 		updatePosition();
 		if(currentDistance >= dist)
 		{
@@ -396,17 +645,14 @@ void initalizeStore()
 	currentDistance=0;
 	//first we need to drive forward until we reach the the edge of the store
 	followLine();
-	//dPause("found homeEdge");
 	//we are now at the edge of the store
 	//we need to record our current posistion
 	recordPos(homeEdge);
 	lastNode=nodes[0];
 	//now we want to make a right turn
-	//intersection(1);
 	drive(50,0);
 	usleep(3000000);
 	drive(0,0);
-	//myTurn(50,-1,-80,0);
 	turnRight();
 	currentLine =  new line(lastNode);
 	lastNode->connections[1]=currentLine;
@@ -415,7 +661,6 @@ void initalizeStore()
 	currentDistance=0;
 	
 	followLine();
-	//dPause("found top");
 	//we are at the top intersection
 	//save our current position
 	recordPos(topIntersection);
@@ -424,7 +669,6 @@ void initalizeStore()
 	currentLine->node1=nodes[1];
 	currentLine->distance = currentDistance;
 	//now we want to drive straight
-	//intersection(0);
 	myTurn(50,-1,-10,0);
 	drive(50,0);
 	usleep(3000000);
@@ -432,11 +676,9 @@ void initalizeStore()
 	currentLine =  new line(lastNode);
 	lastNode->connections[0]=currentLine;
 	followLine();
-	//dPause("found bot");
 	drive(50,0);
 	usleep(3000000);
 	drive(0,0);
-	//myTurn(50,1,70,0);
 	turnLeft();
 	//we are at the bottom intersection
 	//save our current position
@@ -450,22 +692,18 @@ void initalizeStore()
 	currentDistance =0;
 	
 	//now we want to turn left
-	//intersection(1);
 	followLine();
 	currentLine->node1=nodes[1];
 	currentLine->distance = currentDistance;
 	lastNode=nodes[1];
 	lastNode->connections[1]=currentLine;
-	//dPause("back at top");
 	//we are back at the top intersection
 	//we want to spin 180 and go back down to scan other side of aisle
-	//myTurn(50,-1,-180,0);
 	turnAround();
 	followLine();
 	lastNode=nodes[2];
 	currentLine = new line(lastNode);
 	lastNode->connections[0]=currentLine;
-	//dPause("back at bot");
 	//we are back at the bottom intersection
 	//we want to make a left turn
 	drive(50,0);
@@ -473,9 +711,7 @@ void initalizeStore()
 	drive(0,0);
 	myTurn(50,1,90,0);
 	currentDistance =0;
-	//intersection(1);
 	followLine();
-	//dPause("back at homeEdge");
 	currentLine->distance = currentDistance;
 	lastNode=nodes[0];
 	currentLine->node1=nodes[0];
@@ -491,14 +727,11 @@ void initalizeStore()
 	usleep(2000000);
 	drive(0,0);
 	followLine();
-	//dPause("back at home position");
 	//we are now in the home posistion
 	//we want to spin 180
-	//myTurn(50,-1,-180,0);
 	turnAround();
-	//dPause("done");
 	//we are done!
-	foundItem();
+	notify(FOUNDITEM);
 	store newStore;
 	newStore.nodes=nodes;
 //	saveStore(newStore, "store");
@@ -521,10 +754,12 @@ void setup()
 	std::cout<<"Waiting for Path communication"<<std::endl;	
 	pathFD = fopen("/dev/pathComms","r");
 	std::cout<<"Path communication enabled"<<std::endl;
+//	sonarFD = fopen("/dev/ttyACM0","r");
 	//make QR thread
-	int qrRet, pathRet;
+	int qrRet, pathRet,sonarRet;
 	qrRet = pthread_create(&qrThread, NULL, readQR, NULL);
 	pathRet = pthread_create(&pathThread, NULL, readPath, NULL);
+//	sonarRet = pthread_create(&sonarThread, NULL, readSonar, NULL);
 }
 void calibrateFloor()
 {
@@ -652,7 +887,7 @@ std::string itemPath (mapObject *cur, int item)
 	return path[last->id];
 }
 
-void getItem(int item)
+void getItem(int item, int quantity)
 {
 	//item iTar;
 	std::string path = itemPath(currentLine,item); // get path
@@ -818,9 +1053,19 @@ void getItem(int item)
 			orientation=true;
 		}
 	}
-	foundItem();
-	std::cout<<*currentLine->items[ii]<<std::endl;
-
+	sleep(1);
+	if(currentItem==item)
+	{
+		for(ii=0; ii < quantity; ii++)
+		{
+			notify(FOUNDITEM);
+		}
+		std::cout<<*currentLine->items[ii]<<std::endl;
+	}
+	else
+	{
+		notify(NOTFOUND);
+	}
 }
 
 
@@ -878,11 +1123,6 @@ int main(int argv, char* argc[])
 		std::cin>> res;
 		currentLine=nodes[0]->connections[2];
 		shopping=true;
-	//	getItem(22);
-	//	sleep(2);
-	//	getItem(36);
-	//	sleep(2);
-	//	getItem(44);
 		pthread_join( pathThread, NULL);
 	drive(0,0);
 }

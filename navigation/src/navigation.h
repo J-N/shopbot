@@ -25,6 +25,10 @@
 #define botIntersection 2
 #define topIntersection 1
 
+#define NEWITEM 1
+#define FOUNDITEM 2
+#define NOTFOUND 3
+#define OBSTACLE 4
 
 #include <cstddef> // NULL
 #include <iomanip>
@@ -50,6 +54,7 @@ class mapObject;
 
 FILE* qrFD;
 FILE* pathFD;
+FILE* sonarFD;
 float x=0;
 float y=0;
 float heading=0;
@@ -61,7 +66,7 @@ int currentDistance;
 int lineCounter=3;
 void updatePosition();
 void saveStore();
-void getItem(int);
+void getItem(int, int);
 
 class mapObject
 {
@@ -99,21 +104,24 @@ class item
                 ar & distance;
                 ar & pLine;
                 ar & orientation;
+                ar & quantity;
         }
         public:
-        int id;
-        line* pLine;
-	bool orientation;
-        int distance; // distance from node 0 on its line
+        int id; //The ID of this Item
+        line* pLine; //Pointer to line containting Item
+	bool orientation; //Orientation of ShopBot for this Item
+        int distance; //Distance from node 0 on its line
+	int quantity; //Number of items in stock
 	item()
 	{
 	}
-        item(int id, line* pLine, int distance, bool myor=true)
+        item(int id, line* pLine, int distance, bool myor=true, int quant=1)
         {
                 this->id=id;
                 this->pLine=pLine;
                 this->distance=distance;
                 this->orientation=myor;
+                this->quantity=quant;
 	//	pLine->items.push_back(this);
         }
 };
