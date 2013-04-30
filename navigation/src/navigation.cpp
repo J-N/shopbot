@@ -6,6 +6,7 @@ node* lastNode;
 line* currentLine;
 std::queue<mapObject*> q;
 pthread_t qrThread, pathThread;
+int currentItem = 0;
 
 bool orientation=true;
 
@@ -235,6 +236,7 @@ void turnAround()
 }
 void  *readQR( void *ptr)
 {
+	int lastItem = 0;
 	while(1)
 	{
 		char tmp[100];
@@ -243,16 +245,25 @@ void  *readQR( void *ptr)
 		{
 			result = tmp;
 			int id = atoi(tmp);
+			if(id == lastItem)
+				continue;
+			lastItem = id;
 			if(scanning) // if we are suppose to be reading codes
 			{
-				foundItem();
-				item* newItem = new item(id, currentLine, currentDistance, orientation);
-				currentLine->items.push_back(newItem);
 				std::cout<<"QR decteded "<<result<<" Current distance: "<<currentDistance<<std::endl;
+				if(currentLine->hasItem(id))
+				{
+					foundItem();
+				}
+				else//add item to current line
+				{
+					item* newItem = new item(id, currentLine, currentDistance, orientation);
+					currentLine->items.push_back(newItem);
+					foundItem();
+				}
 			}
 		}
 	}
-	//return result;
 }
 
 void recordPos(int id)
@@ -490,7 +501,7 @@ void initalizeStore()
 	foundItem();
 	store newStore;
 	newStore.nodes=nodes;
-	saveStore(newStore, "store");
+//	saveStore(newStore, "store");
 }
 
 void setup()
