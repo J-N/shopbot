@@ -1,6 +1,8 @@
 /** @file */
 #include "navigation.h"
 
+
+
 std::vector<node*> nodes;
 node* lastNode;
 line* currentLine;
@@ -9,7 +11,8 @@ pthread_t qrThread, pathThread, sonarThread;
 int currentItem = 0;
 bool obstruction = false;
 bool orientation=true;
-
+bool darklines=false;
+#define THROP >= //<= for darklines, >= for lightlines
 /**
 * Plays notes to signify an action
 */
@@ -32,7 +35,7 @@ void notify(int type) {
 			notes=2;
 		break;
 		case NOTFOUND:
-  			song[0]=18;
+  			song[0]=80;
   			song[1]=64;
 			notes=1;
 			break;
@@ -387,9 +390,9 @@ void turnLeft()
 		{
 		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
 		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
-		if(l <= lThresh)
+		if(l THROP lThresh)
 			rc=1;
-		if((r <= rThresh) && (rc==1))
+		if((r THROP rThresh) && (rc==1))
 		{
 			//std::cout<<"line found"<<std::endl;
 			drive(0,0);
@@ -423,9 +426,9 @@ void turnRight()
 		{
 		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
 		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
-		if(r <= rThresh)
+		if(r THROP rThresh)
 			rc=1;
-		if((l <= lThresh) && (rc==1))
+		if((l THROP lThresh) && (rc==1))
 		{
 			//std::cout<<"line found"<<std::endl;
 			drive(0,0);
@@ -457,9 +460,9 @@ void turnAround()
 		{
 		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
 		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
-		if(r <= rThresh)
+		if(r THROP rThresh)
 			rc=1;
-		if((l <= lThresh) && (rc==1))
+		if((l THROP lThresh) && (rc==1))
 		{
 			//std::cout<<"line found"<<std::endl;
 			drive(0,0);
@@ -486,6 +489,7 @@ void  *readQR( void *ptr)
 		{
 			result = tmp;
 			int id = atoi(tmp);
+			currentItem = id;
 			if(id == lastItem)
 				continue;
 			lastItem = id;
@@ -529,9 +533,9 @@ void intersection(int path)
 		std::cout<<"Turning.."<<std::endl;
 		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
 		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
-		if(r <= rThresh)
+		if(r THROP rThresh)
 			rc=1;
-		if((l <= lThresh) && (rc==1))
+		if((l THROP lThresh) && (rc==1))
 		{
 			std::cout<<"line found"<<std::endl;
 			drive(0,0);
@@ -568,7 +572,7 @@ void intersection(int path)
 void followLine(int dist=5000)
 {
 	std::cout<<"Following line"<<std::endl;
-	int speed = 35;
+	int speed = 30; //originally 35
 	drive(3*speed,0);
 	int stop=0;
 	int counter=0;
@@ -592,7 +596,8 @@ void followLine(int dist=5000)
 		usleep(20000);
 		short r = readSensor(SENSOR_CLIFF_FRONT_RIGHT_SIGNAL);
 		short l = readSensor(SENSOR_CLIFF_FRONT_LEFT_SIGNAL);
-		if ((r <= rThresh) && (l <= lThresh)) //we are at an intersection
+		//std::cout<<"r: "<<r<<" l: "<<l<<std::endl;
+		if ((r THROP rThresh) && (l THROP lThresh)) //we are at an intersection
 		{
 			if(currentDistance > 100)
 			{
@@ -602,9 +607,9 @@ void followLine(int dist=5000)
 				continue;
 			}
 		}
-		else if(r <= rThresh) //we have crossed the line
+		else if(r THROP rThresh) //we have crossed the line
 			directDrive(speed,-speed);
-		else if(l <= lThresh) //we have crossed the line
+		else if(l THROP lThresh) //we have crossed the line
 			directDrive(-speed,speed);
 		else //drive straight
 			drive(3*speed,0);
@@ -1103,7 +1108,7 @@ int main(int argv, char* argc[])
 	}
 	while(1)
 	{
-		std::cout<<"Would you like to init the floor? (y/n)"<<std::endl;
+		std::cout<<"Would you like to init the store? (y/n)"<<std::endl;
 		
 		std::cin >> res;
 		if(res == "y")
@@ -1121,7 +1126,14 @@ int main(int argv, char* argc[])
 	}
 		std::cout<<"Ready to begin"<<std::endl;
 		std::cin>> res;
-		currentLine=nodes[0]->connections[2];
+		followLine();
+		drive(50,0);
+		usleep(3000000);
+		drive(0,0);
+		turnRight();
+		drive(0,0);
+		currentLine=nodes[0]->connections[1];
+		currentDistance=0;
 		shopping=true;
 		pthread_join( pathThread, NULL);
 	drive(0,0);
