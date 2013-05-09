@@ -12,6 +12,7 @@ int currentItem = 0;
 bool obstruction = false;
 bool orientation=true;
 bool darklines=false;
+bool atHome=true;
 #define THROP >= //<= for darklines, >= for lightlines
 /**
 * Plays notes to signify an action
@@ -35,12 +36,12 @@ void notify(int type) {
 			notes=2;
 		break;
 		case NOTFOUND:
-  			song[0]=80;
+  			song[0]=70;
   			song[1]=64;
 			notes=1;
 			break;
 		case OBSTACLE:
-  			song[0]=22;
+  			song[0]=40;
   			song[1]=64;
 			notes=1;
 		default:
@@ -145,9 +146,12 @@ void* readSonar(void *ptr)
 		if(fgets(tmp, 100, sonarFD) != NULL)
 		{
 			int reading = atoi(tmp);
-			if(reading <= 7) // we are going to hit something
+			//std::cout<<"Sonar reading: "<<reading<<std::endl;
+			if((reading <= 10)&&(reading >5)) // we are going to hit something
 			{
 				obstruction=true;
+				notify(OBSTACLE);
+				std::cout<<"obstacle detected"<<std::endl;
 			}
 			else
 			{
@@ -349,31 +353,6 @@ void processOrder()
 	
 }
 
-void*  readPath(void *ptr)
-{
-	while(1)
-	{
-		if(shopping) // if we are suppose to be reading codes
-		{
-			char tmp[100];
-			std::string result;
-			if(fgets(tmp, 100, pathFD) != NULL)
-			{
-				result = tmp;
-				int pos = result.find("|");
-				std::string item = result.substr(0,pos);
-				std::string quant = result.substr(pos+1);
-				int id = atoi(item.c_str());
-				int quantity = atoi(quant.c_str());
-				//int id = atoi(tmp);
-					
-				std::cout<<"Item request detected: "<<result<<std::endl;
-				getItem(id,quantity);
-			}
-		}
-	}
-	//return result;
-}
 void turnLeft()
 {
 	int current;
@@ -513,6 +492,7 @@ void  *readQR( void *ptr)
 
 void recordPos(int id)
 {
+	std::cout<<"node: "<<id<<" at distance: "<<currentDistance<<std::endl;
 	node* newNode = new node(id);
 	nodes.push_back(newNode);
 }
@@ -576,16 +556,24 @@ void followLine(int dist=5000)
 	drive(3*speed,0);
 	int stop=0;
 	int counter=0;
+	int oldspeed=3*speed;
+	bool mystop=false;
 	while(stop< 2)
 	{
-/*		if(obstruction)
+		if(obstruction)
 		{
 			drive(0,0);
+			mystop=true;
 			continue;
 		}
 		else //drive straight
-			drive(3*speed,0);
-*/
+		{
+			if(mystop)
+			{
+				drive(oldspeed,0);
+				mystop=false;
+			}
+		}
 		updatePosition();
 		if(currentDistance >= dist)
 		{
@@ -602,6 +590,7 @@ void followLine(int dist=5000)
 			if(currentDistance > 100)
 			{
 				drive(0,0);
+				oldspeed=0;
 				usleep(200000);
 				stop++;
 				continue;
@@ -612,7 +601,10 @@ void followLine(int dist=5000)
 		else if(l THROP lThresh) //we have crossed the line
 			directDrive(-speed,speed);
 		else //drive straight
+		{
 			drive(3*speed,0);
+			oldspeed=3*speed;
+		}
 		stop=0;
 	}
 }
@@ -722,6 +714,9 @@ void initalizeStore()
 	currentLine->node1=nodes[0];
 	currentDistance=0;
 	lastNode->connections[2]=currentLine;
+ 	
+	item* newItem = new item(9999,currentLine, currentDistance-20, orientation);
+        currentLine->items.push_back(newItem); //adding "home posistion" item
 	//we are back at the homeEdge
 	//we want to disable scanning
 	scanning=false;
@@ -742,6 +737,52 @@ void initalizeStore()
 //	saveStore(newStore, "store");
 }
 
+void*  readPath(void *ptr)
+{
+	while(1)
+	{
+		if(shopping) // if we are suppose to be reading codes
+		{
+			char tmp[100];
+			std::string result;
+			if(fgets(tmp, 100, pathFD) != NULL)
+			{
+				result = tmp;
+				if(result == "H\n")
+				{
+					goHome();
+					atHome=true;
+				}
+				else
+				{
+				if(atHome)
+				{
+					followLine();
+					drive(50,0);
+					usleep(3000000);
+					drive(0,0);
+					turnRight();
+					drive(0,0);
+					currentLine=nodes[0]->connections[1];
+					currentDistance=0;
+					atHome=false;
+				}
+				int pos = result.find("|");
+				std::string item = result.substr(0,pos);
+				std::string quant = result.substr(pos+1);
+				int id = atoi(item.c_str());
+				int quantity = atoi(quant.c_str());
+				//int id = atoi(tmp);
+					
+				std::cout<<"Item request detected: "<<result<<std::endl;
+				getItem(id,quantity);
+				}
+			}
+		}
+	}
+	//return result;
+}
+
 void setup()
 {
 	signal(SIGINT, myHandler);
@@ -759,12 +800,12 @@ void setup()
 	std::cout<<"Waiting for Path communication"<<std::endl;	
 	pathFD = fopen("/dev/pathComms","r");
 	std::cout<<"Path communication enabled"<<std::endl;
-//	sonarFD = fopen("/dev/ttyACM0","r");
+	sonarFD = popen("cat /dev/ttyACM0","r");
 	//make QR thread
 	int qrRet, pathRet,sonarRet;
 	qrRet = pthread_create(&qrThread, NULL, readQR, NULL);
 	pathRet = pthread_create(&pathThread, NULL, readPath, NULL);
-//	sonarRet = pthread_create(&sonarThread, NULL, readSonar, NULL);
+	sonarRet = pthread_create(&sonarThread, NULL, readSonar, NULL);
 }
 void calibrateFloor()
 {
@@ -1061,11 +1102,13 @@ void getItem(int item, int quantity)
 	sleep(1);
 	if(currentItem==item)
 	{
-		for(ii=0; ii < quantity; ii++)
+		int cc=0;
+		for(cc=0; cc < quantity; cc++)
 		{
 			notify(FOUNDITEM);
+			sleep(1);
 		}
-		std::cout<<*currentLine->items[ii]<<std::endl;
+		//std::cout<<*currentLine->items[ii]<<std::endl;
 	}
 	else
 	{
@@ -1073,7 +1116,21 @@ void getItem(int item, int quantity)
 	}
 }
 
-
+void goHome()
+{
+	getItem(9999,0);//go to home item
+	followLine();
+	myTurn(50,-1,-10,0);
+        drive(50,0);
+        usleep(2000000);
+        drive(0,0);
+        followLine();
+        //we are now in the home posistion
+        //we want to spin 180
+        turnAround();
+        //we are done!
+        notify(FOUNDITEM);	
+}
 
 int main(int argv, char* argc[])
 {
@@ -1126,14 +1183,6 @@ int main(int argv, char* argc[])
 	}
 		std::cout<<"Ready to begin"<<std::endl;
 		std::cin>> res;
-		followLine();
-		drive(50,0);
-		usleep(3000000);
-		drive(0,0);
-		turnRight();
-		drive(0,0);
-		currentLine=nodes[0]->connections[1];
-		currentDistance=0;
 		shopping=true;
 		pthread_join( pathThread, NULL);
 	drive(0,0);

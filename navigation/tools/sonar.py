@@ -1,7 +1,7 @@
 from serial import *
 from threading import Thread
 
-last_recieved = ''
+last_received = ''
 
 def receiving(ser):
 	global last_received
@@ -10,6 +10,7 @@ def receiving(ser):
 	while True:
 		buffer += ser.read(ser.inWaiting())
 		if '\n' in buffer:
+			print buffer
 			last_recieved, buffer = buffer.split('\n')[-2]
 			print last_received
 

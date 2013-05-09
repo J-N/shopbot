@@ -2,7 +2,9 @@ import time
 import urllib2
 import sys
 
-dic = {'1':42, '2':23, '3':44, '4':23}
+dic = {'1':13, '2':24, '3':23, '4':23}
+f=open("/dev/pathComms", "wb")
+
 while 1:
 	url='http://kinetic.hp.af.cm/shopbot_list.php'
 	req = urllib2.Request(url)
@@ -22,7 +24,6 @@ while 1:
 		print "item: " + item + " translated itemid: "+str(dic[item]) + " quanitiy " +quant
 	sys.exit(0)
 
-f=open("/dev/pathComms", "wb")
 while 1:
 	item=input('Please enter an item ID: ')
 	quant=input('Please enter a quality ID: ')

@@ -67,6 +67,9 @@ int lineCounter=3;
 void updatePosition();
 void saveStore();
 void getItem(int, int);
+void goHome();
+void turnRight();
+void turnLeft();
 
 class mapObject
 {
